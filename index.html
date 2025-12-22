@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Calamus AI 포털</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/css/portal.css">
+  <script src="/assets/js/portal.js" defer></script>
 
   <style>
     body {
@@ -114,33 +116,36 @@
   <section class="service-grid">
 
     <!-- 사주 -->
-    <a href="https://saju.calamus.ai.kr" class="service-card">
+    <a href="https://saju.calamus.ai.kr" class="service-card" data-url="https://saju.calamus.ai.kr">
       <div class="icon">🔮</div>
       <div class="title">사주 보기</div>
       <div class="desc">
         명리학·주역·성명학을 종합한<br>
         인생 흐름과 운세 분석
       </div>
+      <span class="status loading">확인중</span>
     </a>
 
     <!-- 타로 -->
-    <a href="https://tarot.calamus.ai.kr" class="service-card">
+    <a href="https://tarot.calamus.ai.kr" class="service-card"  data-url="https://tarot.calamus.ai.kr">
       <div class="icon">🃏</div>
       <div class="title">타로 점보기</div>
       <div class="desc">
         오늘의 선택과 고민을 위한<br>
         직관적 타로 상담
       </div>
+      <span class="status loading">확인중</span>
     </a>
 
     <!-- 사다리 -->
-    <a href="https://ladder.calamus.ai.kr" class="service-card">
+    <a href="https://ladder.calamus.ai.kr" class="service-card" data-url="https://ladder.calamus.ai.kr">
       <div class="icon">🪜</div>
       <div class="title">사다리 게임</div>
       <div class="desc">
         당번·벌칙·추첨용<br>
         간편 사다리 게임
       </div>
+      <span class="status loading">확인중</span>
     </a>
 
     <!-- 준비중 -->
@@ -173,3 +178,4 @@
 
 </body>
 </html>
+
