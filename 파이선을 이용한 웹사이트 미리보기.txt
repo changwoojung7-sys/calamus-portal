@@ -1,0 +1,7 @@
+파워쉘에서 소스경로로 이동.
+
+cd calamus-portal
+python -m http.server 8080
+
+웹창에서 아래주소로 접속
+http://localhost:8080
