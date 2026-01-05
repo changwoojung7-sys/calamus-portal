@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <title>Calamus AI 포털</title>
@@ -50,14 +51,14 @@
       text-decoration: none;
       color: #fff;
       transition: transform .25s ease, box-shadow .25s ease;
-      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
       position: relative;
       overflow: hidden;
     }
 
     .service-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(0,0,0,.5);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .5);
     }
 
     .service-card.disabled {
@@ -106,119 +107,121 @@
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <header>
-    <h1>Calamus AI</h1>
-    <p>일상과 선택을 돕는 작은 AI 서비스 모음</p>
-  </header>
+    <header>
+      <h1>Calamus AI</h1>
+      <p>일상과 선택을 돕는 작은 AI 서비스 모음</p>
+    </header>
 
-  <section class="today-pick">
-    <div class="today-label">오늘의 추천</div>
-    <div class="today-message">
-      오늘은 너무 많은 걸 결정하려 하지 않아도 괜찮습니다.<br>
-      한 가지 선택만 명확히 해보세요.
-    </div>
-    <a href="https://dailyword.calamus.ai.kr" class="today-link">오늘의 한 문장 보기 →</a>
-  </section>
-
-
-  <section class="service-grid">
-
-    <!-- 사주 -->
-    <a href="https://saju.calamus.ai.kr" class="service-card" data-url="https://saju.calamus.ai.kr">
-      <div class="icon">🔮</div>
-      <div class="title">사주 보기</div>
-      <div class="desc">
-        명리학·주역·성명학을 종합한<br>
-        인생 흐름과 운세 분석
+    <section class="today-pick">
+      <div class="today-label">오늘의 추천</div>
+      <div class="today-message">
+        오늘은 너무 많은 걸 결정하려 하지 않아도 괜찮습니다.<br>
+        한 가지 선택만 명확히 해보세요.
       </div>
-      <span class="status loading">확인중</span>
-    </a>
+      <a href="https://dailyword.calamus.ai.kr" class="today-link">오늘의 한 문장 보기 →</a>
+    </section>
 
-    <!-- 타로 -->
-    <a href="https://tarot.calamus.ai.kr" class="service-card"  data-url="https://tarot.calamus.ai.kr">
-      <div class="icon">🃏</div>
-      <div class="title">타로 점보기</div>
-      <div class="desc">
-        오늘의 선택과 고민을 위한<br>
-        직관적 타로 상담
+
+    <section class="service-grid">
+
+      <!-- 사주 -->
+      <a href="https://saju.calamus.ai.kr" class="service-card" data-url="https://saju.calamus.ai.kr">
+        <div class="icon">🔮</div>
+        <div class="title">사주 보기</div>
+        <div class="desc">
+          명리학·주역·성명학을 종합한<br>
+          인생 흐름과 운세 분석
+        </div>
+        <span class="status loading">확인중</span>
+      </a>
+
+      <!-- 타로 -->
+      <a href="https://tarot.calamus.ai.kr" class="service-card" data-url="https://tarot.calamus.ai.kr">
+        <div class="icon">🃏</div>
+        <div class="title">타로 점보기</div>
+        <div class="desc">
+          오늘의 선택과 고민을 위한<br>
+          직관적 타로 상담
+        </div>
+        <span class="status loading">확인중</span>
+      </a>
+
+      <!-- 사다리 -->
+      <a href="https://ladder.calamus.ai.kr" class="service-card" data-url="https://ladder.calamus.ai.kr">
+        <div class="icon">🪜</div>
+        <div class="title">사다리 게임</div>
+        <div class="desc">
+          당번·벌칙·추첨용<br>
+          간편 사다리 게임
+        </div>
+        <span class="status loading">확인중</span>
+      </a>
+
+      <!-- 준비중 -->
+      <div class="service-card disabled">
+        <span class="badge">준비중</span>
+        <div class="icon">🌙</div>
+        <div class="title">해몽</div>
+        <div class="desc">
+          꿈의 상징과 의미를 해석하는<br>
+          AI 해몽 서비스
+        </div>
       </div>
-      <span class="status loading">확인중</span>
-    </a>
 
-    <!-- 사다리 -->
-    <a href="https://ladder.calamus.ai.kr" class="service-card" data-url="https://ladder.calamus.ai.kr">
-      <div class="icon">🪜</div>
-      <div class="title">사다리 게임</div>
-      <div class="desc">
-        당번·벌칙·추첨용<br>
-        간편 사다리 게임
-      </div>
-      <span class="status loading">확인중</span>
-    </a>
+      <a href="https://name.calamus.ai.kr" class="service-card" data-url="https://name.calamus.ai.kr">
+        <div class="service-card disabled">
+          <div class="icon">🧿</div>
+          <div class="title">이름 풀이</div>
+          <div class="desc">
+            이름과 운명의 조화를 분석하는<br>
+            AI 이름 풀이 서비스
+          </div>
+          <span class="badge">확인중</span>
+        </div>
 
-    <!-- 준비중 -->
-    <div class="service-card disabled">
-      <span class="badge">준비중</span>
-      <div class="icon">🌙</div>
-      <div class="title">해몽</div>
-      <div class="desc">
-        꿈의 상징과 의미를 해석하는<br>
-        AI 해몽 서비스
-      </div>
-    </div>
+        <!-- 오늘의 한 문장 -->
+        <div class="service-card disabled">
+          <span class="badge">준비중</span>
+          <div class="icon">📜</div>
+          <div class="title">오늘의 한 문장</div>
+          <div class="desc">
+            오늘 하루를 위한<br>
+            짧고 단단한 메시지
+          </div>
+        </div>
 
-    <div class="service-card disabled">
-      <span class="badge">준비중</span>
-      <div class="icon">🧿</div>
-      <div class="title">이름 풀이</div>
-      <div class="desc">
-        이름의 음·한자·오행 조화 분석
-      </div>
-    </div>
+        <!-- 선택 도우미 -->
+        <div class="service-card disabled">
+          <span class="badge">준비중</span>
+          <div class="icon">⚖️</div>
+          <div class="title">선택 도우미</div>
+          <div class="desc">
+            고민되는 선택에 대한<br>
+            AI의 균형 잡힌 조언
+          </div>
+        </div>
 
-    <!-- 오늘의 한 문장 -->
-    <div class="service-card disabled">
-      <span class="badge">준비중</span>
-      <div class="icon">📜</div>
-      <div class="title">오늘의 한 문장</div>
-      <div class="desc">
-        오늘 하루를 위한<br>
-        짧고 단단한 메시지
-      </div>
-    </div>
+        <!-- 감정 정리 노트 -->
+        <div class="service-card disabled">
+          <span class="badge">준비중</span>
+          <div class="icon">🫧</div>
+          <div class="title">감정 정리 노트</div>
+          <div class="desc">
+            지금 마음을 정리하고<br>
+            감정의 흐름을 정돈
+          </div>
+        </div>
 
-    <!-- 선택 도우미 -->
-    <div class="service-card disabled">
-      <span class="badge">준비중</span>
-      <div class="icon">⚖️</div>
-      <div class="title">선택 도우미</div>
-      <div class="desc">
-        고민되는 선택에 대한<br>
-        AI의 균형 잡힌 조언
-      </div>
-    </div>
+    </section>
 
-    <!-- 감정 정리 노트 -->
-    <div class="service-card disabled">
-      <span class="badge">준비중</span>
-      <div class="icon">🫧</div>
-      <div class="title">감정 정리 노트</div>
-      <div class="desc">
-        지금 마음을 정리하고<br>
-        감정의 흐름을 정돈
-      </div>
-    </div>
+    <footer>
+      © 2025 Calamus AI · 본 서비스는 참고용입니다.
+    </footer>
 
-  </section>
-
-  <footer>
-    © 2025 Calamus AI · 본 서비스는 참고용입니다.
-  </footer>
-
-</div>
+  </div>
 
 </body>
-</html>
 
+</html>
