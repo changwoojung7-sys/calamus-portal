@@ -35,6 +35,7 @@
   font-size: 2.8rem;
   background: linear-gradient(90deg, #38bdf8, #22c55e);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -61,9 +62,17 @@
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
-  70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
-  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
 }
 
 .today-pick {
@@ -71,7 +80,7 @@
   max-width: 720px;
   padding: 20px 24px;
   border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   text-align: center;
 }
 
@@ -91,4 +100,45 @@
   font-size: 0.9rem;
   color: #93c5fd;
   text-decoration: none;
+}
+
+/* 사이드 광고 배너 */
+/* 사이드 광고 배너 */
+.ad-side {
+  position: fixed;
+  top: 120px;
+  width: 160px;
+  height: 600px;
+  z-index: 100;
+}
+
+.ad-left {
+  /* 컨텐츠 영역(1100px) 중심에서 왼쪽으로 배치 */
+  left: calc(50% - 550px - 160px - 20px);
+}
+
+.ad-right {
+  /* 컨텐츠 영역(1100px) 중심에서 오른쪽으로 배치 */
+  right: calc(50% - 550px - 160px - 20px);
+}
+
+.ad-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* 화면이 좁아서 광고가 잘리거나 컨텐츠와 겹칠 위험이 있으면 숨김 */
+/* 1100 (컨텐츠) + 320 (광고x2) + 80 (여백) = 1500px */
+@media (max-width: 1500px) {
+  .ad-side {
+    display: none;
+  }
 }
