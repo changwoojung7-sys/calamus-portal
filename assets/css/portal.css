@@ -102,43 +102,11 @@
   text-decoration: none;
 }
 
-/* 사이드 광고 배너 */
-/* 사이드 광고 배너 */
-.ad-side {
-  position: fixed;
-  top: 120px;
-  width: 160px;
-  height: 600px;
-  z-index: 100;
-}
-
-.ad-left {
-  /* 컨텐츠 영역(1100px) 중심에서 왼쪽으로 배치 */
-  left: calc(50% - 550px - 160px - 20px);
-}
-
-.ad-right {
-  /* 컨텐츠 영역(1100px) 중심에서 오른쪽으로 배치 */
-  right: calc(50% - 550px - 160px - 20px);
-}
-
-.ad-placeholder {
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 0.9rem;
+/* 하단 광고 배너 */
+.ad-bottom {
+  margin-top: 60px;
   text-align: center;
-}
-
-/* 화면이 좁아서 광고가 잘리거나 컨텐츠와 겹칠 위험이 있으면 숨김 */
-/* 1100 (컨텐츠) + 320 (광고x2) + 80 (여백) = 1500px */
-@media (max-width: 1500px) {
-  .ad-side {
-    display: none;
-  }
+  padding: 20px 0;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
 }
