@@ -105,6 +105,37 @@
       font-size: 0.85rem;
       opacity: 0.6;
     }
+
+    /* Daily Word Configuration */
+    .daily-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .daily-sub {
+      font-size: 0.95rem;
+      opacity: 0.7;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    .daily-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 0 auto 20px;
+      max-width: 640px;
+    }
+
+    .daily-text {
+      font-size: 1.1rem;
+      line-height: 1.65;
+      word-break: keep-all;
+      color: #e2e8f0;
+    }
   </style>
 </head>
 
@@ -117,15 +148,19 @@
       <p>일상과 선택을 돕는 작은 AI 서비스 모음</p>
     </header>
 
-
-
     <section class="today-pick">
-      <div class="today-label">오늘의 추천</div>
-      <div class="today-message">
-        오늘은 너무 많은 걸 결정하려 하지 않아도 괜찮습니다.<br>
-        한 가지 선택만 명확히 해보세요.
+      <h2 class="daily-title">오늘의 한 문장</h2>
+      <p class="daily-sub">오늘 하루를 위한 짧은 방향 제시</p>
+
+      <div class="daily-card">
+        <div class="daily-text">
+          삶의 파도가 거세더라도, 당신 안에는 어떤 폭풍도 잠재울 수 있는 고요한 심지가 있습니다.<br>
+          그 내면의 빛을 믿고 흔들림 없이 나아가세요.<br>
+        </div>
+        <div class="daily-actions">
+          <button id="refreshBtn">🔄 다른 문장</button>
+        </div>
       </div>
-      <a href="https://dailyword.calamus.ai.kr" class="today-link">오늘의 한 문장 보기 →</a>
     </section>
 
 
@@ -153,17 +188,6 @@
         <span class="status loading">확인중</span>
       </a>
 
-      <!-- 사다리 -->
-      <a href="https://ladder.calamus.ai.kr" class="service-card" data-url="https://ladder.calamus.ai.kr">
-        <div class="icon">🪜</div>
-        <div class="title">사다리 게임</div>
-        <div class="desc">
-          당번·벌칙·추첨용<br>
-          간편 사다리 게임
-        </div>
-        <span class="status loading">확인중</span>
-      </a>
-
       <!-- 이름 풀이 -->
       <a href="https://name.calamus.ai.kr" class="service-card" data-url="https://name.calamus.ai.kr">
         <div class="icon">🧿</div>
@@ -175,13 +199,24 @@
         <span class="status loading">확인중</span>
       </a>
 
-      <!-- 오늘의 한 문장 -->
-      <a href="https://dailyword.calamus.ai.kr" class="service-card" data-url="https://dailyword.calamus.ai.kr">
-        <div class="icon">📜</div>
-        <div class="title">오늘의 한 문장(Google AI)</div>
+      <!-- 선택 도우미 -->
+      <a href="https://balancia.calamus.ai.kr" class="service-card" data-url="https://balancia.calamus.ai.kr">
+        <div class="icon">⚖️</div>
+        <div class="title">선택 도우미(Google AI)/Open AI</div>
         <div class="desc">
-          오늘 하루를 위한<br>
-          짧고 단단한 메시지
+          고민되는 선택에 대한<br>
+          AI의 균형 잡힌 조언
+        </div>
+        <span class="status loading">확인중</span>
+      </a>
+
+      <!-- 사다리 -->
+      <a href="https://ladder.calamus.ai.kr" class="service-card" data-url="https://ladder.calamus.ai.kr">
+        <div class="icon">🪜</div>
+        <div class="title">사다리 게임</div>
+        <div class="desc">
+          당번·벌칙·추첨용<br>
+          간편 사다리 게임
         </div>
         <span class="status loading">확인중</span>
       </a>
@@ -197,27 +232,8 @@
         </div>
       </div>
 
-      <!-- 선택 도우미 -->
-      <div class="service-card disabled">
-        <span class="badge">준비중</span>
-        <div class="icon">⚖️</div>
-        <div class="title">선택 도우미</div>
-        <div class="desc">
-          고민되는 선택에 대한<br>
-          AI의 균형 잡힌 조언
-        </div>
-      </div>
 
-      <!-- 감정 정리 노트 -->
-      <div class="service-card disabled">
-        <span class="badge">준비중</span>
-        <div class="icon">🫧</div>
-        <div class="title">감정 정리 노트</div>
-        <div class="desc">
-          지금 마음을 정리하고<br>
-          감정의 흐름을 정돈
-        </div>
-      </div>
+
 
     </section>
 
