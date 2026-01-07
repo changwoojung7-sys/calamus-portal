@@ -58,10 +58,23 @@ async function loadDaily(force = false) {
     dailyTextEl.innerHTML = data.result.replace(/\n/g, "<br>");
   } catch (err) {
     console.error(err);
-    // API 실패 시 기본 메시지 혹은 캐시된 이전 메시지 노출? 
-    // 여기서는 실패 메시지 노출
-    dailyTextEl.textContent =
-      "오늘의 문장을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+
+    // ⚠️ API 호출 실패 시 (429, 500 등) 예비 문구 보여주기
+    const backupQuotes = [
+      "삶의 파도가 거세더라도, 당신 안에는 어떤 폭풍도 잠재울 수 있는 고요한 심지가 있습니다.<br>그 내면의 빛을 믿고 흔들림 없이 나아가세요.",
+      "오늘의 선택이 모여 내일의 당신을 만듭니다.<br>가장 나답다고 느껴지는 길을 선택하세요.",
+      "서두를 필요 없습니다. 방향만 잃지 않는다면<br>당신은 이미 목적지를 향해 가고 있는 중입니다.",
+      "복잡한 생각이 마음을 어지럽힐 땐 단순함으로 돌아가세요.<br>가장 중요한 한 가지에만 집중해보는 하루는 어떨까요?",
+      "당신의 직관은 생각보다 현명합니다.<br>오늘은 논리보다 마음의 소리에 귀 기울여보세요."
+    ];
+
+    // 랜덤으로 하나 선택
+    const fallback = backupQuotes[Math.floor(Math.random() * backupQuotes.length)];
+
+    dailyTextEl.innerHTML = fallback;
+
+    // (선택사항) 에러라고 굳이 알리지 않거나, 작게 표시
+    // dailyTextEl.textContent += "\n(현재 AI 접속량이 많아 예비 문장이 표시되었습니다)";
   }
 }
 
