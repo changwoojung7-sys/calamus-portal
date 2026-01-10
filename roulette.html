@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>운명의 룰렛 - Calamus Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/portal.css">
+    <style>
+        /* Roulette Specific Styles */
+        body {
+            background: radial-gradient(circle at center, #1e1b4b, #020617);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+
+        .game-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Refined Aesthetics */
+        .header-area h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #e9d5ff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(192, 132, 252, 0.3);
+        }
+
+        .mission-display {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-bottom: 20px;
+            font-weight: 500;
+            min-height: 1.5em;
+        }
+
+        /* Setup Phase */
+        .setup-phase {
+            background: rgba(30, 41, 59, 0.7);
+            /* Darker, smoother slate */
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: #c084fc;
+            /* Matching theme */
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .name-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-add {
+            white-space: nowrap;
+            padding: 0 24px;
+            background: #4f46e5;
+            /* Indigo */
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-add:hover {
+            background: #4338ca;
+        }
+
+        .player-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            min-height: 50px;
+        }
+
+        .player-chip {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .player-chip .remove {
+            cursor: pointer;
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .btn-start {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            /* Violet to Fuchsia */
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-start:disabled {
+            background: #334155;
+            color: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.8;
+            box-shadow: none;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Game Phase */
+        .game-phase {
+            display: none;
+            /* Hidden initially */
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto 30px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+        }
+
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: #ef4444;
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .winner-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #f59e0b;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            min-width: 300px;
+        }
+
+        .winner-modal h2 {
+            margin: 0 0 10px;
+            color: #facc15;
+        }
+
+        .winner-modal .name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 20px 0;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .home-btn {
+            margin-top: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game-container">
+        <div class="header-area">
+            <h1>🎡 운명의 룰렛</h1>
+            <div id="missionDisplay" class="mission-display">오늘의 주인공은 누구?</div>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-top: -10px;">(최대 10명까지 참여 가능)</p>
+        </div>
+
+        <!-- 1. Setup Phase -->
+        <div id="setupPhase" class="setup-phase">
+            <div class="input-section">
+                <!-- Mission Inputs -->
+                <div style="display: flex; gap: 10px; margin-bottom: 5px;">
+                    <input type="text" id="missionInput1" class="custom-input" placeholder="🎯 미션 1 (예: 벌칙)"
+                        maxlength="20">
+                    <input type="text" id="missionInput2" class="custom-input" placeholder="🎯 미션 2 (예: 심부름) - 선택"
+                        maxlength="20">
+                </div>
+                <p style="color: #94a3b8; font-size: 0.8rem; margin: 0 0 10px 5px;">* 미션 2를 입력하면 2번 연속으로 룰렛을 돌립니다.</p>
+
+                <!-- Name Input -->
+                <div class="name-row">
+                    <input type="text" id="nameInput" class="custom-input" placeholder="이름 입력 (예: 철수)" maxlength="8">
+                    <button id="addBtn" class="btn-add">추가</button>
+                </div>
+            </div>
+
+            <div id="playerList" class="player-list">
+                <!-- Chips -->
+            </div>
+            <button id="createWheelBtn" class="btn-start" disabled>
+                룰렛 만들기 (최소 2명)
+            </button>
+        </div>
+
+        <!-- 2. Game Phase -->
+        <div id="gamePhase" class="game-phase">
+            <div class="canvas-wrapper">
+                <div class="pointer"></div>
+                <canvas id="wheelCanvas" width="600" height="600"></canvas>
+            </div>
+            <button id="spinBtn" class="btn-start">
+                돌리기! 🎲
+            </button>
+
+            <!-- Result Log -->
+            <div id="resultLog" style="width: 100%; margin-top: 20px; text-align: center;">
+                <!-- Results will appear here -->
+            </div>
+
+            <button id="resetBtn" class="home-btn" style="background:none; border:none; cursor:pointer;">
+                🔄 다시 설정하기
+            </button>
+        </div>
+
+        <!-- Winner Modal -->
+        <div id="winnerModal" class="winner-modal">
+            <h2>🎉 당첨! 🎉</h2>
+            <div id="winnerName" class="name"></div>
+            <button onclick="closeModal()" class="btn-start" style="padding: 10px 20px;">닫기</button>
+        </div>
+
+        <a href="index.html" class="home-btn" style="margin-top: 40px;">🏠 Calamus 홈으로</a>
+    </div>
+
+    <script src="assets/js/roulette.js"></script>
+</body>
+
+</html>

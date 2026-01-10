@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AI 꿈해몽 - Calamus Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/portal.css">
+    <style>
+        /* Dream Specific Styles */
+        body {
+            background: radial-gradient(circle at top, #2d1b4e, #0f0c29);
+            min-height: 100vh;
+        }
+
+        .dream-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .dream-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dream-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #e9d5ff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .dream-header p {
+            font-size: 1.15rem;
+            color: #f1f5f9;
+            /* Slate 100 - very bright white/grey */
+            opacity: 1;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            /* better contrast against background */
+        }
+
+        .input-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            color: #fff;
+            font-size: 1.1rem;
+            resize: none;
+            font-family: inherit;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #c084fc;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #9333ea, #7e22ce);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(147, 51, 234, 0.4);
+        }
+
+        .analyze-btn:disabled {
+            background: #4b5563;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Result Section */
+        .result-card {
+            margin-top: 40px;
+            background: linear-gradient(180deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(192, 132, 252, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .result-card.show {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            color: #fbbf24;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 16px;
+        }
+
+        .result-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            /* Preserve line breaks */
+        }
+
+        /* Navigation */
+        .back-nav {
+            margin-bottom: 20px;
+        }
+
+        .back-nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .back-nav a:hover {
+            color: #fff;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 99px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dream-container">
+        <div class="back-nav">
+            <a href="index.html">← 돌아가기</a>
+        </div>
+
+        <header class="dream-header">
+            <h1>🌙 AI 꿈해몽</h1>
+            <p>당신의 무의식이 보내는 메시지를 해석해드립니다.</p>
+        </header>
+
+        <div class="input-card">
+            <label for="dreamInput" style="display: block; margin-bottom: 12px; font-weight: 600; color: #d8b4fe;">
+                어떤 꿈을 꾸셨나요?
+            </label>
+            <textarea id="dreamInput" placeholder="예: 깊은 숲속을 걷는데 커다란 황금색 사슴을 만났어요. 사슴이 나를 보더니..."></textarea>
+
+            <button id="analyzeBtn" class="analyze-btn">
+                <span class="icon">🔮</span> 해몽 시작하기
+            </button>
+        </div>
+
+        <div id="resultCard" class="result-card">
+            <div class="result-title">👁‍🗨 해몽 결과</div>
+            <div id="resultContent" class="result-content"></div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="index.html" class="home-btn">🏠 Calamus 홈으로</a>
+        </div>
+    </div>
+
+    <script src="assets/js/dream.js"></script>
+</body>
+
+</html>

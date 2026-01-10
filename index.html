@@ -7,6 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="assets/css/portal.css">
   <script src="assets/js/portal.js" defer></script>
+
+  <!-- Google Analytics (Stats) - Replace G-XXXXXXXXXX with your Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
     crossorigin="anonymous"></script>
@@ -184,33 +195,57 @@
   <div class="container">
 
     <header>
-      <h1>창우의 AI 실험실</h1>
-      <p>일상과 선택을 돕는 작은 AI 서비스 모음 <br>
-        AI를 이용한 바이브코딩으로 여러가지 언어로 개발하고 있어요.
-      </p>
-    </header>
+      <div class="header-left">
+        <h1>창우의 AI 실험실</h1>
+        <p>일상과 선택을 돕는 작은 AI 서비스 모음 <br>
+          AI를 이용한 바이브코딩으로 여러가지 언어로 개발하고 있어요.
+        </p>
 
-    <section class="today-pick">
-      <h2 class="daily-title">오늘의 한 문장</h2>
-      <p class="daily-sub">오늘 하루를 위한 짧은 방향 제시</p>
+        <!-- Moved Here: Today's Quote -->
+        <section class="today-pick">
+          <h2 class="daily-title">오늘의 한 문장</h2>
+          <p class="daily-sub">오늘 하루를 위한 짧은 방향 제시</p>
 
-      <div class="daily-card">
-        <div class="daily-text">
-          삶의 파도가 거세더라도, 당신 안에는 어떤 폭풍도 잠재울 수 있는 고요한 심지가 있습니다.<br>
-          그 내면의 빛을 믿고 흔들림 없이 나아가세요.<br>
-        </div>
-        <div class="daily-actions">
-          <button id="refreshBtn">🔄 다른 문장</button>
+          <div class="daily-card">
+            <div class="daily-text">
+              삶의 파도가 거세더라도, 당신 안에는 어떤 폭풍도 잠재울 수 있는 고요한 심지가 있습니다.<br>
+              그 내면의 빛을 믿고 흔들림 없이 나아가세요.<br>
+            </div>
+            <div class="daily-actions">
+              <button id="refreshBtn"><span class="btn-icon">🔄</span> 다른 문장</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="header-right">
+        <!-- Top 5 Statistics -->
+        <!-- Top 5 Statistics -->
+        <div class="stats-widget">
+          <div class="stats-tabs">
+            <button class="stats-tab active" data-tab="realtime">🔥 실시간 Top 8</button>
+            <button class="stats-tab" data-tab="monthly">📅 월간 차트</button>
+            <select id="monthSelect" class="month-select"
+              style="display:none; margin-left: auto; padding: 4px; border-radius: 4px; background: #334155; color: white; border: 1px solid #475569;">
+              <!-- Options populated by JS -->
+            </select>
+          </div>
+
+          <ul id="statsList" class="stats-list active-list">
+            <li class="loading-stats">데이터 불러오는 중...</li>
+          </ul>
+          <ul id="monthlyStatsList" class="stats-list">
+          </ul>
         </div>
       </div>
-    </section>
+    </header>
 
 
     <section class="service-grid">
 
       <!-- 사주 -->
       <a href="https://saju.calamus.ai.kr" class="service-card" data-url="https://saju.calamus.ai.kr">
-        <div class="icon">🔮</div>
+        <div class="icon">🃏</div>
         <div class="title">사주 보기(OPEN AI)</div>
         <div class="desc">
           명리학·주역·성명학을 종합한<br>
@@ -221,7 +256,7 @@
 
       <!-- 타로 -->
       <a href="https://tarot.calamus.ai.kr" class="service-card" data-url="https://tarot.calamus.ai.kr">
-        <div class="icon">🃏</div>
+        <div class="icon">🔮</div>
         <div class="title">타로 점보기(OPEN AI)</div>
         <div class="desc">
           오늘의 선택과 고민을 위한<br>
@@ -254,6 +289,32 @@
         <span class="status loading">확인중</span>
       </a>
 
+      <!-- My Re Design -->
+      <a href="https://myredesign.calamus.ai.kr" class="service-card premium-card"
+        data-url="https://myredesign.calamus.ai.kr">
+        <div class="icon" style="display: flex; justify-content: center; align-items: center;">
+          <img src="assets/images/my_redesign_icon.png" alt="My Re Design Icon"
+            style="width: 3rem; height: 3rem; border-radius: 12px; object-fit: cover;">
+        </div>
+        <div class="title">My Re Design <br> (Open AI)</div>
+        <div class="desc">
+          나를 위한 미션을 설정하고 완성해나가는 <br>
+          나의 기록(구독형 웹앱)
+        </div>
+        <span class="status loading">확인중</span>
+      </a>
+
+      <!-- 해몽 -->
+      <a href="dream.html" class="service-card" data-url="dream.html">
+        <div class="icon">🌙</div>
+        <div class="title">AI 꿈해몽 <br>(Open AI)</div>
+        <div class="desc">
+          꿈의 상징과 의미를 해석하는<br>
+          AI 해몽 서비스
+        </div>
+        <span class="status live">운영중</span>
+      </a>
+
       <!-- 사다리 -->
       <a href="https://ladder.calamus.ai.kr" class="service-card" data-url="https://ladder.calamus.ai.kr">
         <div class="icon">🪜</div>
@@ -265,31 +326,16 @@
         <span class="status loading">확인중</span>
       </a>
 
-      <!-- 사다리 -->
-      <a href="https://myredesign.calamus.ai.kr" class="service-card" data-url="https://myredesign.calamus.ai.kr">
-        <div class="icon">🪜</div>
-        <div class="title">My Re Design <br> (Open AI)</div>
+      <!-- 운명의 룰렛 -->
+      <a href="roulette.html" class="service-card" data-url="roulette.html">
+        <div class="icon">🎡</div>
+        <div class="title">운명의 룰렛</div>
         <div class="desc">
-          나를 위한 미션을 설정하고 완성해나가는 <br>
-          나의 기록(구독형 웹앱)
+          점심 내기, 벌칙 당첨!<br>
+          돌려 돌려 돌림판
         </div>
-        <span class="status loading">확인중</span>
+        <span class="status live">운영중</span>
       </a>
-
-      <!-- 해몽 -->
-      <div class="service-card disabled">
-        <span class="badge">준비중</span>
-        <div class="icon">🌙</div>
-        <div class="title">해몽</div>
-        <div class="desc">
-          꿈의 상징과 의미를 해석하는<br>
-          AI 해몽 서비스
-        </div>
-      </div>
-
-
-
-
     </section>
 
     <!-- 하단 광고 영역 -->

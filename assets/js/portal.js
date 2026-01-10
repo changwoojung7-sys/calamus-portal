@@ -2,6 +2,48 @@
 document.querySelectorAll(".service-card[data-url]").forEach(async (card) => {
   const url = card.dataset.url;
   const badge = card.querySelector(".status");
+
+  // Click Event: Analytics + Local Server Tracking
+  card.addEventListener("click", async () => {
+    const title = card.querySelector(".title")?.innerText?.split("\n")[0] || "Unknown App";
+
+    // 1. Google Analytics
+    if (typeof gtag === 'function') {
+      gtag('event', 'click_app', {
+        'app_name': title,
+        'app_url': url
+      });
+    }
+
+    // 2. Local Server Tracking (JSON File)
+    // Extract app ID from URL or title (simple mapping or fallback)
+    let appId = "unknown";
+    if (url.includes("saju")) appId = "saju";
+    else if (url.includes("tarot")) appId = "tarot";
+    else if (url.includes("name")) appId = "name_analysis";
+    else if (url.includes("balancia")) appId = "balancia";
+    else if (url.includes("ladder")) appId = "ladder";
+    else if (url.includes("myredesign")) appId = "myredesign";
+    else if (url.includes("dream")) appId = "dream";
+    else if (url.includes("roulette")) appId = "roulette";
+
+    try {
+      await fetch('/api/click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ appId, appName: title })
+      });
+      // Update widget after click (optional, but gives immediate feedback if we reload)
+      // fetchStatsAndRender(); 
+    } catch (e) {
+      console.warn("Stats server not reachable or error:", e);
+    }
+
+    console.log(`[Stats] App Clicked: ${title} (${url})`);
+  });
+
   if (!badge) return;
 
   try {
@@ -80,18 +122,164 @@ function showRandomQuote() {
 }
 
 // 초기 로드 및 이벤트 바인딩
+// Initial Load
 document.addEventListener("DOMContentLoaded", () => {
-  // CSS에 transition 추가 (부드러운 전환을 위해)
   if (dailyTextEl) {
     dailyTextEl.style.transition = "opacity 0.3s ease";
   }
-
   showRandomQuote();
 
   const refreshBtn = document.getElementById("refreshBtn");
   if (refreshBtn) {
     refreshBtn.addEventListener("click", () => {
       showRandomQuote();
+      const icon = refreshBtn.querySelector(".btn-icon");
+      if (icon) {
+        icon.classList.remove("spin");
+        void icon.offsetWidth;
+        icon.classList.add("spin");
+      }
     });
   }
+
+  // --- Stats Widget Logic ---
+  const tabs = document.querySelectorAll('.stats-tab');
+  const monthSelect = document.getElementById('monthSelect');
+
+  if (monthSelect) {
+    monthSelect.addEventListener('change', () => {
+      // Trigger re-render of monthly list (needs access to data, so we will store data globally or re-fetch? 
+      // Better: separate data fetching from rendering, or just re-fetch for simplicity as it is local)
+      fetchStatsAndRender();
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active from all
+      document.querySelectorAll('.stats-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.stats-list').forEach(l => l.classList.remove('active-list'));
+
+      // Activate clicked
+      tab.classList.add('active');
+      const mode = tab.dataset.tab; // 'realtime' or 'monthly'
+
+      if (mode === 'realtime') {
+        document.getElementById('statsList').classList.add('active-list');
+        if (monthSelect) monthSelect.style.display = 'none';
+      } else {
+        document.getElementById('monthlyStatsList').classList.add('active-list');
+        if (monthSelect) monthSelect.style.display = 'block';
+      }
+    });
+  });
+
+  // Start Stats Fetch
+  fetchStatsAndRender();
 });
+
+// Store globally to avoid re-fetching on simple filter change, 
+// but for now re-fetching is fine and robust.
+let cachedStatsData = null;
+
+async function fetchStatsAndRender() {
+  const statsList = document.getElementById("statsList");
+  const monthlyList = document.getElementById("monthlyStatsList");
+  const monthSelect = document.getElementById("monthSelect");
+
+  if (!statsList) return;
+
+  try {
+    // Only fetch if not cached or we want fresh data (e.g. initial load or click update)
+    // Actually, usually we want fresh.
+    const res = await fetch('/api/stats');
+    if (!res.ok) throw new Error("API Error");
+    const data = await res.json();
+    cachedStatsData = data;
+
+    // --- Populate Month Select (Only once or update?) ---
+    // If empty options, populate.
+    if (monthSelect && monthSelect.options.length === 0) {
+      const months = new Set();
+      // Always include current month
+      const now = new Date();
+      const currentMonthKey = now.toISOString().slice(0, 7);
+      months.add(currentMonthKey);
+
+      Object.values(data).forEach(app => {
+        if (app.history) {
+          Object.keys(app.history).forEach(m => months.add(m));
+        }
+      });
+
+      // Sort descending
+      const sortedMonths = Array.from(months).sort().reverse();
+
+      sortedMonths.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.text = m;
+        if (m === currentMonthKey) opt.selected = true;
+        monthSelect.appendChild(opt);
+      });
+    }
+
+    // Get Selected Month
+    const targetMonth = monthSelect ? monthSelect.value : new Date().toISOString().slice(0, 7);
+
+    // 1. Process Real-time (Total)
+    const sortedTotal = Object.values(data).sort((a, b) => b.clicks - a.clicks);
+    renderList(statsList, sortedTotal, 'total');
+
+    // 2. Process Monthly
+    // Map entries to include monthly count for sorting
+    const monthlyData = Object.values(data).map(app => {
+      const mCount = (app.history && app.history[targetMonth]) ? app.history[targetMonth] : 0;
+      return { ...app, monthlyClicks: mCount };
+    });
+    const sortedMonthly = monthlyData.sort((a, b) => b.monthlyClicks - a.monthlyClicks);
+    renderList(monthlyList, sortedMonthly, 'monthly');
+
+  } catch (err) {
+    console.warn("Stats error:", err);
+  }
+}
+
+function renderList(container, apps, type) {
+  const topN = apps.slice(0, 8); // Top 8
+  // Find max value for bar width calculation
+  const maxVal = type === 'total' ? (topN[0]?.clicks || 1) : (topN[0]?.monthlyClicks || 1);
+
+  container.innerHTML = "";
+
+  if (topN.length === 0 || maxVal === 0) {
+    container.innerHTML = "<li style='justify-content:center; opacity:0.6;'>집계된 데이터가 없습니다.</li>";
+    return;
+  }
+
+  topN.forEach((app, index) => {
+    const count = type === 'total' ? app.clicks : app.monthlyClicks;
+    if (count === 0 && type === 'monthly') return; // Hide 0 clicks in monthly
+
+    const percent = Math.round((count / maxVal) * 100);
+
+    // Determine color for top ranks
+    let rankColor = "#fff";
+    if (index === 0) rankColor = "#ffd700";
+    else if (index === 1) rankColor = "#c0c0c0";
+    else if (index === 2) rankColor = "#cd7f32";
+
+    const li = document.createElement("li");
+    li.style.flexWrap = "wrap";
+
+    li.innerHTML = `
+        <span class="rank" style="color: ${rankColor}">${index + 1}</span>
+        <span class="app-name">${app.name}</span>
+        <span class="percent">${count}회</span>
+        <div class="bar-bg" style="width: 100%; margin-top: 4px;">
+           <div class="bar-fill" style="width: ${percent}%; background: ${index === 0 ? '#fbbf24' : '#38bdf8'}"></div>
+        </div>
+      `;
+    container.appendChild(li);
+  });
+}
