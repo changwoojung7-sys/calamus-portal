@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     monthSelect.addEventListener('change', () => {
       // Trigger re-render of monthly list (needs access to data, so we will store data globally or re-fetch? 
       // Better: separate data fetching from rendering, or just re-fetch for simplicity as it is local)
-      fetchStatsAndRender();
+      // fetchStatsAndRender(); // Removed as part of stats logic removal
     });
   }
 
@@ -175,13 +175,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Start Stats Fetch
-  fetchStatsAndRender();
+  // fetchStatsAndRender(); // Removed as part of stats logic removal
+  // Stats logic removed as per user request to replace with static App Description.
 });
-
-// Store globally to avoid re-fetching on simple filter change, 
-// but for now re-fetching is fine and robust.
-let cachedStatsData = null;
-
+/*
+// Stats Logic Deprecated
 async function fetchStatsAndRender() {
   const statsList = document.getElementById("statsList");
   const monthlyList = document.getElementById("monthlyStatsList");
@@ -245,6 +243,7 @@ async function fetchStatsAndRender() {
     console.warn("Stats error:", err);
   }
 }
+*/
 
 function renderList(container, apps, type) {
   const topN = apps.slice(0, 8); // Top 8

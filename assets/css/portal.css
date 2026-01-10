@@ -75,113 +75,90 @@ header {
   line-height: 1.6;
 }
 
-/* 통계 위젯 스타일 */
-.stats-widget {
+/* 서비스 가이드 위젯 (Service Guide Widget) */
+.service-guide {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 16px 20px;
+  padding: 24px;
   border-radius: 16px;
   min-width: 280px;
   max-width: 100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  /* Match height */
+  display: flex;
+  flex-direction: column;
 }
 
-.stats-title {
-  font-size: 0.9rem;
+.guide-title {
+  font-size: 1rem;
   color: #fbbf24;
-  margin-bottom: 12px;
+  /* Amber-400 */
+  margin-bottom: 20px;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding-left: 4px;
 }
 
-.stats-tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 8px;
-}
-
-.stats-tab {
-  background: none;
-  border: none;
-  color: #94a3b8;
-  font-size: 0.9rem;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-
-.stats-tab:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.stats-tab.active {
-  color: #fbbf24;
-  background: rgba(251, 191, 36, 0.1);
-}
-
-.stats-list {
+.guide-list {
   list-style: none;
-  /* Ensure no bullets */
   padding: 0;
   margin: 0;
-  display: none;
-  /* Hidden by default */
-}
-
-.stats-list.active-list {
-  display: block;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.stats-list li {
-  display: flex;
-  /* Flex for row alignment */
-  flex-wrap: wrap;
-  /* Allow wrapping if needed */
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-}
-
-.stats-list li:last-child {
-  margin-bottom: 0;
-}
-
-.rank {
-  font-weight: bold;
-  color: #fff;
-  width: 16px;
-}
-
-.app-name {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* 2 Column Grid */
+  gap: 12px;
   flex: 1;
-  opacity: 0.9;
-  white-space: nowrap;
+  /* Fill remaining space */
 }
 
-.percent {
-  font-size: 0.8rem;
-  opacity: 0.7;
+.guide-list li {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.guide-list li:hover {
+  background: rgba(255, 255, 255, 0.08);
+  /* Slight highlight */
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.guide-list .icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.guide-list .text {
+  width: 100%;
+}
+
+.guide-list .text strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #f1f5f9;
+  /* Slate-100 */
+  margin-bottom: 4px;
+}
+
+.guide-list .text p {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  /* Slate-400 */
+  margin: 0;
+  line-height: 1.35;
+  word-break: keep-all;
+  /* Keep text together */
 }
 
 /* Progress Bar */
