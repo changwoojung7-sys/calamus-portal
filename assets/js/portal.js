@@ -191,8 +191,9 @@ async function fetchStatsAndRender() {
 
   try {
     // Only fetch if not cached or we want fresh data (e.g. initial load or click update)
-    // Actually, usually we want fresh.
-    const res = await fetch('/api/stats');
+    // Use stats.json directly for static hosting compatibility.
+    // Add timestamp to prevent caching.
+    const res = await fetch('stats.json?t=' + Date.now());
     if (!res.ok) throw new Error("API Error");
     const data = await res.json();
     cachedStatsData = data;
