@@ -22,6 +22,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
     const [currentDistance, setCurrentDistance] = useState(0);
     const [currentSpeed, setCurrentSpeed] = useState(0);
     const [results, setResults] = useState<GameResult[]>([]);
+    const [showRankings, setShowRankings] = useState(false);
 
     // Logic Refs (Source of Truth for Loop)
     const gameStateRef = useRef<"READY" | "RUNNING" | "BRAKING" | "STOPPED">("READY");
@@ -239,6 +240,18 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                 }
              `}</style>
 
+            {/* Mobile Portrait Warning Overlay */}
+            <div className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center p-6 text-center md:hidden portrait:flex hidden">
+                <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-2xl animate-pulse">
+                    <div className="text-4xl mb-4">📱🔄</div>
+                    <h3 className="text-xl font-bold text-white mb-2">가로 모드 권장</h3>
+                    <p className="text-slate-400">
+                        원활한 게임 진행을 위해<br />
+                        화면을 가로로 돌려주세요!
+                    </p>
+                </div>
+            </div>
+
             {/* Background */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-900/10 via-[#020617] to-[#020617] pointer-events-none"></div>
 
@@ -291,9 +304,9 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                                 {/* Car Body */}
                                 <div style={vibrateStyle} className="transition-transform">
                                     <Car className={`w-20 h-20 transition-colors duration-200 ${currentDistance > 100
-                                            ? 'text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,1)]'
-                                            : gameState === "BRAKING" ? 'text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.8)]'
-                                                : 'text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.6)]'
+                                        ? 'text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,1)]'
+                                        : gameState === "BRAKING" ? 'text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.8)]'
+                                            : 'text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.6)]'
                                         }`} />
 
                                     {/* Speed Lines Effect */}
@@ -359,7 +372,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                                     onClick={nextPlayer}
                                     className="px-8 bg-slate-700 hover:bg-slate-600 hover:text-white text-slate-300 rounded-2xl font-bold transition-all text-xl"
                                 >
-                                    Next &rarr;
+                                    {currentIndex === players.length - 1 ? "Finish!" : "Next Player →"}
                                 </button>
                             </div>
                         )}
@@ -391,9 +404,22 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                     </div>
 
                 </div>
+            ) : !showRankings ? (
+                // INTERMEDIATE STEP: Reveal Button
+                <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in-up">
+                    <h2 className="text-4xl font-black text-white mb-8">모든 플레이 종료!</h2>
+                    <button
+                        onClick={() => setShowRankings(true)}
+                        className="px-10 py-6 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 rounded-full font-black text-3xl shadow-[0_0_30px_rgba(245,158,11,0.5)] transform hover:scale-105 transition-all text-white flex items-center gap-3"
+                    >
+                        <Trophy className="w-8 h-8" />
+                        결과 순위 확인하기
+                    </button>
+                    <p className="mt-6 text-slate-500">두구두구두구... 과연 1등은?</p>
+                </div>
             ) : (
                 // FINAL RESULTS SCREEN
-                <div className="w-full max-w-lg bg-slate-900/90 backdrop-blur-xl rounded-[2rem] p-10 border border-slate-700 shadow-2xl mt-12 relative overflow-hidden">
+                <div className="w-full max-w-lg bg-slate-900/90 backdrop-blur-xl rounded-[2rem] p-10 border border-slate-700 shadow-2xl mt-12 relative overflow-hidden animate-fade-in">
                     {/* Confetti Effect bg */}
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(251,191,36,0.1),transparent_70%)]"></div>
 
@@ -406,14 +432,14 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                     <div className="space-y-3 mb-10 relative z-10">
                         {sortedResults.map((res, i) => (
                             <div key={i} className={`flex items-center justify-between p-4 rounded-2xl border transition-transform hover:scale-[1.02] ${i === 0 && res.status === "SAFE"
-                                    ? "bg-gradient-to-r from-yellow-900/20 to-amber-900/10 border-yellow-500/50 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
-                                    : "bg-slate-800/50 border-slate-700"
+                                ? "bg-gradient-to-r from-yellow-900/20 to-amber-900/10 border-yellow-500/50 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+                                : "bg-slate-800/50 border-slate-700"
                                 }`}>
                                 <div className="flex items-center gap-4">
                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-black ${i === 0 ? "bg-yellow-500 text-black shadow-[0_0_10px_rgba(234,179,8,0.6)]"
-                                            : i === 1 ? "bg-slate-400 text-black"
-                                                : i === 2 ? "bg-orange-700 text-white"
-                                                    : "bg-slate-800 text-slate-500"
+                                        : i === 1 ? "bg-slate-400 text-black"
+                                            : i === 2 ? "bg-orange-700 text-white"
+                                                : "bg-slate-800 text-slate-500"
                                         }`}>
                                         {i + 1}
                                     </div>
