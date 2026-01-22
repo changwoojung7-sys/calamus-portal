@@ -256,7 +256,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-900/10 via-[#020617] to-[#020617] pointer-events-none"></div>
 
             {/* Main Game Area */}
-            {!isGameFinished ? (
+            {!showRankings ? (
                 <div className="w-full max-w-4xl relative z-10 flex flex-col items-center mt-10">
 
                     {/* Header */}
@@ -360,7 +360,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                             </div>
                         )}
                         {gameState === "STOPPED" && (
-                            <div className="w-full flex bg-slate-800 rounded-3xl p-2 border border-slate-700 shadow-2xl">
+                            <div className="w-full flex bg-slate-800 rounded-3xl p-2 border border-slate-700 shadow-2xl animate-fade-in-up">
                                 <div className="flex-1 flex flex-col items-center justify-center py-2">
                                     <div className="text-xs font-bold text-slate-500 tracking-wider">RESULT</div>
                                     <div className={`text-4xl font-black ${currentDistance > 100 ? 'text-red-500' : 'text-emerald-400'}`}>
@@ -368,12 +368,21 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                                         <span className="text-base ml-1 opacity-50">m</span>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={nextPlayer}
-                                    className="px-8 bg-slate-700 hover:bg-slate-600 hover:text-white text-slate-300 rounded-2xl font-bold transition-all text-xl"
-                                >
-                                    {currentIndex === players.length - 1 ? "Finish!" : "Next Player →"}
-                                </button>
+                                {isGameFinished ? (
+                                    <button
+                                        onClick={() => setShowRankings(true)}
+                                        className="px-6 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white rounded-2xl font-bold transition-all text-lg shadow-lg"
+                                    >
+                                        결과 순위 보기 &rarr;
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={nextPlayer}
+                                        className="px-8 bg-slate-700 hover:bg-slate-600 hover:text-white text-slate-300 rounded-2xl font-bold transition-all text-xl"
+                                    >
+                                        Next Player &rarr;
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
@@ -403,19 +412,6 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                         </div>
                     </div>
 
-                </div>
-            ) : !showRankings ? (
-                // INTERMEDIATE STEP: Reveal Button
-                <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in-up">
-                    <h2 className="text-4xl font-black text-white mb-8">모든 플레이 종료!</h2>
-                    <button
-                        onClick={() => setShowRankings(true)}
-                        className="px-10 py-6 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 rounded-full font-black text-3xl shadow-[0_0_30px_rgba(245,158,11,0.5)] transform hover:scale-105 transition-all text-white flex items-center gap-3"
-                    >
-                        <Trophy className="w-8 h-8" />
-                        결과 순위 확인하기
-                    </button>
-                    <p className="mt-6 text-slate-500">두구두구두구... 과연 1등은?</p>
                 </div>
             ) : (
                 // FINAL RESULTS SCREEN
