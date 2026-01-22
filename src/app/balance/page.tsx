@@ -153,28 +153,6 @@ export default function BalancePage() {
                             </div>
                         </div>
 
-                        {/* [NEW] Card 5: AI Balance Game */}
-                        <div
-                            onClick={() => window.location.href = "/balance/game"}
-                            className="md:col-span-2 group relative bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-900/40 border border-slate-800 p-8 rounded-2xl hover:border-cyan-400 transition-all duration-300 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] cursor-pointer backdrop-blur-sm transform hover:-translate-y-1"
-                        >
-                            <div className="absolute top-2 right-2 px-2 py-1 bg-red-500 rounded text-xs font-bold text-white animate-pulse">HOT</div>
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-6 relative z-10 h-full">
-                                <div className="p-4 bg-indigo-500/20 rounded-full group-hover:bg-indigo-500/30 transition-colors">
-                                    <div className="relative">
-                                        <Scale className="w-10 h-10 text-indigo-400 group-hover:text-white transition-colors" />
-                                        <Sparkles className="w-5 h-5 text-yellow-400 absolute -top-2 -right-2 animate-bounce" />
-                                    </div>
-                                </div>
-                                <div className="text-center md:text-left">
-                                    <h3 className="text-2xl font-bold text-white mb-1"><span className="text-cyan-400">극한의 이지선다</span> 밸런스 게임</h3>
-                                    <p className="text-slate-300 text-sm mb-2">남들은 어떤 선택을 했을까? 실시간 통계 & 랭킹 도전!</p>
-                                    <span className="inline-flex items-center gap-1 text-xs text-indigo-300 font-semibold border border-indigo-500/30 px-2 py-1 rounded bg-indigo-900/30">
-                                        <Trophy className="w-3 h-3" /> 랭킹 등록 시스템 추가
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 )}
 
