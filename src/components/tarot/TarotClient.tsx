@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import { TarotCardData } from "./TarotCard";
 import { TarotLayout } from "./TarotLayout";
 import { TarotModal } from "./TarotModal";
+import AdModal from "../ads/AdModal";
 import rawCards from "@/data/tarot_cards.json";
 
 // Fix image paths safely
@@ -45,6 +46,9 @@ export default function TarotClient() {
 
     // Deck Shuffle Animation State
     const [isShuffling, setIsShuffling] = useState(false);
+
+    // Ad State
+    const [showAd, setShowAd] = useState(false);
 
     // Replaced unused startShuffle with standard draw logic involving shuffle
     const drawCards = () => {
@@ -276,7 +280,7 @@ export default function TarotClient() {
                     <h3 className="text-3xl font-bold text-slate-100 mb-4 flex items-center gap-3">
                         종합해설
                         {revealedIndices.length === spread && !aiResult && !isAiLoading && (
-                            <button onClick={runAiAnalysis} className="text-sm bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-full animate-bounce shadow-lg shadow-purple-900/50 transition-all">
+                            <button onClick={() => setShowAd(true)} className="text-sm bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-full animate-bounce shadow-lg shadow-purple-900/50 transition-all">
                                 AI 분석 시작하기
                             </button>
                         )}
@@ -354,6 +358,16 @@ export default function TarotClient() {
                 card={selectedCardIndex !== null ? drawnCards[selectedCardIndex] : null}
                 index={selectedCardIndex}
                 onClose={() => setSelectedCardIndex(null)}
+            />
+
+            {/* Ad Modal */}
+            <AdModal
+                isOpen={showAd}
+                onClose={() => {
+                    setShowAd(false);
+                    runAiAnalysis();
+                }}
+                slot="3529245457" // Updated with User's Ad Unit ID
             />
 
         </div>
