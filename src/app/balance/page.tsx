@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Scale, Laptop, User, Palmtree, ArrowLeft, RefreshCw, Home as HomeIcon, Sparkles, HeartHandshake } from "lucide-react";
+import { Scale, Laptop, User, Palmtree, ArrowLeft, RefreshCw, Home as HomeIcon, Sparkles, HeartHandshake, Trophy } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import InputForms, { Category } from "@/components/balance/InputForms";
@@ -152,6 +152,7 @@ export default function BalancePage() {
                                 <p className="text-slate-400 text-sm">자유 고민 상담 & 심층 분석</p>
                             </div>
                         </div>
+
                     </div>
                 )}
 

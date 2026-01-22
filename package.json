@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
+    "@supabase/supabase-js": "^2.91.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.26.2",
     "lucide-react": "^0.562.0",
@@ -30,6 +31,6 @@
     "eslint-config-next": "15.1.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vercel": "^50.4.9"
+    "vercel": "^47.0.4"
   }
 }

@@ -171,11 +171,22 @@ export default function Home() {
                 />
                 <ServiceCard
                   href="/balance"
-                  icon={<Scale className="w-5 h-5 text-cyan-400" />}
+                  icon={<Scale className="w-5 h-5 text-purple-400" />}
                   title="선택 도우미"
                   desc="결정이 힘들 땐 AI에게"
-                  bg="hover:border-cyan-500/50"
-                  iconBg="bg-cyan-900/20"
+                  bg="hover:border-purple-500/50"
+                  iconBg="bg-purple-900/20"
+                />
+
+                {/* [NEW] Balance Game */}
+                <ServiceCard
+                  href="/balance/game"
+                  icon={<Scale className="w-5 h-5 text-indigo-400" />}
+                  title="극한의 밸런스 게임"
+                  desc="나의 성향은 몇 %? 실시간 랭킹"
+                  bg="hover:border-indigo-500/50"
+                  iconBg="bg-indigo-900/20"
+                  badge="HOT"
                 />
                 <ServiceCard
                   href="/sadari"
