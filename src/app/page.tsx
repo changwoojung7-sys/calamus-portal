@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, Moon, Scale, User, ArrowRight, Dna, Gamepad2, Car, RefreshCw, Trophy } from "lucide-react";
+import { Sparkles, Moon, Scale, User, ArrowRight, Dna, Gamepad2, Car, RefreshCw, Trophy, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import GoogleAd from "@/components/ads/GoogleAd";
+import Footer from "@/components/common/Footer";
 
 // --- QUOTES DATA ---
 const QUOTES = [
@@ -42,6 +44,9 @@ export default function Home() {
   const [quote, setQuote] = useState("");
   const [isRotating, setIsRotating] = useState(false);
 
+  // AdSense Slot ID provided by user
+  const AD_SLOT_ID = "3529245457";
+
   const refreshQuote = () => {
     setIsRotating(true);
     let nextIndex = Math.floor(Math.random() * QUOTES.length);
@@ -59,189 +64,241 @@ export default function Home() {
       {/* Background Gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,_#1c2333,_#0b0f17)] -z-10" />
 
-      <main className="max-w-6xl mx-auto px-4 py-12 md:py-20 flex flex-col gap-12">
+      <main className="max-w-7xl mx-auto px-4 py-8 md:py-12 flex flex-col gap-8">
 
         {/* HEADER SECTION */}
-        <header className="text-center space-y-4 mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#6ee7b7] drop-shadow-lg">
-            창우의 AI 실험실
-          </h1>
-          <p className="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
-            일상과 선택을 돕는 작은 AI 서비스 모음<br />
-            AI를 이용한 바이브코딩으로 여러가지 언어로 개발하고 있어요.
-          </p>
+        <header className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800/50 pb-6">
+          <div className="space-y-2 text-center md:text-left">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#6ee7b7] drop-shadow-lg">
+              창우의 AI 실험실
+            </h1>
+            <p className="text-slate-400 text-sm md:text-base">
+              일상의 선택을 돕는 AI 도구 모음
+            </p>
+          </div>
+          <div className="text-xs text-slate-500 bg-slate-800/50 px-4 py-2 rounded-full border border-white/5">
+            Powered by Vibe Coding
+          </div>
         </header>
 
-        {/* TOP SECTION: Quote & Guide */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-
-          {/* LEFT: Today's Quote */}
-          <div className="bg-[#171e2b] rounded-3xl p-8 md:p-12 flex flex-col items-center justify-center text-center shadow-2xl border border-slate-800/50 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
-
-            <h2 className="text-xl font-bold text-slate-200 mb-2">오늘의 한 문장</h2>
-            <p className="text-sm text-[#6ee7b7] mb-8">오늘 하루를 위한 짧은 방향 제시</p>
-
-            <div className="bg-slate-800/50 rounded-2xl p-6 md:p-8 w-full max-w-lg mb-8 border border-white/5 backdrop-blur-sm min-h-[140px] flex items-center justify-center">
-              <p
-                className="text-lg md:text-xl leading-relaxed text-slate-100 word-keep-all animate-fade-in"
-                dangerouslySetInnerHTML={{ __html: quote }}
-              />
-            </div>
-
-            <button
-              onClick={refreshQuote}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 rounded-full font-bold text-white shadow-lg shadow-blue-900/40 transition-all active:scale-95"
-            >
-              <RefreshCw className={`w-4 h-4 ${isRotating ? 'animate-spin' : ''}`} />
-              다른 문장
-            </button>
-          </div>
-
-          {/* RIGHT: Service Guide Widget */}
-          <div className="bg-[#171e2b] rounded-3xl p-8 shadow-2xl border border-slate-800/50 flex flex-col">
-            <h3 className="text-xl font-bold text-amber-400 mb-6 flex items-center gap-2">
-              <Sparkles className="w-5 h-5" /> 서비스 소개
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-              <div className="bg-slate-800/50 rounded-2xl p-5 border border-white/5 flex flex-col gap-3 hover:bg-slate-800 transition-colors">
-                <div className="text-3xl">🃏</div>
-                <div>
-                  <strong className="block text-slate-200 mb-1">운세 & 타로</strong>
-                  <p className="text-xs text-slate-400 leading-relaxed">AI가 분석하는 심도 있는 사주와 타로 리딩</p>
-                </div>
-              </div>
-              <div className="bg-slate-800/50 rounded-2xl p-5 border border-white/5 flex flex-col gap-3 hover:bg-slate-800 transition-colors">
-                <div className="text-3xl">⚖️</div>
-                <div>
-                  <strong className="block text-slate-200 mb-1">선택 & 이름</strong>
-                  <p className="text-xs text-slate-400 leading-relaxed">결정이 힘들 땐 선택 도우미와 이름 풀이</p>
-                </div>
-              </div>
-              <div className="bg-slate-800/50 rounded-2xl p-5 border border-white/5 flex flex-col gap-3 hover:bg-slate-800 transition-colors">
-                <div className="text-3xl">💤</div>
-                <div>
-                  <strong className="block text-slate-200 mb-1">꿈 & 심리</strong>
-                  <p className="text-xs text-slate-400 leading-relaxed">무의식이 보내는 메시지, 꿈 해몽</p>
-                </div>
-              </div>
-              <div className="bg-slate-800/50 rounded-2xl p-5 border border-white/5 flex flex-col gap-3 hover:bg-slate-800 transition-colors">
-                <div className="text-3xl">🎮</div>
-                <div>
-                  <strong className="block text-slate-200 mb-1">게임 도구</strong>
-                  <p className="text-xs text-slate-400 leading-relaxed">내기할 땐 사다리 게임과 운명의 룰렛</p>
-                </div>
-              </div>
-            </div>
+        {/* 1. TOP BANNER AD SECTION */}
+        <section className="w-full flex justify-center bg-[#171e2b] p-4 rounded-xl border border-slate-800/50 shadow-sm min-h-[100px] overflow-hidden">
+          <div className="w-full max-w-[728px] text-center">
+            <p className="text-[10px] text-slate-600 mb-1 tracking-widest uppercase">Sponsored</p>
+            {/* Top Banner Ad - Responsive/Horizontal */}
+            <GoogleAd slot={AD_SLOT_ID} format="auto" responsive={true} />
           </div>
         </section>
 
-        {/* SERVICES GRID (Compact) */}
-        <section>
-          <h3 className="text-2xl font-bold text-slate-200 mb-6 px-2 border-l-4 border-cyan-500 pl-4">All Services</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* 2. MAIN GRID: 2 Columns (Content | Sidebar) */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 
-            {/* Card Template: Compact */}
-            <ServiceCard
-              href="/tarot-room"
-              icon={<Sparkles className="w-6 h-6 text-purple-400" />}
-              title="타로 점보기"
-              desc="직관적 타로 상담"
+          {/* --- LEFT COLUMN: Main Content (~75%) --- */}
+          <div className="lg:col-span-3 flex flex-col gap-8 h-full">
 
-              bg="hover:border-purple-500/50"
-              iconBg="bg-purple-900/20"
-            />
-            <ServiceCard
-              href="/saju"
-              icon={<Dna className="w-6 h-6 text-amber-400" />}
-              title="정통 사주"
-              desc="인생 흐름과 운세"
-              bg="hover:border-amber-500/50"
-              iconBg="bg-amber-900/20"
-            />
-            <ServiceCard
-              href="/name"
-              icon={<User className="w-6 h-6 text-teal-400" />}
-              title="성명학 분석"
-              desc="이름과 운명의 조화"
-              bg="hover:border-teal-500/50"
-              iconBg="bg-teal-900/20"
-            />
-            <ServiceCard
-              href="/balance"
-              icon={<Scale className="w-6 h-6 text-cyan-400" />}
-              title="선택 도우미"
-              desc="결정 장애 솔루션"
-              bg="hover:border-cyan-500/50"
-              iconBg="bg-cyan-900/20"
-            />
-            <ServiceCard
-              href="https://myredesign.ai.kr"
-              icon={<Trophy className="w-6 h-6 text-rose-400" />}
-              title="My Re Design"
-              desc="나를 위한 미션 기록"
-              bg="hover:border-rose-500/50"
-              iconBg="bg-rose-900/20"
-              isExternal
-            />
-            <ServiceCard
-              href="/dream"
-              icon={<Moon className="w-6 h-6 text-indigo-400" />}
-              title="AI 꿈해몽"
-              desc="꿈의 상징과 해석"
-              bg="hover:border-indigo-500/50"
-              iconBg="bg-indigo-900/20"
-            />
-            <ServiceCard
-              href="/sadari"
-              icon={<Gamepad2 className="w-6 h-6 text-emerald-400" />}
-              title="사다리 게임"
-              desc="간편 내기 게임"
-              bg="hover:border-emerald-500/50"
-              iconBg="bg-emerald-900/20"
-            />
-            <ServiceCard
-              href="/brake"
-              icon={<Car className="w-6 h-6 text-red-500" />}
-              title="브레이크 게임"
-              desc="담력 테스트"
-              bg="hover:border-red-500/50"
-              iconBg="bg-red-900/20"
-            />
-            <ServiceCard
-              href="/roulette"
-              icon={<Sparkles className="w-6 h-6 text-pink-400" />}
-              title="운명의 룰렛"
-              desc="미션 벌칙 정하기"
-              bg="hover:border-pink-500/50"
-              iconBg="bg-pink-900/20"
-            />
+            {/* A. Hero: Today's Quote */}
+            <section className="bg-gradient-to-br from-[#171e2b] to-[#0f1520] rounded-3xl p-8 md:p-10 relative overflow-hidden group border border-slate-800 shadow-xl">
+              {/* Decorative Gradient Line */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-70"></div>
 
+              <div className="flex flex-col md:flex-row gap-8 items-center justify-between relative z-10">
+                <div className="flex-1 space-y-4 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-900/20 text-cyan-400 text-xs font-bold border border-cyan-500/20 mb-2">
+                    <Sparkles className="w-3 h-3" /> 오늘의 한 문장
+                  </div>
+
+                  <div className="min-h-[80px] flex items-center md:items-start justify-center md:justify-start">
+                    <p
+                      className="text-lg md:text-xl leading-relaxed text-slate-100 font-medium word-keep-all"
+                      dangerouslySetInnerHTML={{ __html: quote }}
+                    />
+                  </div>
+
+                  <p className="text-sm text-slate-500">
+                    오늘 하루를 위한 작은 방향 제시
+                  </p>
+                </div>
+
+                <button
+                  onClick={refreshQuote}
+                  className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 transition-all hover:scale-105 active:scale-95 group-hover:border-cyan-500/30 shadow-lg"
+                  title="다른 문장 보기"
+                >
+                  <RefreshCw className={`w-5 h-5 ${isRotating ? 'animate-spin' : ''}`} />
+                </button>
+              </div>
+            </section>
+
+            {/* B. Services Grid */}
+            <section>
+              <h2 className="text-xl font-bold text-slate-200 mb-5 flex items-center gap-2">
+                <span className="w-1.5 h-6 bg-cyan-500 rounded-full"></span>
+                전체 서비스
+              </h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <ServiceCard
+                  href="/tarot-room"
+                  icon={<Sparkles className="w-5 h-5 text-purple-400" />}
+                  title="타로 점보기"
+                  desc="AI가 들려주는 당신의 운명"
+                  bg="hover:border-purple-500/50"
+                  iconBg="bg-purple-900/20"
+                />
+                <ServiceCard
+                  href="/saju"
+                  icon={<Dna className="w-5 h-5 text-amber-400" />}
+                  title="정통 사주"
+                  desc="생년월일로 보는 인생 흐름"
+                  bg="hover:border-amber-500/50"
+                  iconBg="bg-amber-900/20"
+                />
+                <ServiceCard
+                  href="/name"
+                  icon={<User className="w-5 h-5 text-teal-400" />}
+                  title="성명학 분석"
+                  desc="이름 속에 숨겨진 운명"
+                  bg="hover:border-teal-500/50"
+                  iconBg="bg-teal-900/20"
+                />
+                <ServiceCard
+                  href="/dream"
+                  icon={<Moon className="w-5 h-5 text-indigo-400" />}
+                  title="AI 꿈해몽"
+                  desc="무의식이 보내는 신호 해석"
+                  bg="hover:border-indigo-500/50"
+                  iconBg="bg-indigo-900/20"
+                />
+                <ServiceCard
+                  href="/balance"
+                  icon={<Scale className="w-5 h-5 text-cyan-400" />}
+                  title="선택 도우미"
+                  desc="결정이 힘들 땐 AI에게"
+                  bg="hover:border-cyan-500/50"
+                  iconBg="bg-cyan-900/20"
+                />
+                <ServiceCard
+                  href="/sadari"
+                  icon={<Gamepad2 className="w-5 h-5 text-emerald-400" />}
+                  title="사다리 게임"
+                  desc="간편한 내기 게임 한판"
+                  bg="hover:border-emerald-500/50"
+                  iconBg="bg-emerald-900/20"
+                />
+                <ServiceCard
+                  href="/brake"
+                  icon={<Car className="w-5 h-5 text-red-500" />}
+                  title="브레이크 게임"
+                  desc="스릴 넘치는 담력 테스트"
+                  bg="hover:border-red-500/50"
+                  iconBg="bg-red-900/20"
+                />
+                <ServiceCard
+                  href="/roulette"
+                  icon={<Sparkles className="w-5 h-5 text-pink-400" />}
+                  title="운명의 룰렛"
+                  desc="오늘의 벌칙은 누구?"
+                  bg="hover:border-pink-500/50"
+                  iconBg="bg-pink-900/20"
+                />
+                <ServiceCard
+                  href="https://myredesign.ai.kr"
+                  icon={<Trophy className="w-5 h-5 text-rose-400" />}
+                  title="My Re Design"
+                  desc="좋은 습관 만들기 프로젝트"
+                  bg="hover:border-rose-500/50"
+                  iconBg="bg-rose-900/20"
+                  isExternal
+                  badge="Family Site"
+                />
+              </div>
+            </section>
           </div>
-        </section>
 
-        <footer className="text-center py-8 text-slate-600 text-xs border-t border-slate-900/50 mt-8">
-          © 2026 Calamus Portal. All rights reserved.
-        </footer>
+          {/* --- RIGHT COLUMN: Sidebar (~25%) --- */}
+          <aside className="lg:col-span-1 flex flex-col gap-6 sticky top-8">
+
+            {/* 1. Sidebar Ad */}
+            <div className="bg-[#171e2b] rounded-2xl p-4 border border-slate-800 shadow-lg flex flex-col items-center justify-center min-h-[300px]">
+              <p className="text-[10px] text-slate-600 mb-2 tracking-widest uppercase">Advertisement</p>
+              {/* Sidebar Ad - Vertical/Rectangle */}
+              <div className="w-full overflow-hidden flex justify-center">
+                <GoogleAd slot={AD_SLOT_ID} format="auto" responsive={true} style={{ display: 'block', minHeight: '250px', width: '100%' }} />
+              </div>
+            </div>
+
+            {/* 2. Service Guide Widget (Compact List) */}
+            <div className="bg-[#171e2b] rounded-2xl p-6 border border-slate-800 shadow-md">
+              <h3 className="text-sm font-bold text-slate-400 mb-4 uppercase tracking-wider flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" /> Service Guide
+              </h3>
+              <ul className="space-y-4">
+                <li className="flex gap-3 items-start p-2 hover:bg-slate-800 rounded-lg transition-colors">
+                  <span className="text-2xl mt-0.5">🃏</span>
+                  <div>
+                    <strong className="block text-slate-200 text-sm">운세 & 타로</strong>
+                    <p className="text-xs text-slate-500">오늘의 운세를 확인하세요.</p>
+                  </div>
+                </li>
+                <li className="flex gap-3 items-start p-2 hover:bg-slate-800 rounded-lg transition-colors">
+                  <span className="text-2xl mt-0.5">💤</span>
+                  <div>
+                    <strong className="block text-slate-200 text-sm">꿈 해몽</strong>
+                    <p className="text-xs text-slate-500">어젯밤 꿈이 궁금하다면?</p>
+                  </div>
+                </li>
+                <li className="flex gap-3 items-start p-2 hover:bg-slate-800 rounded-lg transition-colors">
+                  <span className="text-2xl mt-0.5">🎮</span>
+                  <div>
+                    <strong className="block text-slate-200 text-sm">미니 게임</strong>
+                    <p className="text-xs text-slate-500">심심할 때 즐기는 한 판.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* 3. Footer (Mini) - REMOVED (Moved to global footer) */}
+            <div className="text-center text-[10px] text-slate-600 space-y-1">
+              {/* Mobile sidebar footer optional, can keep or remove. Keeping empty for now or minimal */}
+            </div>
+
+          </aside>
+
+        </div>
+
+        <Footer />
       </main>
     </div>
   );
 }
 
-function ServiceCard({ href, icon, title, desc, bg, iconBg, isExternal = false }: any) {
+function ServiceCard({ href, icon, title, desc, bg, iconBg, isExternal = false, badge }: any) {
   const Component = isExternal ? 'a' : Link;
   return (
     <Component
       href={href}
       target={isExternal ? "_blank" : undefined}
-      className={`group block p-5 rounded-2xl bg-[#171e2b] border border-slate-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${bg}`}
+      className={`group relative flex flex-col p-5 rounded-2xl bg-[#171e2b] border border-slate-800/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-[#1c2433] ${bg}`}
     >
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${iconBg} group-hover:scale-110 transition-transform`}>
+      {badge && (
+        <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+          {badge}
+        </span>
+      )}
+
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${iconBg} group-hover:scale-110 transition-transform`}>
         {icon}
       </div>
-      <h3 className="font-bold text-slate-200 mb-1 group-hover:text-white transition-colors">{title}</h3>
-      <p className="text-xs text-slate-500 group-hover:text-slate-400">{desc}</p>
+
+      <div className="flex-1">
+        <h3 className="font-bold text-slate-200 mb-1 group-hover:text-white transition-colors">{title}</h3>
+        <p className="text-xs text-slate-500 leading-relaxed group-hover:text-slate-400">{desc}</p>
+      </div>
+
+      <div className="mt-3 flex items-center gap-1 text-xs text-slate-600 group-hover:text-cyan-400 transition-colors bg-black/20 w-fit px-2 py-1 rounded-md opacity-0 group-hover:opacity-100">
+        <span>바로가기</span>
+        <ArrowRight className="w-3 h-3" />
+      </div>
     </Component>
   );
 }
