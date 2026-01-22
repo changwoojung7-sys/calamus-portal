@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
+  /* Default Theme (Light) */
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Balancia & Dark Defaults */
+  --slate-950: #020617;
+  --slate-50: #f8fafc;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0891b2;
 }
 
 @theme inline {
@@ -10,11 +17,21 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Name Web Custom Colors */
+  --color-mystic-gold: #fbbf24;
+  /* Amber 400 */
+  --color-mystic-silver: #94a3b8;
+  /* Slate 400 */
+  --color-mystic-purple: #581c87;
+  /* Purple 900 */
+  --color-mystic-text: #e2e8f0;
+  /* Slate 200 */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #020617;
     --foreground: #ededed;
   }
 }
@@ -23,4 +40,79 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Utilities for Neon Glow (from Balancia) */
+.neon-border {
+  box-shadow: 0 0 10px var(--cyan-600), inset 0 0 10px var(--cyan-600);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px var(--cyan-600);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Common Input Fields */
+.input-field {
+  width: 100%;
+  background-color: rgba(30, 41, 59, 0.5);
+  /* Slate 800/50 */
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  /* Slate 600/50 */
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-field:focus {
+  border-color: var(--color-mystic-gold);
+  box-shadow: 0 0 0 1px var(--color-mystic-gold);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  color: #1a202c;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 14px rgba(251, 191, 36, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.6);
 }

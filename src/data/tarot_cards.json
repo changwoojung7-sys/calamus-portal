@@ -1,0 +1,2152 @@
+[
+  {
+    "id": "m00",
+    "name_en": "The Fool",
+    "name_kr": "바보",
+    "arcana": "Major",
+    "suit": null,
+    "number": 0,
+    "image": "/data/cards/m00.jpg",
+    "upright": {
+      "keywords": [
+        "시작",
+        "자유",
+        "가능성"
+      ],
+      "meaning": "새 출발, 모험의 시작, 자유로운 선택",
+      "meaning_short_kr": "새 출발, 모험의 시작, 자유로운 선택",
+      "meaning_long_kr": "바보 카드는 새 출발, 모험의 시작, 자유로운 선택을 의미합니다. 이 카드는 시작, 자유, 가능성의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "무모",
+        "불안",
+        "방향상실"
+      ],
+      "meaning": "준비 부족, 경솔함, 선택의 책임 회피",
+      "meaning_short_kr": "준비 부족, 경솔함, 선택의 책임 회피",
+      "meaning_long_kr": "역방향의 바보 카드는 준비 부족, 경솔함, 선택의 책임 회피을 경고합니다. 무모, 불안, 방향상실의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m01",
+    "name_en": "The Magician",
+    "name_kr": "마법사",
+    "arcana": "Major",
+    "suit": null,
+    "number": 1,
+    "image": "/data/cards/m01.jpg",
+    "upright": {
+      "keywords": [
+        "의지",
+        "창조",
+        "능력"
+      ],
+      "meaning": "자원과 재능을 활용해 현실을 만들어감",
+      "meaning_short_kr": "자원과 재능을 활용해 현실을 만들어감",
+      "meaning_long_kr": "마법사 카드는 자원과 재능을 활용해 현실을 만들어감을 의미합니다. 이 카드는 의지, 창조, 능력의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "기만",
+        "조작",
+        "산만"
+      ],
+      "meaning": "허세, 집중 부족, 의도의 왜곡",
+      "meaning_short_kr": "허세, 집중 부족, 의도의 왜곡",
+      "meaning_long_kr": "역방향의 마법사 카드는 허세, 집중 부족, 의도의 왜곡을 경고합니다. 기만, 조작, 산만의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m02",
+    "name_en": "The High Priestess",
+    "name_kr": "여사제",
+    "arcana": "Major",
+    "suit": null,
+    "number": 2,
+    "image": "/data/cards/m02.jpg",
+    "upright": {
+      "keywords": [
+        "직관",
+        "비밀",
+        "통찰"
+      ],
+      "meaning": "겉보다 내면을 읽고 직감을 신뢰",
+      "meaning_short_kr": "겉보다 내면을 읽고 직감을 신뢰",
+      "meaning_long_kr": "여사제 카드는 겉보다 내면을 읽고 직감을 신뢰을 의미합니다. 이 카드는 직관, 비밀, 통찰의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "혼란",
+        "불신",
+        "은폐"
+      ],
+      "meaning": "직관을 무시하거나 사실을 숨김",
+      "meaning_short_kr": "직관을 무시하거나 사실을 숨김",
+      "meaning_long_kr": "역방향의 여사제 카드는 직관을 무시하거나 사실을 숨김을 경고합니다. 혼란, 불신, 은폐의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m03",
+    "name_en": "The Empress",
+    "name_kr": "여황제",
+    "arcana": "Major",
+    "suit": null,
+    "number": 3,
+    "image": "/data/cards/m03.jpg",
+    "upright": {
+      "keywords": [
+        "풍요",
+        "성장",
+        "보살핌"
+      ],
+      "meaning": "풍요와 창조성, 관계의 성장",
+      "meaning_short_kr": "풍요와 창조성, 관계의 성장",
+      "meaning_long_kr": "여황제 카드는 풍요와 창조성, 관계의 성장을 의미합니다. 이 카드는 풍요, 성장, 보살핌의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "의존",
+        "정체",
+        "과보호"
+      ],
+      "meaning": "집착, 성장이 멈춤",
+      "meaning_short_kr": "집착, 성장이 멈춤",
+      "meaning_long_kr": "역방향의 여황제 카드는 집착, 성장이 멈춤을 경고합니다. 의존, 정체, 과보호의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m04",
+    "name_en": "The Emperor",
+    "name_kr": "황제",
+    "arcana": "Major",
+    "suit": null,
+    "number": 4,
+    "image": "/data/cards/m04.jpg",
+    "upright": {
+      "keywords": [
+        "안정",
+        "권위",
+        "책임"
+      ],
+      "meaning": "질서와 구조를 세워 안정화",
+      "meaning_short_kr": "질서와 구조를 세워 안정화",
+      "meaning_long_kr": "황제 카드는 질서와 구조를 세워 안정화을 의미합니다. 이 카드는 안정, 권위, 책임의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "독단",
+        "경직",
+        "통제"
+      ],
+      "meaning": "권위주의, 융통성 부족",
+      "meaning_short_kr": "권위주의, 융통성 부족",
+      "meaning_long_kr": "역방향의 황제 카드는 권위주의, 융통성 부족을 경고합니다. 독단, 경직, 통제의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m05",
+    "name_en": "The Hierophant",
+    "name_kr": "교황",
+    "arcana": "Major",
+    "suit": null,
+    "number": 5,
+    "image": "/data/cards/m05.jpg",
+    "upright": {
+      "keywords": [
+        "전통",
+        "가르침",
+        "규범"
+      ],
+      "meaning": "조언, 교육, 제도적 도움",
+      "meaning_short_kr": "조언, 교육, 제도적 도움",
+      "meaning_long_kr": "교황 카드는 조언, 교육, 제도적 도움을 의미합니다. 이 카드는 전통, 가르침, 규범의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "반항",
+        "형식",
+        "고정관념"
+      ],
+      "meaning": "틀에 갇힘 혹은 불필요한 반발",
+      "meaning_short_kr": "틀에 갇힘 혹은 불필요한 반발",
+      "meaning_long_kr": "역방향의 교황 카드는 틀에 갇힘 혹은 불필요한 반발을 경고합니다. 반항, 형식, 고정관념의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m06",
+    "name_en": "The Lovers",
+    "name_kr": "연인",
+    "arcana": "Major",
+    "suit": null,
+    "number": 6,
+    "image": "/data/cards/m06.jpg",
+    "upright": {
+      "keywords": [
+        "사랑",
+        "조화",
+        "선택"
+      ],
+      "meaning": "가치에 따른 중요한 선택, 관계의 결속",
+      "meaning_short_kr": "가치에 따른 중요한 선택, 관계의 결속",
+      "meaning_long_kr": "연인 카드는 가치에 따른 중요한 선택, 관계의 결속을 의미합니다. 이 카드는 사랑, 조화, 선택의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "갈등",
+        "유혹",
+        "불균형"
+      ],
+      "meaning": "마음이 흔들리거나 선택 미룸",
+      "meaning_short_kr": "마음이 흔들리거나 선택 미룸",
+      "meaning_long_kr": "역방향의 연인 카드는 마음이 흔들리거나 선택 미룸을 경고합니다. 갈등, 유혹, 불균형의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m07",
+    "name_en": "The Chariot",
+    "name_kr": "전차",
+    "arcana": "Major",
+    "suit": null,
+    "number": 7,
+    "image": "/data/cards/m07.jpg",
+    "upright": {
+      "keywords": [
+        "전진",
+        "승리",
+        "의지"
+      ],
+      "meaning": "목표를 향한 추진, 승리 가능",
+      "meaning_short_kr": "목표를 향한 추진, 승리 가능",
+      "meaning_long_kr": "전차 카드는 목표를 향한 추진, 승리 가능을 의미합니다. 이 카드는 전진, 승리, 의지의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "좌절",
+        "통제상실",
+        "무리"
+      ],
+      "meaning": "속도 조절 실패, 방향 잃음",
+      "meaning_short_kr": "속도 조절 실패, 방향 잃음",
+      "meaning_long_kr": "역방향의 전차 카드는 속도 조절 실패, 방향 잃음을 경고합니다. 좌절, 통제상실, 무리의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m08",
+    "name_en": "Strength",
+    "name_kr": "힘",
+    "arcana": "Major",
+    "suit": null,
+    "number": 8,
+    "image": "/data/cards/m08.jpg",
+    "upright": {
+      "keywords": [
+        "용기",
+        "인내",
+        "자제"
+      ],
+      "meaning": "부드러운 힘으로 상황을 다룸",
+      "meaning_short_kr": "부드러운 힘으로 상황을 다룸",
+      "meaning_long_kr": "힘 카드는 부드러운 힘으로 상황을 다룸을 의미합니다. 이 카드는 용기, 인내, 자제의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불안",
+        "자신감부족",
+        "충동"
+      ],
+      "meaning": "감정에 휘둘림",
+      "meaning_short_kr": "감정에 휘둘림",
+      "meaning_long_kr": "역방향의 힘 카드는 감정에 휘둘림을 경고합니다. 불안, 자신감부족, 충동의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m09",
+    "name_en": "The Hermit",
+    "name_kr": "은둔자",
+    "arcana": "Major",
+    "suit": null,
+    "number": 9,
+    "image": "/data/cards/m09.jpg",
+    "upright": {
+      "keywords": [
+        "성찰",
+        "지혜",
+        "거리두기"
+      ],
+      "meaning": "혼자 정리하며 답을 찾음",
+      "meaning_short_kr": "혼자 정리하며 답을 찾음",
+      "meaning_long_kr": "은둔자 카드는 혼자 정리하며 답을 찾음을 의미합니다. 이 카드는 성찰, 지혜, 거리두기의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "고립",
+        "회피",
+        "정체"
+      ],
+      "meaning": "단절, 너무 숨음",
+      "meaning_short_kr": "단절, 너무 숨음",
+      "meaning_long_kr": "역방향의 은둔자 카드는 단절, 너무 숨음을 경고합니다. 고립, 회피, 정체의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m10",
+    "name_en": "Wheel of Fortune",
+    "name_kr": "운명의 수레바퀴",
+    "arcana": "Major",
+    "suit": null,
+    "number": 10,
+    "image": "/data/cards/m10.jpg",
+    "upright": {
+      "keywords": [
+        "변화",
+        "기회",
+        "전환"
+      ],
+      "meaning": "흐름이 바뀌는 타이밍, 기회 포착",
+      "meaning_short_kr": "흐름이 바뀌는 타이밍, 기회 포착",
+      "meaning_long_kr": "운명의 수레바퀴 카드는 흐름이 바뀌는 타이밍, 기회 포착을 의미합니다. 이 카드는 변화, 기회, 전환의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "정체",
+        "반복",
+        "불운감"
+      ],
+      "meaning": "같은 문제 반복, 변화 지연",
+      "meaning_short_kr": "같은 문제 반복, 변화 지연",
+      "meaning_long_kr": "역방향의 운명의 수레바퀴 카드는 같은 문제 반복, 변화 지연을 경고합니다. 정체, 반복, 불운감의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m11",
+    "name_en": "Justice",
+    "name_kr": "정의",
+    "arcana": "Major",
+    "suit": null,
+    "number": 11,
+    "image": "/data/cards/m11.jpg",
+    "upright": {
+      "keywords": [
+        "공정",
+        "균형",
+        "책임"
+      ],
+      "meaning": "정확한 판단과 결과",
+      "meaning_short_kr": "정확한 판단과 결과",
+      "meaning_long_kr": "정의 카드는 정확한 판단과 결과을 의미합니다. 이 카드는 공정, 균형, 책임의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "편견",
+        "불공정",
+        "회피"
+      ],
+      "meaning": "책임 회피, 왜곡된 판단",
+      "meaning_short_kr": "책임 회피, 왜곡된 판단",
+      "meaning_long_kr": "역방향의 정의 카드는 책임 회피, 왜곡된 판단을 경고합니다. 편견, 불공정, 회피의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m12",
+    "name_en": "The Hanged Man",
+    "name_kr": "매달린 사람",
+    "arcana": "Major",
+    "suit": null,
+    "number": 12,
+    "image": "/data/cards/m12.jpg",
+    "upright": {
+      "keywords": [
+        "관점전환",
+        "기다림",
+        "수용"
+      ],
+      "meaning": "멈춰서 새 시각으로 봄",
+      "meaning_short_kr": "멈춰서 새 시각으로 봄",
+      "meaning_long_kr": "매달린 사람 카드는 멈춰서 새 시각으로 봄을 의미합니다. 이 카드는 관점전환, 기다림, 수용의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "집착",
+        "정체",
+        "희생과다"
+      ],
+      "meaning": "불필요한 희생, 손해 감수",
+      "meaning_short_kr": "불필요한 희생, 손해 감수",
+      "meaning_long_kr": "역방향의 매달린 사람 카드는 불필요한 희생, 손해 감수을 경고합니다. 집착, 정체, 희생과다의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m13",
+    "name_en": "Death",
+    "name_kr": "죽음",
+    "arcana": "Major",
+    "suit": null,
+    "number": 13,
+    "image": "/data/cards/m13.jpg",
+    "upright": {
+      "keywords": [
+        "종결",
+        "변화",
+        "재탄생"
+      ],
+      "meaning": "끝을 통해 새로 시작",
+      "meaning_short_kr": "끝을 통해 새로 시작",
+      "meaning_long_kr": "죽음 카드는 끝을 통해 새로 시작을 의미합니다. 이 카드는 종결, 변화, 재탄생의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "저항",
+        "미련",
+        "지연"
+      ],
+      "meaning": "변화를 거부해 더 힘듦",
+      "meaning_short_kr": "변화를 거부해 더 힘듦",
+      "meaning_long_kr": "역방향의 죽음 카드는 변화를 거부해 더 힘듦을 경고합니다. 저항, 미련, 지연의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m14",
+    "name_en": "Temperance",
+    "name_kr": "절제",
+    "arcana": "Major",
+    "suit": null,
+    "number": 14,
+    "image": "/data/cards/m14.jpg",
+    "upright": {
+      "keywords": [
+        "조화",
+        "절제",
+        "중용"
+      ],
+      "meaning": "균형 잡힌 조율, 회복",
+      "meaning_short_kr": "균형 잡힌 조율, 회복",
+      "meaning_long_kr": "절제 카드는 균형 잡힌 조율, 회복을 의미합니다. 이 카드는 조화, 절제, 중용의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "극단",
+        "불균형",
+        "과함"
+      ],
+      "meaning": "한쪽으로 치우침",
+      "meaning_short_kr": "한쪽으로 치우침",
+      "meaning_long_kr": "역방향의 절제 카드는 한쪽으로 치우침을 경고합니다. 극단, 불균형, 과함의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m15",
+    "name_en": "The Devil",
+    "name_kr": "악마",
+    "arcana": "Major",
+    "suit": null,
+    "number": 15,
+    "image": "/data/cards/m15.jpg",
+    "upright": {
+      "keywords": [
+        "집착",
+        "유혹",
+        "속박"
+      ],
+      "meaning": "욕망/중독/관계의 얽힘",
+      "meaning_short_kr": "욕망/중독/관계의 얽힘",
+      "meaning_long_kr": "악마 카드는 욕망/중독/관계의 얽힘을 의미합니다. 이 카드는 집착, 유혹, 속박의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "해방",
+        "각성",
+        "끊어냄"
+      ],
+      "meaning": "속박에서 벗어나려는 결단",
+      "meaning_short_kr": "속박에서 벗어나려는 결단",
+      "meaning_long_kr": "역방향의 악마 카드는 속박에서 벗어나려는 결단을 경고합니다. 해방, 각성, 끊어냄의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m16",
+    "name_en": "The Tower",
+    "name_kr": "탑",
+    "arcana": "Major",
+    "suit": null,
+    "number": 16,
+    "image": "/data/cards/m16.jpg",
+    "upright": {
+      "keywords": [
+        "충격",
+        "붕괴",
+        "각성"
+      ],
+      "meaning": "잘못된 기반이 무너지고 재정렬",
+      "meaning_short_kr": "잘못된 기반이 무너지고 재정렬",
+      "meaning_long_kr": "탑 카드는 잘못된 기반이 무너지고 재정렬을 의미합니다. 이 카드는 충격, 붕괴, 각성의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "회피",
+        "지연",
+        "미봉"
+      ],
+      "meaning": "변화를 피하다 더 커짐",
+      "meaning_short_kr": "변화를 피하다 더 커짐",
+      "meaning_long_kr": "역방향의 탑 카드는 변화를 피하다 더 커짐을 경고합니다. 회피, 지연, 미봉의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m17",
+    "name_en": "The Star",
+    "name_kr": "별",
+    "arcana": "Major",
+    "suit": null,
+    "number": 17,
+    "image": "/data/cards/m17.jpg",
+    "upright": {
+      "keywords": [
+        "희망",
+        "치유",
+        "영감"
+      ],
+      "meaning": "회복과 믿음, 길이 보임",
+      "meaning_short_kr": "회복과 믿음, 길이 보임",
+      "meaning_long_kr": "별 카드는 회복과 믿음, 길이 보임을 의미합니다. 이 카드는 희망, 치유, 영감의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "절망",
+        "불신",
+        "무기력"
+      ],
+      "meaning": "희망을 잃음",
+      "meaning_short_kr": "희망을 잃음",
+      "meaning_long_kr": "역방향의 별 카드는 희망을 잃음을 경고합니다. 절망, 불신, 무기력의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m18",
+    "name_en": "The Moon",
+    "name_kr": "달",
+    "arcana": "Major",
+    "suit": null,
+    "number": 18,
+    "image": "/data/cards/m18.jpg",
+    "upright": {
+      "keywords": [
+        "불확실",
+        "잠재의식",
+        "환상"
+      ],
+      "meaning": "안개 속 상황, 직관 필요",
+      "meaning_short_kr": "안개 속 상황, 직관 필요",
+      "meaning_long_kr": "달 카드는 안개 속 상황, 직관 필요을 의미합니다. 이 카드는 불확실, 잠재의식, 환상의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "명확",
+        "진실",
+        "해소"
+      ],
+      "meaning": "혼란이 걷힘",
+      "meaning_short_kr": "혼란이 걷힘",
+      "meaning_long_kr": "역방향의 달 카드는 혼란이 걷힘을 경고합니다. 명확, 진실, 해소의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m19",
+    "name_en": "The Sun",
+    "name_kr": "태양",
+    "arcana": "Major",
+    "suit": null,
+    "number": 19,
+    "image": "/data/cards/m19.jpg",
+    "upright": {
+      "keywords": [
+        "성공",
+        "기쁨",
+        "활력"
+      ],
+      "meaning": "긍정과 성취, 좋은 소식",
+      "meaning_short_kr": "긍정과 성취, 좋은 소식",
+      "meaning_long_kr": "태양 카드는 긍정과 성취, 좋은 소식을 의미합니다. 이 카드는 성공, 기쁨, 활력의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "지연",
+        "과신",
+        "번아웃"
+      ],
+      "meaning": "기대치 조정 필요",
+      "meaning_short_kr": "기대치 조정 필요",
+      "meaning_long_kr": "역방향의 태양 카드는 기대치 조정 필요을 경고합니다. 지연, 과신, 번아웃의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m20",
+    "name_en": "Judgement",
+    "name_kr": "심판",
+    "arcana": "Major",
+    "suit": null,
+    "number": 20,
+    "image": "/data/cards/m20.jpg",
+    "upright": {
+      "keywords": [
+        "각성",
+        "결단",
+        "부름"
+      ],
+      "meaning": "정리하고 새 단계로",
+      "meaning_short_kr": "정리하고 새 단계로",
+      "meaning_long_kr": "심판 카드는 정리하고 새 단계로을 의미합니다. 이 카드는 각성, 결단, 부름의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "후회",
+        "망설임",
+        "자기비난"
+      ],
+      "meaning": "결단 미룸",
+      "meaning_short_kr": "결단 미룸",
+      "meaning_long_kr": "역방향의 심판 카드는 결단 미룸을 경고합니다. 후회, 망설임, 자기비난의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "m21",
+    "name_en": "The World",
+    "name_kr": "세계",
+    "arcana": "Major",
+    "suit": null,
+    "number": 21,
+    "image": "/data/cards/m21.jpg",
+    "upright": {
+      "keywords": [
+        "완성",
+        "성취",
+        "마무리"
+      ],
+      "meaning": "사이클 완성, 다음 단계",
+      "meaning_short_kr": "사이클 완성, 다음 단계",
+      "meaning_long_kr": "세계 카드는 사이클 완성, 다음 단계을 의미합니다. 이 카드는 완성, 성취, 마무리의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "미완",
+        "지연",
+        "반쪽"
+      ],
+      "meaning": "마무리 체크 필요",
+      "meaning_short_kr": "마무리 체크 필요",
+      "meaning_long_kr": "역방향의 세계 카드는 마무리 체크 필요을 경고합니다. 미완, 지연, 반쪽의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c01",
+    "name_en": "Ace of Cups",
+    "name_kr": "컵 에이스",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 1,
+    "image": "/data/cards/c01.jpg",
+    "upright": {
+      "keywords": [
+        "감정의시작",
+        "사랑"
+      ],
+      "meaning": "새로운 감정/호감/관계의 시작",
+      "meaning_short_kr": "새로운 감정/호감/관계의 시작",
+      "meaning_long_kr": "컵 에이스 카드는 새로운 감정/호감/관계의 시작을 의미합니다. 이 카드는 감정의시작, 사랑의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "감정억압",
+        "공허"
+      ],
+      "meaning": "마음이 닫히거나 기대가 꺾임",
+      "meaning_short_kr": "마음이 닫히거나 기대가 꺾임",
+      "meaning_long_kr": "역방향의 컵 에이스 카드는 마음이 닫히거나 기대가 꺾임을 경고합니다. 감정억압, 공허의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c02",
+    "name_en": "Two of Cups",
+    "name_kr": "컵 2",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 2,
+    "image": "/data/cards/c02.jpg",
+    "upright": {
+      "keywords": [
+        "교감",
+        "파트너십"
+      ],
+      "meaning": "서로를 이해하고 연결됨",
+      "meaning_short_kr": "서로를 이해하고 연결됨",
+      "meaning_long_kr": "컵 2 카드는 서로를 이해하고 연결됨을 의미합니다. 이 카드는 교감, 파트너십의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불균형",
+        "오해"
+      ],
+      "meaning": "감정의 균형이 깨짐",
+      "meaning_short_kr": "감정의 균형이 깨짐",
+      "meaning_long_kr": "역방향의 컵 2 카드는 감정의 균형이 깨짐을 경고합니다. 불균형, 오해의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c03",
+    "name_en": "Three of Cups",
+    "name_kr": "컵 3",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 3,
+    "image": "/data/cards/c03.jpg",
+    "upright": {
+      "keywords": [
+        "축하",
+        "우정"
+      ],
+      "meaning": "기쁨을 나누는 모임/축하",
+      "meaning_short_kr": "기쁨을 나누는 모임/축하",
+      "meaning_long_kr": "컵 3 카드는 기쁨을 나누는 모임/축하을 의미합니다. 이 카드는 축하, 우정의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "과도",
+        "가십"
+      ],
+      "meaning": "과음/소문/과열",
+      "meaning_short_kr": "과음/소문/과열",
+      "meaning_long_kr": "역방향의 컵 3 카드는 과음/소문/과열을 경고합니다. 과도, 가십의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c04",
+    "name_en": "Four of Cups",
+    "name_kr": "컵 4",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 4,
+    "image": "/data/cards/c04.jpg",
+    "upright": {
+      "keywords": [
+        "권태",
+        "재고"
+      ],
+      "meaning": "마음이 식고 무기력",
+      "meaning_short_kr": "마음이 식고 무기력",
+      "meaning_long_kr": "컵 4 카드는 마음이 식고 무기력을 의미합니다. 이 카드는 권태, 재고의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "각성",
+        "새기회"
+      ],
+      "meaning": "새 기회를 알아챔",
+      "meaning_short_kr": "새 기회를 알아챔",
+      "meaning_long_kr": "역방향의 컵 4 카드는 새 기회를 알아챔을 경고합니다. 각성, 새기회의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c05",
+    "name_en": "Five of Cups",
+    "name_kr": "컵 5",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 5,
+    "image": "/data/cards/c05.jpg",
+    "upright": {
+      "keywords": [
+        "상실",
+        "후회"
+      ],
+      "meaning": "아쉬움과 슬픔, 놓친 것에 집중",
+      "meaning_short_kr": "아쉬움과 슬픔, 놓친 것에 집중",
+      "meaning_long_kr": "컵 5 카드는 아쉬움과 슬픔, 놓친 것에 집중을 의미합니다. 이 카드는 상실, 후회의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "회복",
+        "수용"
+      ],
+      "meaning": "남은 것을 보고 회복",
+      "meaning_short_kr": "남은 것을 보고 회복",
+      "meaning_long_kr": "역방향의 컵 5 카드는 남은 것을 보고 회복을 경고합니다. 회복, 수용의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c06",
+    "name_en": "Six of Cups",
+    "name_kr": "컵 6",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 6,
+    "image": "/data/cards/c06.jpg",
+    "upright": {
+      "keywords": [
+        "추억",
+        "순수"
+      ],
+      "meaning": "과거의 따뜻함, 순수한 마음",
+      "meaning_short_kr": "과거의 따뜻함, 순수한 마음",
+      "meaning_long_kr": "컵 6 카드는 과거의 따뜻함, 순수한 마음을 의미합니다. 이 카드는 추억, 순수의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "집착",
+        "유아적"
+      ],
+      "meaning": "과거에 묶임",
+      "meaning_short_kr": "과거에 묶임",
+      "meaning_long_kr": "역방향의 컵 6 카드는 과거에 묶임을 경고합니다. 집착, 유아적의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c07",
+    "name_en": "Seven of Cups",
+    "name_kr": "컵 7",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 7,
+    "image": "/data/cards/c07.jpg",
+    "upright": {
+      "keywords": [
+        "선택",
+        "환상"
+      ],
+      "meaning": "선택지가 많아 혼란",
+      "meaning_short_kr": "선택지가 많아 혼란",
+      "meaning_long_kr": "컵 7 카드는 선택지가 많아 혼란을 의미합니다. 이 카드는 선택, 환상의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "현실",
+        "결정"
+      ],
+      "meaning": "현실적으로 정리",
+      "meaning_short_kr": "현실적으로 정리",
+      "meaning_long_kr": "역방향의 컵 7 카드는 현실적으로 정리을 경고합니다. 현실, 결정의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c08",
+    "name_en": "Eight of Cups",
+    "name_kr": "컵 8",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 8,
+    "image": "/data/cards/c08.jpg",
+    "upright": {
+      "keywords": [
+        "이별",
+        "전환"
+      ],
+      "meaning": "떠나야 할 때, 감정적 정리",
+      "meaning_short_kr": "떠나야 할 때, 감정적 정리",
+      "meaning_long_kr": "컵 8 카드는 떠나야 할 때, 감정적 정리을 의미합니다. 이 카드는 이별, 전환의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "미련",
+        "정체"
+      ],
+      "meaning": "결단을 미룸",
+      "meaning_short_kr": "결단을 미룸",
+      "meaning_long_kr": "역방향의 컵 8 카드는 결단을 미룸을 경고합니다. 미련, 정체의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c09",
+    "name_en": "Nine of Cups",
+    "name_kr": "컵 9",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 9,
+    "image": "/data/cards/c09.jpg",
+    "upright": {
+      "keywords": [
+        "만족",
+        "성취"
+      ],
+      "meaning": "바라던 감정적 성취",
+      "meaning_short_kr": "바라던 감정적 성취",
+      "meaning_long_kr": "컵 9 카드는 바라던 감정적 성취을 의미합니다. 이 카드는 만족, 성취의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "과욕",
+        "불만"
+      ],
+      "meaning": "만족이 깨짐",
+      "meaning_short_kr": "만족이 깨짐",
+      "meaning_long_kr": "역방향의 컵 9 카드는 만족이 깨짐을 경고합니다. 과욕, 불만의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c10",
+    "name_en": "Ten of Cups",
+    "name_kr": "컵 10",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 10,
+    "image": "/data/cards/c10.jpg",
+    "upright": {
+      "keywords": [
+        "행복",
+        "가족"
+      ],
+      "meaning": "관계의 안정과 행복",
+      "meaning_short_kr": "관계의 안정과 행복",
+      "meaning_long_kr": "컵 10 카드는 관계의 안정과 행복을 의미합니다. 이 카드는 행복, 가족의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불화",
+        "불안"
+      ],
+      "meaning": "가정/관계의 균열",
+      "meaning_short_kr": "가정/관계의 균열",
+      "meaning_long_kr": "역방향의 컵 10 카드는 가정/관계의 균열을 경고합니다. 불화, 불안의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c11",
+    "name_en": "Page of Cups",
+    "name_kr": "컵 페이지",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 11,
+    "image": "/data/cards/c11.jpg",
+    "upright": {
+      "keywords": [
+        "메시지",
+        "호기심"
+      ],
+      "meaning": "감정적 제안/소식",
+      "meaning_short_kr": "감정적 제안/소식",
+      "meaning_long_kr": "컵 페이지 카드는 감정적 제안/소식을 의미합니다. 이 카드는 메시지, 호기심의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "유치",
+        "변덕"
+      ],
+      "meaning": "감정이 불안정",
+      "meaning_short_kr": "감정이 불안정",
+      "meaning_long_kr": "역방향의 컵 페이지 카드는 감정이 불안정을 경고합니다. 유치, 변덕의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c12",
+    "name_en": "Knight of Cups",
+    "name_kr": "컵 나이트",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 12,
+    "image": "/data/cards/c12.jpg",
+    "upright": {
+      "keywords": [
+        "로맨스",
+        "제안"
+      ],
+      "meaning": "감성적 접근, 고백/제안",
+      "meaning_short_kr": "감성적 접근, 고백/제안",
+      "meaning_long_kr": "컵 나이트 카드는 감성적 접근, 고백/제안을 의미합니다. 이 카드는 로맨스, 제안의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "환상",
+        "우유부단"
+      ],
+      "meaning": "현실성 부족",
+      "meaning_short_kr": "현실성 부족",
+      "meaning_long_kr": "역방향의 컵 나이트 카드는 현실성 부족을 경고합니다. 환상, 우유부단의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c13",
+    "name_en": "Queen of Cups",
+    "name_kr": "컵 퀸",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 13,
+    "image": "/data/cards/c13.jpg",
+    "upright": {
+      "keywords": [
+        "공감",
+        "직관"
+      ],
+      "meaning": "따뜻한 공감과 배려",
+      "meaning_short_kr": "따뜻한 공감과 배려",
+      "meaning_long_kr": "컵 퀸 카드는 따뜻한 공감과 배려을 의미합니다. 이 카드는 공감, 직관의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "과민",
+        "의존"
+      ],
+      "meaning": "감정 기복",
+      "meaning_short_kr": "감정 기복",
+      "meaning_long_kr": "역방향의 컵 퀸 카드는 감정 기복을 경고합니다. 과민, 의존의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "c14",
+    "name_en": "King of Cups",
+    "name_kr": "컵 킹",
+    "arcana": "Minor",
+    "suit": "Cups",
+    "number": 14,
+    "image": "/data/cards/c14.jpg",
+    "upright": {
+      "keywords": [
+        "안정",
+        "성숙"
+      ],
+      "meaning": "감정을 다스리는 성숙함",
+      "meaning_short_kr": "감정을 다스리는 성숙함",
+      "meaning_long_kr": "컵 킹 카드는 감정을 다스리는 성숙함을 의미합니다. 이 카드는 안정, 성숙의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "기복",
+        "조작"
+      ],
+      "meaning": "감정으로 흔들거나 휘두름",
+      "meaning_short_kr": "감정으로 흔들거나 휘두름",
+      "meaning_long_kr": "역방향의 컵 킹 카드는 감정으로 흔들거나 휘두름을 경고합니다. 기복, 조작의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p01",
+    "name_en": "Ace of Pentacles",
+    "name_kr": "펜타클 에이스",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 1,
+    "image": "/data/cards/p01.jpg",
+    "upright": {
+      "keywords": [
+        "현실적기회",
+        "돈"
+      ],
+      "meaning": "실질적인 기회/수익의 씨앗",
+      "meaning_short_kr": "실질적인 기회/수익의 씨앗",
+      "meaning_long_kr": "펜타클 에이스 카드는 실질적인 기회/수익의 씨앗을 의미합니다. 이 카드는 현실적기회, 돈의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "기회상실",
+        "낭비"
+      ],
+      "meaning": "기회를 놓치거나 낭비",
+      "meaning_short_kr": "기회를 놓치거나 낭비",
+      "meaning_long_kr": "역방향의 펜타클 에이스 카드는 기회를 놓치거나 낭비을 경고합니다. 기회상실, 낭비의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p02",
+    "name_en": "Two of Pentacles",
+    "name_kr": "펜타클 2",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 2,
+    "image": "/data/cards/p02.jpg",
+    "upright": {
+      "keywords": [
+        "균형",
+        "멀티태스킹"
+      ],
+      "meaning": "일/돈의 균형 조절",
+      "meaning_short_kr": "일/돈의 균형 조절",
+      "meaning_long_kr": "펜타클 2 카드는 일/돈의 균형 조절을 의미합니다. 이 카드는 균형, 멀티태스킹의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "과부하",
+        "혼란"
+      ],
+      "meaning": "우선순위 붕괴",
+      "meaning_short_kr": "우선순위 붕괴",
+      "meaning_long_kr": "역방향의 펜타클 2 카드는 우선순위 붕괴을 경고합니다. 과부하, 혼란의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p03",
+    "name_en": "Three of Pentacles",
+    "name_kr": "펜타클 3",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 3,
+    "image": "/data/cards/p03.jpg",
+    "upright": {
+      "keywords": [
+        "협업",
+        "기술"
+      ],
+      "meaning": "팀워크, 기술의 인정",
+      "meaning_short_kr": "팀워크, 기술의 인정",
+      "meaning_long_kr": "펜타클 3 카드는 팀워크, 기술의 인정을 의미합니다. 이 카드는 협업, 기술의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불협",
+        "미완"
+      ],
+      "meaning": "협업 문제",
+      "meaning_short_kr": "협업 문제",
+      "meaning_long_kr": "역방향의 펜타클 3 카드는 협업 문제을 경고합니다. 불협, 미완의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p04",
+    "name_en": "Four of Pentacles",
+    "name_kr": "펜타클 4",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 4,
+    "image": "/data/cards/p04.jpg",
+    "upright": {
+      "keywords": [
+        "소유",
+        "보수"
+      ],
+      "meaning": "지키고 보존함",
+      "meaning_short_kr": "지키고 보존함",
+      "meaning_long_kr": "펜타클 4 카드는 지키고 보존함을 의미합니다. 이 카드는 소유, 보수의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "해방",
+        "나눔"
+      ],
+      "meaning": "집착을 내려놓음",
+      "meaning_short_kr": "집착을 내려놓음",
+      "meaning_long_kr": "역방향의 펜타클 4 카드는 집착을 내려놓음을 경고합니다. 해방, 나눔의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p05",
+    "name_en": "Five of Pentacles",
+    "name_kr": "펜타클 5",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 5,
+    "image": "/data/cards/p05.jpg",
+    "upright": {
+      "keywords": [
+        "결핍",
+        "지원"
+      ],
+      "meaning": "경제적 압박, 도움 필요",
+      "meaning_short_kr": "경제적 압박, 도움 필요",
+      "meaning_long_kr": "펜타클 5 카드는 경제적 압박, 도움 필요을 의미합니다. 이 카드는 결핍, 지원의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "회복",
+        "도움"
+      ],
+      "meaning": "지원으로 회복",
+      "meaning_short_kr": "지원으로 회복",
+      "meaning_long_kr": "역방향의 펜타클 5 카드는 지원으로 회복을 경고합니다. 회복, 도움의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p06",
+    "name_en": "Six of Pentacles",
+    "name_kr": "펜타클 6",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 6,
+    "image": "/data/cards/p06.jpg",
+    "upright": {
+      "keywords": [
+        "나눔",
+        "공정"
+      ],
+      "meaning": "주고받음의 균형",
+      "meaning_short_kr": "주고받음의 균형",
+      "meaning_long_kr": "펜타클 6 카드는 주고받음의 균형을 의미합니다. 이 카드는 나눔, 공정의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불공정",
+        "의존"
+      ],
+      "meaning": "불균형한 관계",
+      "meaning_short_kr": "불균형한 관계",
+      "meaning_long_kr": "역방향의 펜타클 6 카드는 불균형한 관계을 경고합니다. 불공정, 의존의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p07",
+    "name_en": "Seven of Pentacles",
+    "name_kr": "펜타클 7",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 7,
+    "image": "/data/cards/p07.jpg",
+    "upright": {
+      "keywords": [
+        "기다림",
+        "평가"
+      ],
+      "meaning": "성과를 기다리며 점검",
+      "meaning_short_kr": "성과를 기다리며 점검",
+      "meaning_long_kr": "펜타클 7 카드는 성과를 기다리며 점검을 의미합니다. 이 카드는 기다림, 평가의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "조급",
+        "포기"
+      ],
+      "meaning": "너무 빨리 판단",
+      "meaning_short_kr": "너무 빨리 판단",
+      "meaning_long_kr": "역방향의 펜타클 7 카드는 너무 빨리 판단을 경고합니다. 조급, 포기의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p08",
+    "name_en": "Eight of Pentacles",
+    "name_kr": "펜타클 8",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 8,
+    "image": "/data/cards/p08.jpg",
+    "upright": {
+      "keywords": [
+        "노력",
+        "숙련"
+      ],
+      "meaning": "꾸준히 실력을 쌓음",
+      "meaning_short_kr": "꾸준히 실력을 쌓음",
+      "meaning_long_kr": "펜타클 8 카드는 꾸준히 실력을 쌓음을 의미합니다. 이 카드는 노력, 숙련의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "태만",
+        "완벽주의"
+      ],
+      "meaning": "집중 부족 혹은 과한 완벽주의",
+      "meaning_short_kr": "집중 부족 혹은 과한 완벽주의",
+      "meaning_long_kr": "역방향의 펜타클 8 카드는 집중 부족 혹은 과한 완벽주의을 경고합니다. 태만, 완벽주의의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p09",
+    "name_en": "Nine of Pentacles",
+    "name_kr": "펜타클 9",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 9,
+    "image": "/data/cards/p09.jpg",
+    "upright": {
+      "keywords": [
+        "자립",
+        "여유"
+      ],
+      "meaning": "독립과 안정, 성취",
+      "meaning_short_kr": "독립과 안정, 성취",
+      "meaning_long_kr": "펜타클 9 카드는 독립과 안정, 성취을 의미합니다. 이 카드는 자립, 여유의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "허영",
+        "불안"
+      ],
+      "meaning": "불안정/과시",
+      "meaning_short_kr": "불안정/과시",
+      "meaning_long_kr": "역방향의 펜타클 9 카드는 불안정/과시을 경고합니다. 허영, 불안의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p10",
+    "name_en": "Ten of Pentacles",
+    "name_kr": "펜타클 10",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 10,
+    "image": "/data/cards/p10.jpg",
+    "upright": {
+      "keywords": [
+        "유산",
+        "장기안정"
+      ],
+      "meaning": "가족/자산의 장기 안정",
+      "meaning_short_kr": "가족/자산의 장기 안정",
+      "meaning_long_kr": "펜타클 10 카드는 가족/자산의 장기 안정을 의미합니다. 이 카드는 유산, 장기안정의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불안",
+        "갈등"
+      ],
+      "meaning": "가정/재정 문제",
+      "meaning_short_kr": "가정/재정 문제",
+      "meaning_long_kr": "역방향의 펜타클 10 카드는 가정/재정 문제을 경고합니다. 불안, 갈등의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p11",
+    "name_en": "Page of Pentacles",
+    "name_kr": "펜타클 페이지",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 11,
+    "image": "/data/cards/p11.jpg",
+    "upright": {
+      "keywords": [
+        "학습",
+        "기회"
+      ],
+      "meaning": "새 프로젝트/공부",
+      "meaning_short_kr": "새 프로젝트/공부",
+      "meaning_long_kr": "펜타클 페이지 카드는 새 프로젝트/공부을 의미합니다. 이 카드는 학습, 기회의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "미숙",
+        "산만"
+      ],
+      "meaning": "실행 부족",
+      "meaning_short_kr": "실행 부족",
+      "meaning_long_kr": "역방향의 펜타클 페이지 카드는 실행 부족을 경고합니다. 미숙, 산만의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p12",
+    "name_en": "Knight of Pentacles",
+    "name_kr": "펜타클 나이트",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 12,
+    "image": "/data/cards/p12.jpg",
+    "upright": {
+      "keywords": [
+        "성실",
+        "꾸준함"
+      ],
+      "meaning": "천천히 확실히",
+      "meaning_short_kr": "천천히 확실히",
+      "meaning_long_kr": "펜타클 나이트 카드는 천천히 확실히을 의미합니다. 이 카드는 성실, 꾸준함의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "정체",
+        "고집"
+      ],
+      "meaning": "변화 거부",
+      "meaning_short_kr": "변화 거부",
+      "meaning_long_kr": "역방향의 펜타클 나이트 카드는 변화 거부을 경고합니다. 정체, 고집의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p13",
+    "name_en": "Queen of Pentacles",
+    "name_kr": "펜타클 퀸",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 13,
+    "image": "/data/cards/p13.jpg",
+    "upright": {
+      "keywords": [
+        "배려",
+        "현실감"
+      ],
+      "meaning": "돌봄과 실용",
+      "meaning_short_kr": "돌봄과 실용",
+      "meaning_long_kr": "펜타클 퀸 카드는 돌봄과 실용을 의미합니다. 이 카드는 배려, 현실감의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "과보호",
+        "통제"
+      ],
+      "meaning": "지나친 간섭",
+      "meaning_short_kr": "지나친 간섭",
+      "meaning_long_kr": "역방향의 펜타클 퀸 카드는 지나친 간섭을 경고합니다. 과보호, 통제의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "p14",
+    "name_en": "King of Pentacles",
+    "name_kr": "펜타클 킹",
+    "arcana": "Minor",
+    "suit": "Pentacles",
+    "number": 14,
+    "image": "/data/cards/p14.jpg",
+    "upright": {
+      "keywords": [
+        "성공",
+        "안정"
+      ],
+      "meaning": "현실적 성공과 리더십",
+      "meaning_short_kr": "현실적 성공과 리더십",
+      "meaning_long_kr": "펜타클 킹 카드는 현실적 성공과 리더십을 의미합니다. 이 카드는 성공, 안정의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "탐욕",
+        "완고"
+      ],
+      "meaning": "물질 집착",
+      "meaning_short_kr": "물질 집착",
+      "meaning_long_kr": "역방향의 펜타클 킹 카드는 물질 집착을 경고합니다. 탐욕, 완고의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s01",
+    "name_en": "Ace of Swords",
+    "name_kr": "소드 에이스",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 1,
+    "image": "/data/cards/s01.jpg",
+    "upright": {
+      "keywords": [
+        "결단",
+        "명료"
+      ],
+      "meaning": "명확한 판단과 진실",
+      "meaning_short_kr": "명확한 판단과 진실",
+      "meaning_long_kr": "소드 에이스 카드는 명확한 판단과 진실을 의미합니다. 이 카드는 결단, 명료의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "혼란",
+        "오판"
+      ],
+      "meaning": "판단 착오/정보 부족",
+      "meaning_short_kr": "판단 착오/정보 부족",
+      "meaning_long_kr": "역방향의 소드 에이스 카드는 판단 착오/정보 부족을 경고합니다. 혼란, 오판의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s02",
+    "name_en": "Two of Swords",
+    "name_kr": "소드 2",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 2,
+    "image": "/data/cards/s02.jpg",
+    "upright": {
+      "keywords": [
+        "보류",
+        "균형"
+      ],
+      "meaning": "결정을 잠시 보류",
+      "meaning_short_kr": "결정을 잠시 보류",
+      "meaning_long_kr": "소드 2 카드는 결정을 잠시 보류을 의미합니다. 이 카드는 보류, 균형의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "갈등",
+        "압박"
+      ],
+      "meaning": "결정 회피가 문제",
+      "meaning_short_kr": "결정 회피가 문제",
+      "meaning_long_kr": "역방향의 소드 2 카드는 결정 회피가 문제을 경고합니다. 갈등, 압박의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s03",
+    "name_en": "Three of Swords",
+    "name_kr": "소드 3",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 3,
+    "image": "/data/cards/s03.jpg",
+    "upright": {
+      "keywords": [
+        "상처",
+        "진실"
+      ],
+      "meaning": "아픈 진실, 마음의 상처",
+      "meaning_short_kr": "아픈 진실, 마음의 상처",
+      "meaning_long_kr": "소드 3 카드는 아픈 진실, 마음의 상처을 의미합니다. 이 카드는 상처, 진실의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "치유",
+        "회복"
+      ],
+      "meaning": "회복 시작",
+      "meaning_short_kr": "회복 시작",
+      "meaning_long_kr": "역방향의 소드 3 카드는 회복 시작을 경고합니다. 치유, 회복의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s04",
+    "name_en": "Four of Swords",
+    "name_kr": "소드 4",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 4,
+    "image": "/data/cards/s04.jpg",
+    "upright": {
+      "keywords": [
+        "휴식",
+        "회복"
+      ],
+      "meaning": "잠시 멈추고 재정비",
+      "meaning_short_kr": "잠시 멈추고 재정비",
+      "meaning_long_kr": "소드 4 카드는 잠시 멈추고 재정비을 의미합니다. 이 카드는 휴식, 회복의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불면",
+        "과로"
+      ],
+      "meaning": "휴식 부족",
+      "meaning_short_kr": "휴식 부족",
+      "meaning_long_kr": "역방향의 소드 4 카드는 휴식 부족을 경고합니다. 불면, 과로의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s05",
+    "name_en": "Five of Swords",
+    "name_kr": "소드 5",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 5,
+    "image": "/data/cards/s05.jpg",
+    "upright": {
+      "keywords": [
+        "갈등",
+        "승리의대가"
+      ],
+      "meaning": "다툼, 승리의 대가",
+      "meaning_short_kr": "다툼, 승리의 대가",
+      "meaning_long_kr": "소드 5 카드는 다툼, 승리의 대가을 의미합니다. 이 카드는 갈등, 승리의대가의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "화해",
+        "종결"
+      ],
+      "meaning": "갈등 정리",
+      "meaning_short_kr": "갈등 정리",
+      "meaning_long_kr": "역방향의 소드 5 카드는 갈등 정리을 경고합니다. 화해, 종결의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s06",
+    "name_en": "Six of Swords",
+    "name_kr": "소드 6",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 6,
+    "image": "/data/cards/s06.jpg",
+    "upright": {
+      "keywords": [
+        "이동",
+        "전환"
+      ],
+      "meaning": "더 나은 곳으로 이동",
+      "meaning_short_kr": "더 나은 곳으로 이동",
+      "meaning_long_kr": "소드 6 카드는 더 나은 곳으로 이동을 의미합니다. 이 카드는 이동, 전환의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "정체",
+        "미련"
+      ],
+      "meaning": "떠나지 못함",
+      "meaning_short_kr": "떠나지 못함",
+      "meaning_long_kr": "역방향의 소드 6 카드는 떠나지 못함을 경고합니다. 정체, 미련의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s07",
+    "name_en": "Seven of Swords",
+    "name_kr": "소드 7",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 7,
+    "image": "/data/cards/s07.jpg",
+    "upright": {
+      "keywords": [
+        "기만",
+        "전략"
+      ],
+      "meaning": "숨기거나 전략적 행동",
+      "meaning_short_kr": "숨기거나 전략적 행동",
+      "meaning_long_kr": "소드 7 카드는 숨기거나 전략적 행동을 의미합니다. 이 카드는 기만, 전략의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "노출",
+        "정직"
+      ],
+      "meaning": "진실이 드러남",
+      "meaning_short_kr": "진실이 드러남",
+      "meaning_long_kr": "역방향의 소드 7 카드는 진실이 드러남을 경고합니다. 노출, 정직의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s08",
+    "name_en": "Eight of Swords",
+    "name_kr": "소드 8",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 8,
+    "image": "/data/cards/s08.jpg",
+    "upright": {
+      "keywords": [
+        "속박",
+        "제한"
+      ],
+      "meaning": "스스로를 묶음",
+      "meaning_short_kr": "스스로를 묶음",
+      "meaning_long_kr": "소드 8 카드는 스스로를 묶음을 의미합니다. 이 카드는 속박, 제한의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "해방",
+        "돌파"
+      ],
+      "meaning": "벗어날 길이 보임",
+      "meaning_short_kr": "벗어날 길이 보임",
+      "meaning_long_kr": "역방향의 소드 8 카드는 벗어날 길이 보임을 경고합니다. 해방, 돌파의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s09",
+    "name_en": "Nine of Swords",
+    "name_kr": "소드 9",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 9,
+    "image": "/data/cards/s09.jpg",
+    "upright": {
+      "keywords": [
+        "불안",
+        "걱정"
+      ],
+      "meaning": "걱정/죄책감",
+      "meaning_short_kr": "걱정/죄책감",
+      "meaning_long_kr": "소드 9 카드는 걱정/죄책감을 의미합니다. 이 카드는 불안, 걱정의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "완화",
+        "해소"
+      ],
+      "meaning": "불안 감소",
+      "meaning_short_kr": "불안 감소",
+      "meaning_long_kr": "역방향의 소드 9 카드는 불안 감소을 경고합니다. 완화, 해소의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s10",
+    "name_en": "Ten of Swords",
+    "name_kr": "소드 10",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 10,
+    "image": "/data/cards/s10.jpg",
+    "upright": {
+      "keywords": [
+        "종말",
+        "정리"
+      ],
+      "meaning": "끝, 정리",
+      "meaning_short_kr": "끝, 정리",
+      "meaning_long_kr": "소드 10 카드는 끝, 정리을 의미합니다. 이 카드는 종말, 정리의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "회복",
+        "재기"
+      ],
+      "meaning": "바닥 이후 회복",
+      "meaning_short_kr": "바닥 이후 회복",
+      "meaning_long_kr": "역방향의 소드 10 카드는 바닥 이후 회복을 경고합니다. 회복, 재기의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s11",
+    "name_en": "Page of Swords",
+    "name_kr": "소드 페이지",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 11,
+    "image": "/data/cards/s11.jpg",
+    "upright": {
+      "keywords": [
+        "호기심",
+        "감시"
+      ],
+      "meaning": "정보 수집, 경계",
+      "meaning_short_kr": "정보 수집, 경계",
+      "meaning_long_kr": "소드 페이지 카드는 정보 수집, 경계을 의미합니다. 이 카드는 호기심, 감시의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "경솔",
+        "말실수"
+      ],
+      "meaning": "소통 문제",
+      "meaning_short_kr": "소통 문제",
+      "meaning_long_kr": "역방향의 소드 페이지 카드는 소통 문제을 경고합니다. 경솔, 말실수의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s12",
+    "name_en": "Knight of Swords",
+    "name_kr": "소드 나이트",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 12,
+    "image": "/data/cards/s12.jpg",
+    "upright": {
+      "keywords": [
+        "돌진",
+        "결단"
+      ],
+      "meaning": "빠른 행동",
+      "meaning_short_kr": "빠른 행동",
+      "meaning_long_kr": "소드 나이트 카드는 빠른 행동을 의미합니다. 이 카드는 돌진, 결단의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "무모",
+        "공격성"
+      ],
+      "meaning": "성급함",
+      "meaning_short_kr": "성급함",
+      "meaning_long_kr": "역방향의 소드 나이트 카드는 성급함을 경고합니다. 무모, 공격성의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s13",
+    "name_en": "Queen of Swords",
+    "name_kr": "소드 퀸",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 13,
+    "image": "/data/cards/s13.jpg",
+    "upright": {
+      "keywords": [
+        "이성",
+        "명확"
+      ],
+      "meaning": "냉철한 판단",
+      "meaning_short_kr": "냉철한 판단",
+      "meaning_long_kr": "소드 퀸 카드는 냉철한 판단을 의미합니다. 이 카드는 이성, 명확의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "냉혹",
+        "상처"
+      ],
+      "meaning": "말이 날카로움",
+      "meaning_short_kr": "말이 날카로움",
+      "meaning_long_kr": "역방향의 소드 퀸 카드는 말이 날카로움을 경고합니다. 냉혹, 상처의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "s14",
+    "name_en": "King of Swords",
+    "name_kr": "소드 킹",
+    "arcana": "Minor",
+    "suit": "Swords",
+    "number": 14,
+    "image": "/data/cards/s14.jpg",
+    "upright": {
+      "keywords": [
+        "권위",
+        "논리"
+      ],
+      "meaning": "논리적 리더십",
+      "meaning_short_kr": "논리적 리더십",
+      "meaning_long_kr": "소드 킹 카드는 논리적 리더십을 의미합니다. 이 카드는 권위, 논리의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "독선",
+        "권력남용"
+      ],
+      "meaning": "독단",
+      "meaning_short_kr": "독단",
+      "meaning_long_kr": "역방향의 소드 킹 카드는 독단을 경고합니다. 독선, 권력남용의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w01",
+    "name_en": "Ace of Wands",
+    "name_kr": "완드 에이스",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 1,
+    "image": "/data/cards/w01.jpg",
+    "upright": {
+      "keywords": [
+        "열정",
+        "시작"
+      ],
+      "meaning": "불꽃 같은 시작",
+      "meaning_short_kr": "불꽃 같은 시작",
+      "meaning_long_kr": "완드 에이스 카드는 불꽃 같은 시작을 의미합니다. 이 카드는 열정, 시작의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "지연",
+        "의욕저하"
+      ],
+      "meaning": "동기 저하",
+      "meaning_short_kr": "동기 저하",
+      "meaning_long_kr": "역방향의 완드 에이스 카드는 동기 저하을 경고합니다. 지연, 의욕저하의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w02",
+    "name_en": "Two of Wands",
+    "name_kr": "완드 2",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 2,
+    "image": "/data/cards/w02.jpg",
+    "upright": {
+      "keywords": [
+        "계획",
+        "확장"
+      ],
+      "meaning": "미래를 설계",
+      "meaning_short_kr": "미래를 설계",
+      "meaning_long_kr": "완드 2 카드는 미래를 설계을 의미합니다. 이 카드는 계획, 확장의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "망설임",
+        "두려움"
+      ],
+      "meaning": "결정 회피",
+      "meaning_short_kr": "결정 회피",
+      "meaning_long_kr": "역방향의 완드 2 카드는 결정 회피을 경고합니다. 망설임, 두려움의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w03",
+    "name_en": "Three of Wands",
+    "name_kr": "완드 3",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 3,
+    "image": "/data/cards/w03.jpg",
+    "upright": {
+      "keywords": [
+        "전망",
+        "확장"
+      ],
+      "meaning": "성과의 확장",
+      "meaning_short_kr": "성과의 확장",
+      "meaning_long_kr": "완드 3 카드는 성과의 확장을 의미합니다. 이 카드는 전망, 확장의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "지연",
+        "좌절"
+      ],
+      "meaning": "진행이 느림",
+      "meaning_short_kr": "진행이 느림",
+      "meaning_long_kr": "역방향의 완드 3 카드는 진행이 느림을 경고합니다. 지연, 좌절의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w04",
+    "name_en": "Four of Wands",
+    "name_kr": "완드 4",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 4,
+    "image": "/data/cards/w04.jpg",
+    "upright": {
+      "keywords": [
+        "안정",
+        "축하"
+      ],
+      "meaning": "안정과 축하",
+      "meaning_short_kr": "안정과 축하",
+      "meaning_long_kr": "완드 4 카드는 안정과 축하을 의미합니다. 이 카드는 안정, 축하의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "불안",
+        "분열"
+      ],
+      "meaning": "기반 불안",
+      "meaning_short_kr": "기반 불안",
+      "meaning_long_kr": "역방향의 완드 4 카드는 기반 불안을 경고합니다. 불안, 분열의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w05",
+    "name_en": "Five of Wands",
+    "name_kr": "완드 5",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 5,
+    "image": "/data/cards/w05.jpg",
+    "upright": {
+      "keywords": [
+        "경쟁",
+        "갈등"
+      ],
+      "meaning": "의견 충돌",
+      "meaning_short_kr": "의견 충돌",
+      "meaning_long_kr": "완드 5 카드는 의견 충돌을 의미합니다. 이 카드는 경쟁, 갈등의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "합의",
+        "완화"
+      ],
+      "meaning": "경쟁이 정리",
+      "meaning_short_kr": "경쟁이 정리",
+      "meaning_long_kr": "역방향의 완드 5 카드는 경쟁이 정리을 경고합니다. 합의, 완화의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w06",
+    "name_en": "Six of Wands",
+    "name_kr": "완드 6",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 6,
+    "image": "/data/cards/w06.jpg",
+    "upright": {
+      "keywords": [
+        "승리",
+        "인정"
+      ],
+      "meaning": "성과 인정",
+      "meaning_short_kr": "성과 인정",
+      "meaning_long_kr": "완드 6 카드는 성과 인정을 의미합니다. 이 카드는 승리, 인정의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "과시",
+        "불안"
+      ],
+      "meaning": "인정에 집착",
+      "meaning_short_kr": "인정에 집착",
+      "meaning_long_kr": "역방향의 완드 6 카드는 인정에 집착을 경고합니다. 과시, 불안의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w07",
+    "name_en": "Seven of Wands",
+    "name_kr": "완드 7",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 7,
+    "image": "/data/cards/w07.jpg",
+    "upright": {
+      "keywords": [
+        "방어",
+        "주장"
+      ],
+      "meaning": "자기 자리 지키기",
+      "meaning_short_kr": "자기 자리 지키기",
+      "meaning_long_kr": "완드 7 카드는 자기 자리 지키기을 의미합니다. 이 카드는 방어, 주장의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "굴복",
+        "압박"
+      ],
+      "meaning": "압박에 흔들림",
+      "meaning_short_kr": "압박에 흔들림",
+      "meaning_long_kr": "역방향의 완드 7 카드는 압박에 흔들림을 경고합니다. 굴복, 압박의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w08",
+    "name_en": "Eight of Wands",
+    "name_kr": "완드 8",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 8,
+    "image": "/data/cards/w08.jpg",
+    "upright": {
+      "keywords": [
+        "속도",
+        "소식"
+      ],
+      "meaning": "빠른 진전",
+      "meaning_short_kr": "빠른 진전",
+      "meaning_long_kr": "완드 8 카드는 빠른 진전을 의미합니다. 이 카드는 속도, 소식의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "지연",
+        "오해"
+      ],
+      "meaning": "소통 지연",
+      "meaning_short_kr": "소통 지연",
+      "meaning_long_kr": "역방향의 완드 8 카드는 소통 지연을 경고합니다. 지연, 오해의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w09",
+    "name_en": "Nine of Wands",
+    "name_kr": "완드 9",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 9,
+    "image": "/data/cards/w09.jpg",
+    "upright": {
+      "keywords": [
+        "인내",
+        "경계"
+      ],
+      "meaning": "끝까지 버팀",
+      "meaning_short_kr": "끝까지 버팀",
+      "meaning_long_kr": "완드 9 카드는 끝까지 버팀을 의미합니다. 이 카드는 인내, 경계의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "탈진",
+        "포기"
+      ],
+      "meaning": "에너지 고갈",
+      "meaning_short_kr": "에너지 고갈",
+      "meaning_long_kr": "역방향의 완드 9 카드는 에너지 고갈을 경고합니다. 탈진, 포기의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w10",
+    "name_en": "Ten of Wands",
+    "name_kr": "완드 10",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 10,
+    "image": "/data/cards/w10.jpg",
+    "upright": {
+      "keywords": [
+        "과부하",
+        "책임"
+      ],
+      "meaning": "짐이 무거움",
+      "meaning_short_kr": "짐이 무거움",
+      "meaning_long_kr": "완드 10 카드는 짐이 무거움을 의미합니다. 이 카드는 과부하, 책임의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "해방",
+        "위임"
+      ],
+      "meaning": "내려놓기",
+      "meaning_short_kr": "내려놓기",
+      "meaning_long_kr": "역방향의 완드 10 카드는 내려놓기을 경고합니다. 해방, 위임의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w11",
+    "name_en": "Page of Wands",
+    "name_kr": "완드 페이지",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 11,
+    "image": "/data/cards/w11.jpg",
+    "upright": {
+      "keywords": [
+        "호기심",
+        "도전"
+      ],
+      "meaning": "새로운 시도",
+      "meaning_short_kr": "새로운 시도",
+      "meaning_long_kr": "완드 페이지 카드는 새로운 시도을 의미합니다. 이 카드는 호기심, 도전의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "충동",
+        "미숙"
+      ],
+      "meaning": "준비 부족",
+      "meaning_short_kr": "준비 부족",
+      "meaning_long_kr": "역방향의 완드 페이지 카드는 준비 부족을 경고합니다. 충동, 미숙의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w12",
+    "name_en": "Knight of Wands",
+    "name_kr": "완드 나이트",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 12,
+    "image": "/data/cards/w12.jpg",
+    "upright": {
+      "keywords": [
+        "모험",
+        "추진"
+      ],
+      "meaning": "대담한 추진",
+      "meaning_short_kr": "대담한 추진",
+      "meaning_long_kr": "완드 나이트 카드는 대담한 추진을 의미합니다. 이 카드는 모험, 추진의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "무모",
+        "변덕"
+      ],
+      "meaning": "충동적 변화",
+      "meaning_short_kr": "충동적 변화",
+      "meaning_long_kr": "역방향의 완드 나이트 카드는 충동적 변화을 경고합니다. 무모, 변덕의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w13",
+    "name_en": "Queen of Wands",
+    "name_kr": "완드 퀸",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 13,
+    "image": "/data/cards/w13.jpg",
+    "upright": {
+      "keywords": [
+        "자신감",
+        "매력"
+      ],
+      "meaning": "카리스마",
+      "meaning_short_kr": "카리스마",
+      "meaning_long_kr": "완드 퀸 카드는 카리스마을 의미합니다. 이 카드는 자신감, 매력의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "질투",
+        "과열"
+      ],
+      "meaning": "감정 과열",
+      "meaning_short_kr": "감정 과열",
+      "meaning_long_kr": "역방향의 완드 퀸 카드는 감정 과열을 경고합니다. 질투, 과열의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  },
+  {
+    "id": "w14",
+    "name_en": "King of Wands",
+    "name_kr": "완드 킹",
+    "arcana": "Minor",
+    "suit": "Wands",
+    "number": 14,
+    "image": "/data/cards/w14.jpg",
+    "upright": {
+      "keywords": [
+        "비전",
+        "리더십"
+      ],
+      "meaning": "큰 그림을 이끄는 힘",
+      "meaning_short_kr": "큰 그림을 이끄는 힘",
+      "meaning_long_kr": "완드 킹 카드는 큰 그림을 이끄는 힘을 의미합니다. 이 카드는 비전, 리더십의 키워드를 중심으로 현재 상황의 흐름을 보여주며, 지금은 이 에너지를 어떻게 활용하느냐가 중요한 시점입니다."
+    },
+    "reversed": {
+      "keywords": [
+        "독단",
+        "성급"
+      ],
+      "meaning": "밀어붙임",
+      "meaning_short_kr": "밀어붙임",
+      "meaning_long_kr": "역방향의 완드 킹 카드는 밀어붙임을 경고합니다. 독단, 성급의 그림자가 작용할 수 있으므로, 감정이나 판단을 한 번 더 점검하는 것이 필요합니다."
+    }
+  }
+]
