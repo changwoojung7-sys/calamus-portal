@@ -42,7 +42,8 @@ export default function BalanceGameClient() {
     const [nickname, setNickname] = useState("");
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [score, setScore] = useState(0); // For now, A = +10, B = 0 points logic? Or purely stylistic.
+    const [score, setScore] = useState(0); // Empathy Score (Match Rate)
+    const [rationalScore, setRationalScore] = useState(0); // Personality Score (A vs B)
 
     // Voting State
     const [hasVoted, setHasVoted] = useState(false);
@@ -91,9 +92,17 @@ export default function BalanceGameClient() {
 
         const q = questions[currentIndex];
 
-        // Update Score (Simple Logic: A choice = Reality/Profit (+10), B choice = Romance/Freedom (+0))
-        // This is arbitrary for fun.
-        if (choice === "A") setScore((prev) => prev + 10);
+        // Update Rational Score for Title (A = Rational +10)
+        if (choice === "A") setRationalScore((prev) => prev + 10);
+
+        // Update Empathy Score (Match Rate)
+        // Calculate percentage of people who made the same choice
+        const totalVotes = q.count_a + q.count_b + 1; // +1 for current vote
+        const sameChoiceVotes = choice === "A" ? q.count_a + 1 : q.count_b + 1;
+        const matchRate = (sameChoiceVotes / totalVotes) * 100;
+
+        // Add to total score (Max 10 per question -> Total 100)
+        setScore((prev) => prev + (matchRate / 10));
 
         // Call RPC to update DB
         await supabase.rpc("vote_balance_game", {
@@ -125,13 +134,14 @@ export default function BalanceGameClient() {
         setStep("LOADING");
 
         // Determine Title
-        const finalTitle = TITLES.find((t) => score >= t.min)?.title || "알 수 없는 모험가";
+        // Determine Title based on Rational Score
+        const finalTitle = TITLES.find((t) => rationalScore >= t.min)?.title || "알 수 없는 모험가";
         setMyRankTitle(finalTitle);
 
         // Submit Score
         await supabase.rpc("submit_balance_score", {
             p_nickname: nickname,
-            p_score: score,
+            p_score: Math.round(score), // Submit integer score
             p_title: finalTitle,
         });
 
@@ -165,7 +175,7 @@ export default function BalanceGameClient() {
                     </h1>
                     <p className="text-slate-400">
                         10개의 질문, 당신의 선택은?<br />
-                        상위 1%의 성향을 찾아보세요!
+                        대중과의 공감도를 테스트해보세요!
                     </p>
                 </div>
 
@@ -313,8 +323,8 @@ export default function BalanceGameClient() {
                     </h1>
 
                     <div className="flex justify-center items-end gap-2 mb-8">
-                        <span className="text-6xl font-black text-white">{score}</span>
-                        <span className="text-xl text-slate-500 mb-2">점</span>
+                        <span className="text-6xl font-black text-white">{Math.round(score)}</span>
+                        <span className="text-xl text-slate-500 mb-2">점 (대중 공감도)</span>
                     </div>
 
                     <p className="text-slate-300 leading-relaxed mb-8">
