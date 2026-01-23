@@ -29,11 +29,11 @@ interface Ranking {
 type GameStep = "INTRO" | "PLAYING" | "LOADING" | "RESULT";
 
 const TITLES = [
-    { min: 90, title: "상위 1% 냉철한 이성파" },
-    { min: 70, title: "현실적인 야망가" },
-    { min: 50, title: "균형 잡힌 평화주의자" },
-    { min: 30, title: "감성 충만 낭만파" },
-    { min: 0, title: "자유로운 영혼의 몽상가" },
+    { min: 90, title: "상위 1% 냉철한 이성파", desc: "감정에 휘둘리지 않는 차가운 판단력! 팩트와 논리로 무장한 당신은 AI보다 더 이성적일지도 모릅니다." },
+    { min: 70, title: "현실적인 야망가", desc: "이상보다는 현실, 감성보다는 이득! 확실한 목표를 향해 달려가는 당신은 성공을 위해 태어난 승부사입니다." },
+    { min: 50, title: "균형 잡힌 평화주의자", desc: "이성과 감성의 황금 비율! 상황에 따라 유연하게 대처하며 누구와도 잘 어울리는 최고의 밸런스 능력자입니다." },
+    { min: 30, title: "감성 충만 낭만파", desc: "마음이 시키는 대로! 계산적인 이득보다는 가슴 뛰는 로망을 쫓는 당신, 이 구역의 감성 장인입니다." },
+    { min: 0, title: "자유로운 영혼의 몽상가", desc: "현실의 굴레를 벗어던진 영혼! 남들의 시선따윈 신경 쓰지 않는 당신만의 독창적인 우주가 있습니다." },
 ];
 
 export default function BalanceGameClient() {
@@ -60,7 +60,7 @@ export default function BalanceGameClient() {
     }, []);
 
     const fetchQuestions = async () => {
-        // Get 10 random active questions
+        // Get 100 random active questions
         const { data, error } = await supabase
             .from("game_balance_questions")
             .select("*")
@@ -311,6 +311,8 @@ export default function BalanceGameClient() {
     }
 
     if (step === "RESULT") {
+        const titleDesc = TITLES.find((t) => t.title === myRankTitle)?.desc;
+
         return (
             <div className="w-full max-w-3xl mx-auto flex flex-col gap-8 animate-fade-in-up">
                 {/* Result Card */}
@@ -318,18 +320,25 @@ export default function BalanceGameClient() {
                     <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-cyan-500 to-blue-500" />
 
                     <h2 className="text-slate-400 mb-2">당신의 성향은?</h2>
-                    <h1 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-6 drop-shadow-sm">
+                    <h1 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4 drop-shadow-sm">
                         {myRankTitle}
                     </h1>
+
+                    {/* New Description Section */}
+                    <div className="mb-6 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                        <p className="text-slate-300 leading-relaxed font-medium">
+                            {titleDesc}
+                        </p>
+                    </div>
 
                     <div className="flex justify-center items-end gap-2 mb-8">
                         <span className="text-6xl font-black text-white">{Math.round(score)}</span>
                         <span className="text-xl text-slate-500 mb-2">점 (대중 공감도)</span>
                     </div>
 
-                    <p className="text-slate-300 leading-relaxed mb-8">
-                        수많은 선택의 갈림길에서 당신은<br />
-                        <span className="text-cyan-400 font-bold">"{nickname}"</span>만의 독창적인 길을 걸어왔습니다.
+                    <p className="text-slate-400 text-sm mb-8">
+                        이 결과는 당신의 선택 패턴을 분석한 것입니다.<br />
+                        점수가 높을수록 대중적인 선택을 많이 했습니다.
                     </p>
 
                     <div className="flex gap-3 justify-center">
