@@ -65,7 +65,7 @@ export default function BalanceGameClient() {
             .from("game_balance_questions")
             .select("*")
             .eq("is_active", true)
-            .limit(10);
+            .limit(100);
         // Note: Random fetch needs backend support or fetching more and shuffling. 
         // For MVP, just fetching 10. Ideally use a .rpc for random 10.
 
