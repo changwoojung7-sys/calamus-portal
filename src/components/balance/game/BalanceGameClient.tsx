@@ -29,11 +29,11 @@ interface Ranking {
 type GameStep = "INTRO" | "PLAYING" | "LOADING" | "RESULT";
 
 const TITLES = [
-    { min: 90, title: "상위 1% 냉철한 이성파" },
-    { min: 70, title: "현실적인 야망가" },
-    { min: 50, title: "균형 잡힌 평화주의자" },
-    { min: 30, title: "감성 충만 낭만파" },
-    { min: 0, title: "자유로운 영혼의 몽상가" },
+    { min: 90, title: "상위 1% 냉철한 이성파", desc: "감정에 휘둘리지 않는 차가운 판단력! 팩트와 논리로 무장한 당신은 AI보다 더 이성적일지도 모릅니다." },
+    { min: 70, title: "현실적인 야망가", desc: "이상보다는 현실, 감성보다는 이득! 확실한 목표를 향해 달려가는 당신은 성공을 위해 태어난 승부사입니다." },
+    { min: 50, title: "균형 잡힌 평화주의자", desc: "이성과 감성의 황금 비율! 상황에 따라 유연하게 대처하며 누구와도 잘 어울리는 최고의 밸런스 능력자입니다." },
+    { min: 30, title: "감성 충만 낭만파", desc: "마음이 시키는 대로! 계산적인 이득보다는 가슴 뛰는 로망을 쫓는 당신, 이 구역의 감성 장인입니다." },
+    { min: 0, title: "자유로운 영혼의 몽상가", desc: "현실의 굴레를 벗어던진 영혼! 남들의 시선따윈 신경 쓰지 않는 당신만의 독창적인 우주가 있습니다." },
 ];
 
 export default function BalanceGameClient() {
@@ -42,7 +42,8 @@ export default function BalanceGameClient() {
     const [nickname, setNickname] = useState("");
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [score, setScore] = useState(0); // For now, A = +10, B = 0 points logic? Or purely stylistic.
+    const [score, setScore] = useState(0); // Empathy Score (Match Rate)
+    const [rationalScore, setRationalScore] = useState(0); // Personality Score (A vs B)
 
     // Voting State
     const [hasVoted, setHasVoted] = useState(false);
@@ -59,12 +60,12 @@ export default function BalanceGameClient() {
     }, []);
 
     const fetchQuestions = async () => {
-        // Get 10 random active questions
+        // Get 100 random active questions
         const { data, error } = await supabase
             .from("game_balance_questions")
             .select("*")
             .eq("is_active", true)
-            .limit(10);
+            .limit(100);
         // Note: Random fetch needs backend support or fetching more and shuffling. 
         // For MVP, just fetching 10. Ideally use a .rpc for random 10.
 
@@ -91,9 +92,17 @@ export default function BalanceGameClient() {
 
         const q = questions[currentIndex];
 
-        // Update Score (Simple Logic: A choice = Reality/Profit (+10), B choice = Romance/Freedom (+0))
-        // This is arbitrary for fun.
-        if (choice === "A") setScore((prev) => prev + 10);
+        // Update Rational Score for Title (A = Rational +10)
+        if (choice === "A") setRationalScore((prev) => prev + 10);
+
+        // Update Empathy Score (Match Rate)
+        // Calculate percentage of people who made the same choice
+        const totalVotes = q.count_a + q.count_b + 1; // +1 for current vote
+        const sameChoiceVotes = choice === "A" ? q.count_a + 1 : q.count_b + 1;
+        const matchRate = (sameChoiceVotes / totalVotes) * 100;
+
+        // Add to total score (Max 10 per question -> Total 100)
+        setScore((prev) => prev + (matchRate / 10));
 
         // Call RPC to update DB
         await supabase.rpc("vote_balance_game", {
@@ -125,13 +134,14 @@ export default function BalanceGameClient() {
         setStep("LOADING");
 
         // Determine Title
-        const finalTitle = TITLES.find((t) => score >= t.min)?.title || "알 수 없는 모험가";
+        // Determine Title based on Rational Score
+        const finalTitle = TITLES.find((t) => rationalScore >= t.min)?.title || "알 수 없는 모험가";
         setMyRankTitle(finalTitle);
 
         // Submit Score
         await supabase.rpc("submit_balance_score", {
             p_nickname: nickname,
-            p_score: score,
+            p_score: Math.round(score), // Submit integer score
             p_title: finalTitle,
         });
 
@@ -165,7 +175,7 @@ export default function BalanceGameClient() {
                     </h1>
                     <p className="text-slate-400">
                         10개의 질문, 당신의 선택은?<br />
-                        상위 1%의 성향을 찾아보세요!
+                        대중과의 공감도를 테스트해보세요!
                     </p>
                 </div>
 
@@ -301,6 +311,8 @@ export default function BalanceGameClient() {
     }
 
     if (step === "RESULT") {
+        const titleDesc = TITLES.find((t) => t.title === myRankTitle)?.desc;
+
         return (
             <div className="w-full max-w-3xl mx-auto flex flex-col gap-8 animate-fade-in-up">
                 {/* Result Card */}
@@ -308,18 +320,25 @@ export default function BalanceGameClient() {
                     <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-cyan-500 to-blue-500" />
 
                     <h2 className="text-slate-400 mb-2">당신의 성향은?</h2>
-                    <h1 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-6 drop-shadow-sm">
+                    <h1 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4 drop-shadow-sm">
                         {myRankTitle}
                     </h1>
 
-                    <div className="flex justify-center items-end gap-2 mb-8">
-                        <span className="text-6xl font-black text-white">{score}</span>
-                        <span className="text-xl text-slate-500 mb-2">점</span>
+                    {/* New Description Section */}
+                    <div className="mb-6 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                        <p className="text-slate-300 leading-relaxed font-medium">
+                            {titleDesc}
+                        </p>
                     </div>
 
-                    <p className="text-slate-300 leading-relaxed mb-8">
-                        수많은 선택의 갈림길에서 당신은<br />
-                        <span className="text-cyan-400 font-bold">"{nickname}"</span>만의 독창적인 길을 걸어왔습니다.
+                    <div className="flex justify-center items-end gap-2 mb-8">
+                        <span className="text-6xl font-black text-white">{Math.round(score)}</span>
+                        <span className="text-xl text-slate-500 mb-2">점 (대중 공감도)</span>
+                    </div>
+
+                    <p className="text-slate-400 text-sm mb-8">
+                        이 결과는 당신의 선택 패턴을 분석한 것입니다.<br />
+                        점수가 높을수록 대중적인 선택을 많이 했습니다.
                     </p>
 
                     <div className="flex gap-3 justify-center">
