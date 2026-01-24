@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'edge';
+
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,10 +14,8 @@ export async function POST(req: NextRequest) {
         const baseUrl = '/api/gateway';
 
         // NOTE: In the new unified portal, we should ensure .env params are set
-        if (!accountId && !process.env.OPENAI_API_KEY) {
-            // If neither Cloudflare nor OpenAI key is present (dev mode without keys)
-            return NextResponse.json({ error: "Missing API Keys." }, { status: 500 });
-        }
+        // NOTE: In the new unified portal, we should ensure .env params are set
+        // Saju implementation relies on the logic flow to catch missing keys, so we will align with that.
 
         // Construct the prompt based on category
         let prompt = "";
@@ -109,20 +107,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid Category' }, { status: 400 });
         }
 
-        // Direct OpenAI Call (Simpler for Unified Portal unless Gateway is configured)
-        // If CLOUDFLARE params are missing, use direct OpenAI if key exists.
-
-        // Use OpenAI directly for simplicity in migration unless Gateway is strictly required.
-        // The original code tried Gemini then OpenAI. We'll stick to OpenAI as preferred in generic case or just Gateway if configured.
-
-        const openAiKey = process.env.OPENAI_API_KEY;
-
-        if (openAiKey) {
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        // Helper to perform the fetch
+        const performRequest = async (url: string) => {
+            return fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${openAiKey}`
+                    "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
                 },
                 body: JSON.stringify({
                     model: "gpt-4o",
@@ -132,6 +123,22 @@ export async function POST(req: NextRequest) {
                     ]
                 })
             });
+        };
+
+        let response;
+        if (accountId && gatewayName && process.env.OPENAI_API_KEY) {
+            const gatewayUrl = `https://gateway.ai.cloudflare.com/v1/${accountId}/${gatewayName}/openai/chat/completions`;
+            console.log("Attempting Gateway Request:", gatewayUrl); // Debug log
+            response = await performRequest(gatewayUrl);
+        } else if (process.env.OPENAI_API_KEY) {
+            // Only use direct if Gateway is NOT configured at all
+            console.log("Gateway not configured, using direct OpenAI");
+            response = await performRequest("https://api.openai.com/v1/chat/completions");
+        } else {
+            return NextResponse.json({ error: "No API Provider Configured" }, { status: 500 });
+        }
+
+        if (response) {
             const data = await response.json();
             if (!response.ok) {
                 console.error("OpenAI Error", data);
