@@ -5,6 +5,7 @@ import { Solar, Lunar } from "lunar-javascript";
 import { Sparkles, Calendar, User, Clock, MessageCircle, AlertCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import GoogleAd from "@/components/ads/GoogleAd";
 
 export default function SajuClient() {
     const [step, setStep] = useState<"INPUT" | "LOADING" | "RESULT">("INPUT");
@@ -47,19 +48,23 @@ export default function SajuClient() {
         }
 
         try {
-            const res = await fetch("/api/saju", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name,
-                    name_hanja: nameHanja,
-                    gender,
-                    date_type: dateType,
-                    birthdate: finalDate,
-                    birthtime: birthTime,
-                    followup
-                })
-            });
+            // Parallel execution: API Call + Min Wait (3s) for Ad
+            const [res] = await Promise.all([
+                fetch("/api/saju", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name,
+                        name_hanja: nameHanja,
+                        gender,
+                        date_type: dateType,
+                        birthdate: finalDate,
+                        birthtime: birthTime,
+                        followup
+                    })
+                }),
+                new Promise(resolve => setTimeout(resolve, 3000))
+            ]);
 
             const data = await res.json();
             if (data.result) {
@@ -229,7 +234,12 @@ export default function SajuClient() {
                         <Sparkles className="absolute inset-0 m-auto text-amber-400 w-8 h-8 animate-pulse" />
                     </div>
                     <h3 className="text-2xl font-bold text-amber-100 mb-2">운명의 흐름을 읽고 있습니다...</h3>
-                    <p className="text-amber-200/60">AI가 사주, 기문, 성명학을 종합 분석 중입니다.<br />잠시만 기다려주세요.</p>
+                    <p className="text-amber-200/60 mb-8">AI가 사주, 기문, 성명학을 종합 분석 중입니다.<br />잠시만 기다려주세요.</p>
+
+                    {/* Loading Ad */}
+                    <div className="w-full max-w-[320px] h-[250px] bg-slate-900 flex items-center justify-center rounded-xl overflow-hidden border border-amber-900/50 shadow-lg">
+                        <GoogleAd slot="3529245457" format="rectangle" responsive={false} style={{ display: 'block', width: '300px', height: '250px' }} />
+                    </div>
                 </div>
             )}
 

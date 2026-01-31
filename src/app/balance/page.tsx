@@ -5,6 +5,7 @@ import { Scale, Laptop, User, Palmtree, ArrowLeft, RefreshCw, Home as HomeIcon, 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import InputForms, { Category } from "@/components/balance/InputForms";
+import GoogleAd from "@/components/ads/GoogleAd";
 
 export default function BalancePage() {
     const [step, setStep] = useState<"SELECTION" | "INPUT" | "RESULT">("SELECTION");
@@ -32,11 +33,15 @@ export default function BalancePage() {
     const handleAnalyze = async (formData: any) => {
         setIsLoading(true);
         try {
-            const response = await fetch("/api/balance/analyze", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ category, formData }),
-            });
+            // Parallel execution: API Call + Min Wait (3s)
+            const [response] = await Promise.all([
+                fetch("/api/balance/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ category, formData }),
+                }),
+                new Promise(resolve => setTimeout(resolve, 3000))
+            ]);
 
             const data = await response.json();
             if (data.result) {
@@ -158,12 +163,31 @@ export default function BalancePage() {
 
                 {/* Step 2: Input Forms */}
                 {step === "INPUT" && category && (
-                    <InputForms
-                        category={category}
-                        onSubmit={handleAnalyze}
-                        onBack={handleBack}
-                        isLoading={isLoading}
-                    />
+                    <>
+                        {isLoading ? (
+                            <div className="flex flex-col items-center justify-center py-20 animate-fade-in text-center z-20">
+                                <div className="relative w-20 h-20 mb-6">
+                                    <div className="absolute inset-0 border-4 border-cyan-900/30 rounded-full"></div>
+                                    <div className="absolute inset-0 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                                    <Scale className="absolute inset-0 m-auto text-cyan-400 w-8 h-8 animate-pulse" />
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-2">최적의 선택지를 분석 중입니다...</h3>
+                                <p className="text-slate-400 text-sm mb-8">데이터와 가치관을 대조하여 균형 잡힌 해답을 찾고 있습니다.</p>
+
+                                {/* Loading Ad */}
+                                <div className="w-full max-w-[320px] h-[250px] bg-slate-900 flex items-center justify-center rounded-xl overflow-hidden border border-cyan-900/50 shadow-lg">
+                                    <GoogleAd slot="3529245457" format="rectangle" responsive={false} style={{ display: 'block', width: '300px', height: '250px' }} />
+                                </div>
+                            </div>
+                        ) : (
+                            <InputForms
+                                category={category}
+                                onSubmit={handleAnalyze}
+                                onBack={handleBack}
+                                isLoading={isLoading}
+                            />
+                        )}
+                    </>
                 )}
 
                 {/* Step 3: Result */}
@@ -184,21 +208,21 @@ export default function BalancePage() {
                             </div>
                         </div>
 
-                        <div className="prose prose-invert prose-lg max-w-none 
+                        <div className="prose prose-invert prose-lg max-w-none text-slate-100
               leading-loose 
-              prose-p:leading-loose prose-p:text-slate-200 prose-p:mb-6 
-              prose-headings:font-bold prose-headings:mb-4
+              prose-p:leading-loose prose-p:text-slate-100 prose-p:mb-6 
+              prose-headings:font-bold prose-headings:mb-4 prose-headings:text-slate-50
               prose-h1:text-cyan-400 prose-h1:text-3xl
               prose-h2:text-cyan-300 prose-h2:text-2xl prose-h2:mt-12 prose-h2:border-b prose-h2:border-slate-700 prose-h2:pb-2
               prose-h3:text-cyan-200 prose-h3:text-xl prose-h3:mt-8
-              prose-h4:text-slate-200 prose-h4:font-semibold
-              prose-li:text-slate-200 prose-li:leading-loose prose-li:mb-2 
+              prose-h4:text-slate-100 prose-h4:font-semibold
+              prose-li:text-slate-100 prose-li:leading-loose prose-li:mb-2 
               prose-strong:text-cyan-400 prose-em:text-purple-300
               prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-              prose-blockquote:border-l-cyan-500 prose-blockquote:bg-slate-800/50 prose-blockquote:py-2 prose-blockquote:pr-4
+              prose-blockquote:border-l-cyan-500 prose-blockquote:bg-slate-800/50 prose-blockquote:py-2 prose-blockquote:pr-4 prose-blockquote:text-slate-200
               prose-table:w-full prose-table:border-collapse prose-table:my-8
               prose-th:border prose-th:border-slate-600 prose-th:bg-slate-800 prose-th:p-4 prose-th:text-cyan-300 prose-th:whitespace-nowrap
-              prose-td:border prose-td:border-slate-700 prose-td:p-4 prose-td:text-slate-300 prose-td:align-top
+              prose-td:border prose-td:border-slate-700 prose-td:p-4 prose-td:text-slate-200 prose-td:align-top
               prose-tr:hover:bg-slate-800/30">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {result}
