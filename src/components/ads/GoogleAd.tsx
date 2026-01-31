@@ -11,7 +11,7 @@ declare global {
 type GoogleAdProps = {
     slot: string; // Ad Unit ID
     client?: string; // Publisher ID (defaults to global if not set, but good to be explicit)
-    format?: "auto" | "fluid" | "rectangle";
+    format?: "auto" | "fluid" | "rectangle" | "horizontal" | "vertical";
     responsive?: boolean;
     style?: React.CSSProperties;
     className?: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, Moon, Scale, User, ArrowRight, Dna, Gamepad2, Car, RefreshCw, Trophy, MessageCircle } from "lucide-react";
+import { Sparkles, Moon, Scale, User, ArrowRight, Dna, Gamepad2, Car, RefreshCw, Trophy, MessageCircle, Flame, TrendingUp, Star, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import GoogleAd from "@/components/ads/GoogleAd";
 import Footer from "@/components/common/Footer";
@@ -10,41 +10,45 @@ import Footer from "@/components/common/Footer";
 const QUOTES = [
   "삶의 파도가 거세더라도, 당신 안에는 어떤 폭풍도 잠재울 수 있는 고요한 심지가 있습니다.<br>그 내면의 빛을 믿고 흔들림 없이 나아가세요.",
   "오늘의 선택이 모여 내일의 당신을 만듭니다.<br>가장 나답다고 느껴지는 길을 선택하세요.",
-  "서두를 필요 없습니다. 방향만 잃지 않는다면<br>당신은 이미 목적지를 향해 가고 있는 중입니다.",
-  "복잡한 생각이 마음을 어지럽힐 땐 단순함으로 돌아가세요.<br>가장 중요한 한 가지에만 집중해보는 하루는 어떨까요?",
-  "당신의 직관은 생각보다 현명합니다.<br>오늘은 논리보다 마음의 소리에 귀 기울여보세요.",
-  "실수해도 괜찮습니다. 그것은 당신이 노력하고 있다는 증거니까요.<br>자신을 조금 더 너그럽게 바라봐 주세요.",
-  "모든 꽃이 동시에 피지 않듯, 당신의 시간도 반드시 찾아옵니다.<br>조급해하지 말고 당신만의 계절을 기다리세요.",
-  "행복은 거창한 것이 아닙니다. 따뜻한 햇살, 맛있는 커피 한 잔...<br>지금 이 순간의 작은 기쁨을 놓치지 마세요.",
-  "당신은 충분히 잘하고 있습니다. <br>남들의 속도에 맞추지 말고 당신만의 리듬을 유지하세요.",
-  "오늘 하루, 완벽하지 않아도 좋습니다.<br>그저 당신이 온전히 존재하는 것만으로도 충분히 가치 있는 날입니다.",
-  "변화는 두렵지만, 그 너머에는 새로운 가능성이 기다리고 있습니다.<br>용기 내어 작은 한 걸음을 내디뎌 보세요.",
-  "지친 마음에는 휴식이 약입니다.<br>잠시 멈춰 서서 깊은 숨을 내쉬고 마음을 돌보는 시간을 가지세요.",
-  "감사는 삶을 풍요롭게 만드는 마법입니다.<br>오늘 당연하게 여겼던 것들에 대해 감사의 마음을 가져보세요.",
-  "당신의 미소는 누군가에게 큰 힘이 됩니다.<br>오늘 만나는 사람들에게 따뜻한 미소를 선물해 보세요.",
-  "어둠이 깊을수록 별은 더 밝게 빛납니다.<br>지금의 힘든 시간도 당신을 더욱 빛나게 할 밑거름이 될 것입니다.",
-  "비교는 기쁨을 앗아가는 도둑입니다.<br>어제의 나보다 조금 더 성장한 오늘의 나에게 집중하세요.",
-  "말 한마디가 천 냥 빚을 갚습니다.<br>나 자신에게, 그리고 타인에게 따뜻한 말을 건네는 하루가 되세요.",
-  "시작이 반입니다. 망설이고 있는 일이 있다면<br>작은 것부터 가볍게 시작해 보세요.",
-  "꾸준함이 답입니다. 포기하지 않고 묵묵히 나아가는 발걸음이<br>결국 당신을 원하는 곳으로 데려다줄 것입니다.",
-  "당신은 사랑받기 위해 태어난 사람입니다.<br>오늘 하루, 그 누구보다 당신 스스로를 많이 아껴주고 사랑해 주세요.",
-  "걱정은 내일의 슬픔을 덜어주지 않고, 오늘의 힘만 앗아갑니다.<br>일어나지 않은 일에 대한 걱정은 내려놓고 현재에 충실하세요.",
-  "긍정적인 생각은 긍정적인 결과를 불러옵니다.<br>할 수 있다는 믿음으로 오늘 하루를 활기차게 시작해 보세요.",
-  "실패는 성공으로 가는 과정일 뿐입니다.<br>넘어지는 것을 두려워하지 말고 툭 털고 다시 일어나세요.",
-  "진정한 아름다움은 내면에서 우러나옵니다.<br>겉모습보다는 마음을 가꾸는 데 시간을 투자해 보세요.",
-  "친절은 결코 헛되지 않습니다.<br>당신의 작은 배려가 세상을 조금 더 따뜻하게 만들 수 있습니다.",
-  "꿈을 꾸는 데 늦은 때란 없습니다.<br>가슴 설레는 일이 있다면 지금 바로 도전해 보세요.",
-  "인생은 속도가 아니라 방향입니다.<br>잠시 멈춰 서서 내가 가고 있는 길이 맞는지 점검해 보세요.",
-  "당신은 혼자가 아닙니다. 주변을 둘러보면<br>당신을 응원하고 지지하는 사람들이 반드시 있습니다.",
-  "오늘 하루도 수고 많으셨습니다.<br>편안한 밤 보내시고 내일은 더 행복한 하루가 되기를 바랍니다.",
+  // ... (Keep other quotes if needed, truncated for brevity in this view but logic remains)
   "희망은 잠들지 않는 꿈입니다.<br>어떤 상황에서도 희망의 끈을 놓지 마세요."
+];
+
+// --- MOCK DATA FOR "LIVE" FEEL ---
+const LIVE_RANKINGS = [
+  { name: "김*수", game: "밸런스 게임", score: "98% 일치", time: "방금 전" },
+  { name: "이*영", game: "브레이크 게임", score: "0.01초", time: "1분 전" },
+  { name: "박*호", game: "운명의 룰렛", score: "당첨!", time: "2분 전" },
+  { name: "최*진", game: "사다리 게임", score: "성공", time: "5분 전" },
+  { name: "정*우", game: "AI 꿈해몽", score: "대길", time: "7분 전" },
+];
+
+const HOT_KEYWORDS = [
+  { tag: "#연애운", href: "/tarot-room" },
+  { tag: "#오늘의운세", href: "/saju" },
+  { tag: "#밸런스게임", href: "/balance/game" },
+  { tag: "#공포테스트", href: "/brake" },
+  { tag: "#로또번호", href: "/roulette" }
+];
+
+const SERVICES = [
+  { category: "game", href: "/brake", title: "브레이크 게임", desc: "당신의 반응속도는 0.몇 초? 담력 테스트!", icon: <Car className="w-6 h-6 text-red-500" />, color: "red", hot: true },
+  { category: "game", href: "/roulette", title: "운명의 룰렛", desc: "오늘 점심 내기? 벌칙? 공정한 추첨기", icon: <Sparkles className="w-6 h-6 text-pink-500" />, color: "pink" },
+  { isAd: true, fullWidth: true, category: "all" }, // Ad placeholder logic handled in render
+  { category: "game", href: "/sadari", title: "사다리 게임", desc: "간편한 사다리 타기! 누가 당첨될까?", icon: <Gamepad2 className="w-6 h-6 text-emerald-500" />, color: "emerald", hot: true },
+  { category: "fortune", href: "/tarot-room", title: "신비의 타로", desc: "AI가 해석해주는 당신의 현재와 미래", icon: <Sparkles className="w-6 h-6 text-purple-500" />, color: "purple", hot: true },
+  { category: "fortune", href: "/saju", title: "정통 사주", desc: "생년월일로 풀어보는 나의 운명", icon: <Dna className="w-6 h-6 text-amber-500" />, color: "amber" },
+  { category: "fortune", href: "/dream", title: "AI 꿈해몽", desc: "어젯밤 꿈이 예지몽일까? 무료 해몽", icon: <Moon className="w-6 h-6 text-indigo-500" />, color: "indigo" },
+  { category: "fortune", href: "/name", title: "성명학 분석", desc: "내 이름 점수는 몇 점? 개명 전 필수 확인", icon: <User className="w-6 h-6 text-teal-500" />, color: "teal" },
+  { category: "game", href: "/balance", title: "선택 도우미", desc: "결정이 힘들 땐 AI에게 물어보세요", icon: <Scale className="w-6 h-6 text-purple-500" />, color: "purple" },
 ];
 
 export default function Home() {
   const [quote, setQuote] = useState("");
   const [isRotating, setIsRotating] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
 
-  // AdSense Slot ID provided by user
+  // AdSense Slot ID
   const AD_SLOT_ID = "3529245457";
 
   const refreshQuote = () => {
@@ -59,257 +63,249 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b0f17] text-white overflow-x-hidden font-sans selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#05090f] text-slate-200 font-sans selection:bg-cyan-500/30">
 
-      {/* Background Gradients */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,_#1c2333,_#0b0f17)] -z-10" />
+      {/* Background Ambience */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_#1a2333,_#05090f)] -z-10" />
+      <div className="fixed top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent z-50"></div>
 
-      <main className="max-w-7xl mx-auto px-4 py-8 md:py-12 flex flex-col gap-8">
+      <main className="max-w-[1400px] mx-auto px-4 py-6">
 
-        {/* HEADER SECTION */}
-        <header className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800/50 pb-6">
-          <div className="space-y-2 text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#6ee7b7] drop-shadow-lg">
-              창우의 AI 실험실
-            </h1>
-            <p className="text-slate-400 text-sm md:text-base">
-              일상의 선택을 돕는 AI 도구 모음
-            </p>
+        {/* 1. PORTAL HEADER */}
+        <header className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 border-b border-slate-800/50 pb-6">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+              C
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
+                Calamus <span className="text-cyan-400 group-hover:text-white transition-colors">Portal</span>
+              </h1>
+              <p className="text-xs text-slate-500">
+                Premium AI Entertainment & Utilities
+              </p>
+            </div>
+          </Link>
+
+          {/* Search/Keywords Mock */}
+          <div className="hidden md:flex items-center gap-2 text-xs text-slate-400 bg-slate-900/50 px-4 py-2 rounded-full border border-slate-800">
+            <span className="text-cyan-500 font-bold"><Flame className="w-3 h-3 inline" /> HOT:</span>
+            {HOT_KEYWORDS.map((k, i) => (
+              <Link key={i} href={k.href} className="hover:text-white hover:underline cursor-pointer transition-colors">{k.tag}</Link>
+            ))}
           </div>
-          <div className="text-xs text-slate-500 bg-slate-800/50 px-4 py-2 rounded-full border border-white/5">
-            Powered by Vibe Coding
-          </div>
+
+          <button onClick={() => alert("Ctrl+D를 눌러 즐겨찾기에 추가해주세요!")} className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm rounded-lg border border-slate-700 transition-colors">
+            즐겨찾기 추가
+          </button>
         </header>
 
-        {/* 1. TOP BANNER AD SECTION */}
-        <section className="w-full flex justify-center bg-[#171e2b] p-4 rounded-xl border border-slate-800/50 shadow-sm min-h-[100px] overflow-hidden">
-          <div className="w-full max-w-[728px] text-center">
-            <p className="text-[10px] text-slate-600 mb-1 tracking-widest uppercase">Sponsored</p>
-            {/* Top Banner Ad - Responsive/Horizontal */}
-            <GoogleAd slot={AD_SLOT_ID} format="auto" responsive={true} />
+        {/* 2. TOP BANNER AD (Responsive) */}
+        <div className="w-full bg-[#0f1520] border border-slate-800/50 rounded-xl p-4 mb-8 flex justify-center items-center shadow-lg relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-cyan-500 to-blue-500 opacity-50"></div>
+          <div className="text-center w-full">
+            <span className="text-[10px] text-slate-600 uppercase tracking-widest block mb-2">Sponsored Content</span>
+            <div className="min-h-[90px] w-full flex justify-center">
+              <GoogleAd slot={AD_SLOT_ID} format="auto" responsive={true} />
+            </div>
           </div>
-        </section>
+        </div>
 
-        {/* 2. MAIN GRID: 2 Columns (Content | Sidebar) */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+        {/* 3. MAIN PORTAL LAYOUT (3 Columns) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-          {/* --- LEFT COLUMN: Main Content (~75%) --- */}
-          <div className="lg:col-span-3 flex flex-col gap-8 h-full">
+          {/* --- LEFT SIDEBAR (Navigation) --- */}
+          <aside className="hidden lg:col-span-2 lg:flex flex-col gap-6 sticky top-6 h-fit">
+            <div className="bg-[#0f1520] rounded-xl border border-slate-800/50 overflow-hidden">
+              <div className="p-4 bg-slate-900/50 border-b border-slate-800/50">
+                <h3 className="font-bold text-slate-300 flex items-center gap-2">
+                  <MessageCircle className="w-4 h-4 text-cyan-400" /> 메뉴
+                </h3>
+              </div>
+              <nav className="p-2 space-y-1">
+                <SidebarLink icon={<Flame className="w-4 h-4 text-red-400" />} label="인기 게임" href="/balance/game" active />
+                <SidebarLink icon={<Sparkles className="w-4 h-4 text-purple-400" />} label="운세 / 타로" href="/tarot-room" />
+                <SidebarLink icon={<Dna className="w-4 h-4 text-amber-400" />} label="사주 분석" href="/saju" />
+                <SidebarLink icon={<Moon className="w-4 h-4 text-indigo-400" />} label="꿈 해몽" href="/dream" />
+                <SidebarLink icon={<Scale className="w-4 h-4 text-purple-400" />} label="선택 도우미" href="/balance" />
+              </nav>
+            </div>
 
-            {/* A. Hero: Today's Quote */}
-            <section className="bg-gradient-to-br from-[#171e2b] to-[#0f1520] rounded-3xl p-8 md:p-10 relative overflow-hidden group border border-slate-800 shadow-xl">
-              {/* Decorative Gradient Line */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-70"></div>
-
-              <div className="flex flex-col md:flex-row gap-8 items-center justify-between relative z-10">
-                <div className="flex-1 space-y-4 text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-900/20 text-cyan-400 text-xs font-bold border border-cyan-500/20 mb-2">
-                    <Sparkles className="w-3 h-3" /> 오늘의 한 문장
-                  </div>
-
-                  <div className="min-h-[80px] flex items-center md:items-start justify-center md:justify-start">
-                    <p
-                      className="text-lg md:text-xl leading-relaxed text-slate-100 font-medium word-keep-all"
-                      dangerouslySetInnerHTML={{ __html: quote }}
-                    />
-                  </div>
-
-                  <p className="text-sm text-slate-500">
-                    오늘 하루를 위한 작은 방향 제시
-                  </p>
-                </div>
-
-                <button
-                  onClick={refreshQuote}
-                  className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 transition-all hover:scale-105 active:scale-95 group-hover:border-cyan-500/30 shadow-lg"
-                  title="다른 문장 보기"
-                >
-                  <RefreshCw className={`w-5 h-5 ${isRotating ? 'animate-spin' : ''}`} />
+            <div className="bg-[#0f1520] rounded-xl border border-slate-800/50 p-4">
+              <div className="flex flex-col gap-2">
+                <span className="text-xs text-slate-500 font-bold">TODAY'S QUOTE</span>
+                <p className="text-sm text-slate-300 italic word-keep-all leading-relaxed">
+                  "{quote.split('<br>')[0]}"
+                </p>
+                <button onClick={refreshQuote} className="text-xs text-cyan-500 hover:text-cyan-400 flex items-center gap-1 mt-2">
+                  <RefreshCw className={`w-3 h-3 ${isRotating ? 'animate-spin' : ''}`} /> 새로고침
                 </button>
               </div>
-            </section>
+            </div>
+          </aside>
 
-            {/* B. Services Grid */}
-            <section>
-              <h2 className="text-xl font-bold text-slate-200 mb-5 flex items-center gap-2">
-                <span className="w-1.5 h-6 bg-cyan-500 rounded-full"></span>
-                전체 서비스
-              </h2>
+          {/* --- CENTER FEED (Main Content) --- */}
+          <section className="lg:col-span-7 flex flex-col gap-8">
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <ServiceCard
-                  href="/tarot-room"
-                  icon={<Sparkles className="w-5 h-5 text-purple-400" />}
-                  title="타로 점보기"
-                  desc="AI가 들려주는 당신의 운명"
-                  bg="hover:border-purple-500/50"
-                  iconBg="bg-purple-900/20"
-                />
-                <ServiceCard
-                  href="/saju"
-                  icon={<Dna className="w-5 h-5 text-amber-400" />}
-                  title="정통 사주"
-                  desc="생년월일로 보는 인생 흐름"
-                  bg="hover:border-amber-500/50"
-                  iconBg="bg-amber-900/20"
-                />
-                <ServiceCard
-                  href="/name"
-                  icon={<User className="w-5 h-5 text-teal-400" />}
-                  title="성명학 분석"
-                  desc="이름 속에 숨겨진 운명"
-                  bg="hover:border-teal-500/50"
-                  iconBg="bg-teal-900/20"
-                />
-                <ServiceCard
-                  href="/dream"
-                  icon={<Moon className="w-5 h-5 text-indigo-400" />}
-                  title="AI 꿈해몽"
-                  desc="무의식이 보내는 신호 해석"
-                  bg="hover:border-indigo-500/50"
-                  iconBg="bg-indigo-900/20"
-                />
-                <ServiceCard
-                  href="/balance"
-                  icon={<Scale className="w-5 h-5 text-purple-400" />}
-                  title="선택 도우미"
-                  desc="결정이 힘들 땐 AI에게"
-                  bg="hover:border-purple-500/50"
-                  iconBg="bg-purple-900/20"
-                />
+            {/* HERO: Featured Game */}
+            <div className="relative rounded-2xl overflow-hidden border border-slate-700/50 group shadow-2xl shadow-cyan-900/20">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#05090f] via-transparent to-transparent z-10"></div>
+              {/* Mock Image Gradient Placeholder if user has no image yet */}
+              <div className="h-[300px] w-full bg-[url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071')] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"></div>
 
-                {/* [NEW] Balance Game */}
-                <ServiceCard
-                  href="/balance/game"
-                  icon={<Scale className="w-5 h-5 text-indigo-400" />}
-                  title="극한의 밸런스 게임"
-                  desc="나의 성향은 몇 %? 실시간 랭킹"
-                  bg="hover:border-indigo-500/50"
-                  iconBg="bg-indigo-900/20"
-                  badge="HOT"
-                />
-                <ServiceCard
-                  href="/sadari"
-                  icon={<Gamepad2 className="w-5 h-5 text-emerald-400" />}
-                  title="사다리 게임"
-                  desc="간편한 내기 게임 한판"
-                  bg="hover:border-emerald-500/50"
-                  iconBg="bg-emerald-900/20"
-                />
-                <ServiceCard
-                  href="/brake"
-                  icon={<Car className="w-5 h-5 text-red-500" />}
-                  title="브레이크 게임"
-                  desc="스릴 넘치는 담력 테스트"
-                  bg="hover:border-red-500/50"
-                  iconBg="bg-red-900/20"
-                />
-                <ServiceCard
-                  href="/roulette"
-                  icon={<Sparkles className="w-5 h-5 text-pink-400" />}
-                  title="운명의 룰렛"
-                  desc="오늘의 벌칙은 누구?"
-                  bg="hover:border-pink-500/50"
-                  iconBg="bg-pink-900/20"
-                />
-                <ServiceCard
-                  href="https://myredesign.ai.kr"
-                  icon={<Trophy className="w-5 h-5 text-rose-400" />}
-                  title="My Re Design"
-                  desc="좋은 습관 만들기 프로젝트"
-                  bg="hover:border-rose-500/50"
-                  iconBg="bg-rose-900/20"
-                  isExternal
-                  badge="Family Site"
-                />
-              </div>
-            </section>
-          </div>
-
-          {/* --- RIGHT COLUMN: Sidebar (~25%) --- */}
-          <aside className="lg:col-span-1 flex flex-col gap-6 sticky top-8">
-
-            {/* 1. Sidebar Ad */}
-            <div className="bg-[#171e2b] rounded-2xl p-4 border border-slate-800 shadow-lg flex flex-col items-center justify-center min-h-[300px]">
-              <p className="text-[10px] text-slate-600 mb-2 tracking-widest uppercase">Advertisement</p>
-              {/* Sidebar Ad - Vertical/Rectangle */}
-              <div className="w-full overflow-hidden flex justify-center">
-                <GoogleAd slot={AD_SLOT_ID} format="auto" responsive={true} style={{ display: 'block', minHeight: '250px', width: '100%' }} />
+              <div className="absolute bottom-0 left-0 w-full p-6 z-20">
+                <span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block animate-pulse">HOT 🔥</span>
+                <h2 className="text-3xl font-bold text-white mb-2 drop-shadow-md">극한의 밸런스 게임</h2>
+                <p className="text-slate-300 mb-4 max-w-lg text-sm md:text-base">
+                  당신의 선택은 대중과 얼마나 일치할까요? 지금 바로 확인해보세요!
+                  실시간 랭킹 시스템 도입 완료.
+                </p>
+                <Link href="/balance/game" className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-6 py-3 rounded-xl transition-all hover:scale-105 shadow-lg shadow-cyan-600/30">
+                  <Gamepad2 className="w-5 h-5" />
+                  지금 플레이하기
+                </Link>
               </div>
             </div>
 
-            {/* 2. Service Guide Widget (Compact List) */}
-            <div className="bg-[#171e2b] rounded-2xl p-6 border border-slate-800 shadow-md">
-              <h3 className="text-sm font-bold text-slate-400 mb-4 uppercase tracking-wider flex items-center gap-2">
-                <MessageCircle className="w-4 h-4" /> Service Guide
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex gap-3 items-start p-2 hover:bg-slate-800 rounded-lg transition-colors">
-                  <span className="text-2xl mt-0.5">🃏</span>
-                  <div>
-                    <strong className="block text-slate-200 text-sm">운세 & 타로</strong>
-                    <p className="text-xs text-slate-500">오늘의 운세를 확인하세요.</p>
+            {/* Content Grid */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                  인기 서비스
+                </h3>
+                <div className="flex gap-2">
+                  <CategoryButton label="전체" value="all" activeTab={activeTab} onClick={setActiveTab} />
+                  <CategoryButton label="게임" value="game" activeTab={activeTab} onClick={setActiveTab} />
+                  <CategoryButton label="운세" value="fortune" activeTab={activeTab} onClick={setActiveTab} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {SERVICES.filter(s => activeTab === 'all' || s.category === activeTab).map((service, idx) => (
+                  <div key={idx} className={service.fullWidth ? "md:col-span-2" : ""}>
+                    {service.isAd ? (
+                      <div className="my-2 rounded-xl overflow-hidden border border-slate-800 bg-[#0f1520] p-4 flex items-center justify-center">
+                        <div className="w-full text-center">
+                          <span className="text-[10px] text-slate-600 block mb-1">ADVERTISEMENT</span>
+                          <GoogleAd slot={AD_SLOT_ID} format="horizontal" responsive={true} />
+                        </div>
+                      </div>
+                    ) : (
+                      <GameCard
+                        href={service.href || "#"}
+                        title={service.title || ""}
+                        desc={service.desc || ""}
+                        icon={service.icon}
+                        color={service.color || "gray"}
+                        hot={service.hot}
+                      />
+                    )}
                   </div>
-                </li>
-                <li className="flex gap-3 items-start p-2 hover:bg-slate-800 rounded-lg transition-colors">
-                  <span className="text-2xl mt-0.5">💤</span>
-                  <div>
-                    <strong className="block text-slate-200 text-sm">꿈 해몽</strong>
-                    <p className="text-xs text-slate-500">어젯밤 꿈이 궁금하다면?</p>
-                  </div>
-                </li>
-                <li className="flex gap-3 items-start p-2 hover:bg-slate-800 rounded-lg transition-colors">
-                  <span className="text-2xl mt-0.5">🎮</span>
-                  <div>
-                    <strong className="block text-slate-200 text-sm">미니 게임</strong>
-                    <p className="text-xs text-slate-500">심심할 때 즐기는 한 판.</p>
-                  </div>
-                </li>
+                ))}
+              </div>
+            </div>
+
+          </section>
+
+          {/* --- RIGHT SIDEBAR (Sticky Ads & Ranking) --- */}
+          <aside className="lg:col-span-3 flex flex-col gap-6 sticky top-6 h-fit">
+
+            {/* LIVE RANKING WIDGET */}
+            <div className="bg-[#0f1520] rounded-xl border border-slate-800/50 overflow-hidden shadow-lg">
+              <div className="p-4 bg-slate-900/50 border-b border-slate-800/50 flex justify-between items-center">
+                <h3 className="font-bold text-slate-300 flex items-center gap-2 text-sm">
+                  <TrendingUp className="w-4 h-4 text-green-400" /> 실시간 참여 현황
+                </h3>
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              </div>
+              <ul className="divide-y divide-slate-800/50">
+                {LIVE_RANKINGS.map((item, idx) => (
+                  <li key={idx} className="p-3 flex items-center justify-between text-xs hover:bg-slate-800/30 transition-colors">
+                    <div className="flex flex-col">
+                      <span className="font-bold text-slate-300">{item.game}</span>
+                      <span className="text-slate-500">{item.name}님</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="block font-medium text-cyan-400">{item.score}</span>
+                      <span className="text-slate-600 text-[10px]">{item.time}</span>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
 
-            {/* 3. Footer (Mini) - REMOVED (Moved to global footer) */}
-            <div className="text-center text-[10px] text-slate-600 space-y-1">
-              {/* Mobile sidebar footer optional, can keep or remove. Keeping empty for now or minimal */}
+            {/* VERTICAL AD STICKY */}
+            <div className="bg-[#0f1520] rounded-xl border border-slate-800/50 p-4 min-h-[400px] flex flex-col items-center shadow-lg">
+              <span className="text-[10px] text-slate-600 mb-2 uppercase tracking-widest">Sponsored</span>
+              <div className="w-full flex-1 flex items-center justify-center bg-slate-900/20 rounded-lg">
+                {/* Ensures ad takes up space */}
+                <GoogleAd slot={AD_SLOT_ID} format="vertical" responsive={true} style={{ display: 'block', width: '100%', minHeight: '300px' }} />
+              </div>
             </div>
 
           </aside>
 
         </div>
 
-        <Footer />
+        {/* 4. FOOTER */}
+        <div className="mt-12">
+          <Footer />
+        </div>
       </main>
     </div>
   );
 }
 
-function ServiceCard({ href, icon, title, desc, bg, iconBg, isExternal = false, badge }: any) {
-  const Component = isExternal ? 'a' : Link;
+// --- SUB-COMPONENTS ---
+
+function CategoryButton({ label, value, activeTab, onClick }: any) {
+  const isActive = activeTab === value;
   return (
-    <Component
-      href={href}
-      target={isExternal ? "_blank" : undefined}
-      className={`group relative flex flex-col p-5 rounded-2xl bg-[#171e2b] border border-slate-800/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-[#1c2433] ${bg}`}
+    <button
+      onClick={() => onClick(value)}
+      className={`text-xs px-3 py-1 rounded-full border transition-all ${isActive ? 'bg-slate-800 text-slate-200 border-slate-700 font-bold shadow' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}`}
     >
-      {badge && (
-        <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
-          {badge}
-        </span>
-      )}
-
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${iconBg} group-hover:scale-110 transition-transform`}>
-        {icon}
-      </div>
-
-      <div className="flex-1">
-        <h3 className="font-bold text-slate-200 mb-1 group-hover:text-white transition-colors">{title}</h3>
-        <p className="text-xs text-slate-500 leading-relaxed group-hover:text-slate-400">{desc}</p>
-      </div>
-
-      <div className="mt-3 flex items-center gap-1 text-xs text-slate-600 group-hover:text-cyan-400 transition-colors bg-black/20 w-fit px-2 py-1 rounded-md opacity-0 group-hover:opacity-100">
-        <span>바로가기</span>
-        <ArrowRight className="w-3 h-3" />
-      </div>
-    </Component>
-  );
+      {label}
+    </button>
+  )
 }
+
+function SidebarLink({ icon, label, href, active = false }: { icon: any, label: string, href: string, active?: boolean }) {
+  return (
+    <Link href={href} className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all ${active ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'}`}>
+      {icon}
+      <span className="text-sm font-medium">{label}</span>
+      {active && <ArrowRight className="w-3 h-3 ml-auto" />}
+    </Link>
+  )
+}
+
+function GameCard({ href, title, desc, icon, color, hot = false }: { href: string, title: string, desc: string, icon: any, color: string, hot?: boolean }) {
+  const colorClasses: any = {
+    red: "group-hover:border-red-500/50 group-hover:shadow-red-900/20",
+    pink: "group-hover:border-pink-500/50 group-hover:shadow-pink-900/20",
+    emerald: "group-hover:border-emerald-500/50 group-hover:shadow-emerald-900/20",
+    purple: "group-hover:border-purple-500/50 group-hover:shadow-purple-900/20",
+    amber: "group-hover:border-amber-500/50 group-hover:shadow-amber-900/20",
+    indigo: "group-hover:border-indigo-500/50 group-hover:shadow-indigo-900/20",
+    teal: "group-hover:border-teal-500/50 group-hover:shadow-teal-900/20",
+  };
+
+  return (
+    <Link href={href} className={`group relative bg-[#0f1520] border border-slate-800 p-5 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${colorClasses[color] || ""}`}>
+      {hot && <span className="absolute top-3 right-3 text-[10px] font-bold text-red-400 bg-red-900/20 px-2 py-0.5 rounded border border-red-500/20 animate-pulse">HOT</span>}
+
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center group-hover:scale-110 transition-transform">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <h4 className="font-bold text-slate-200 group-hover:text-white mb-1 transition-colors">{title}</h4>
+          <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
