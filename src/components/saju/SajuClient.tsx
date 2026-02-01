@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Solar, Lunar } from "lunar-javascript";
 import { Sparkles, Calendar, User, Clock, MessageCircle, AlertCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import GoogleAd from "@/components/ads/GoogleAd";
+import HanjaModal from "@/components/shared/HanjaModal";
 
 export default function SajuClient() {
     const [step, setStep] = useState<"INPUT" | "LOADING" | "RESULT">("INPUT");
@@ -43,7 +44,6 @@ export default function SajuClient() {
                 console.log(`Converted Lunar ${birthDate} -> Solar ${finalDate}`);
             } catch (err) {
                 console.error("Date conversion failed", err);
-                // Fallback or alert? Proceeding with raw date might be wrong, but safer than crashing.
             }
         }
 
@@ -80,6 +80,17 @@ export default function SajuClient() {
             alert("서버 오류가 발생했습니다.");
             setStep("INPUT");
         }
+    };
+
+    // Hanja Modal State
+    const [isHanjaModalOpen, setIsHanjaModalOpen] = useState(false);
+
+    const openHanjaModal = () => {
+        if (!name) {
+            alert("이름을 먼저 입력해주세요.");
+            return;
+        }
+        setIsHanjaModalOpen(true);
     };
 
     return (
@@ -122,13 +133,22 @@ export default function SajuClient() {
                             </div>
                             <div>
                                 <label className="block text-slate-400 text-sm mb-2">이름 한자 (선택)</label>
-                                <input
-                                    type="text"
-                                    value={nameHanja}
-                                    onChange={e => setNameHanja(e.target.value)}
-                                    placeholder="洪吉童"
-                                    className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-amber-100 focus:border-amber-500 outline-none transition-colors"
-                                />
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={nameHanja}
+                                        onChange={e => setNameHanja(e.target.value)}
+                                        placeholder="홍길동 (클릭하여 변환)"
+                                        className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-amber-100 focus:border-amber-500 outline-none transition-colors"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={openHanjaModal}
+                                        className="shrink-0 bg-amber-800/50 hover:bg-amber-700/50 text-amber-200 px-4 rounded-xl border border-amber-700/50 transition-colors text-sm font-bold"
+                                    >
+                                        한자<br />찾기
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -279,6 +299,19 @@ export default function SajuClient() {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {/* Hanja Modal */}
+            {isHanjaModalOpen && (
+                <HanjaModal
+                    name={name}
+                    initialHanja={nameHanja}
+                    onClose={() => setIsHanjaModalOpen(false)}
+                    onComplete={(selectedHanja) => {
+                        setNameHanja(selectedHanja);
+                        setIsHanjaModalOpen(false);
+                    }}
+                />
             )}
         </div>
     );

@@ -136,7 +136,7 @@ export default function TarotClient() {
     };
 
     return (
-        <div className="w-full max-w-[1800px] mx-auto flex flex-col md:flex-row gap-6 p-6 min-h-[90vh] font-sans text-slate-200">
+        <div className="w-full max-w-[1800px] mx-auto flex flex-col md:flex-row gap-6 p-2 md:p-6 min-h-[90vh] font-sans text-slate-200">
 
             {/* Sidebar (Left) */}
             <aside className="w-full md:w-[320px] shrink-0 flex flex-col gap-6 animate-fade-in-right">
@@ -163,7 +163,7 @@ export default function TarotClient() {
                                     questionType === "직업" ? "이직을 하는게 좋을까요?" :
                                         "이번 달의 전반적인 운세는?"
                             }
-                            className="w-full bg-slate-800/50 border border-slate-700 rounded-xl p-3 text-sm text-white placeholder:text-slate-600 focus:border-purple-500 outline-none transition-all resize-none h-24"
+                            className="w-full bg-slate-800/50 border border-slate-700 rounded-xl p-3 text-sm text-white placeholder:text-slate-600 focus:border-purple-500 outline-none transition-all resize-none h-20"
                         />
                     </div>
 
@@ -293,7 +293,8 @@ export default function TarotClient() {
                 </div>
 
                 {/* Content Container */}
-                <div className="flex-1 bg-slate-900/40 border border-slate-700/30 rounded-3xl p-6 md:p-10 backdrop-blur-sm relative min-h-[600px] flex flex-col">
+                {/* Content Container */}
+                <div className="flex-1 bg-slate-900/40 border border-slate-700/30 rounded-3xl p-3 md:p-10 backdrop-blur-sm relative min-h-[600px] flex flex-col">
 
                     {/* Placeholder when empty */}
                     {drawnCards.length === 0 && !isShuffling && (
