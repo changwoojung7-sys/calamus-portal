@@ -1,9 +1,9 @@
-import { Facility, FacilityCategoryCode } from '@/types/facility';
+import { Facility, FacilityCategoryCode, FacilityDetailInfo } from '@/types/facility';
 
 const HIRA_BASIS_URL = 'http://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList';
-const HIRA_ASM_URL = 'http://apis.data.go.kr/B551182/hospAsmInfoService1/getHospAsmInfo1';
+const MADM_DTL_URL = 'http://apis.data.go.kr/B551182/MadmDtlInfoService2.8';
 
-export interface HiraApiItem {
+export interface HiraBasisItem {
   ykiho: string;
   yadmNm: string;
   clCd: string;
@@ -16,26 +16,13 @@ export interface HiraApiItem {
   telno?: string;
   hospUrl?: string;
   estbDtm?: string;
-  XPos?: string; // Longitude
-  YPos?: string; // Latitude
-  drTotCnt?: string | number; // 의사 총수
-  mdeptSdrCnt?: string | number; // 의과 전문의
-  cmdcSdrCnt?: string | number; // 한방 전문의
+  XPos?: string;
+  YPos?: string;
+  drTotCnt?: string | number;
+  mdeptSdrCnt?: string | number;
+  cmdcSdrCnt?: string | number;
 }
 
-export interface HiraAsmItem {
-  ykiho: string;
-  yadmNm: string;
-  asmGrd01?: string; // 급성기 뇌졸중
-  asmGrd03?: string; // 혈액투석
-  asmGrd10?: string; // 요양병원 적정성
-  asmGrd18?: string; // 폐렴
-  asmGrd24?: string; // 고혈압/당뇨
-}
-
-/**
- * 심평원 종별코드(clCd)를 포털 내부 카테고리 코드로 변환
- */
 export function mapHiraClCdToCategory(clCd: string, yadmNm: string): { code: FacilityCategoryCode; name: string } {
   if (yadmNm.includes('호스피스') || yadmNm.includes('완화의료')) {
     return { code: 'hospice', name: '호스피스전문' };
@@ -59,7 +46,7 @@ export function mapHiraClCdToCategory(clCd: string, yadmNm: string): { code: Fac
 }
 
 /**
- * 심평원(HIRA) 병원목록 Open API 조회 유틸리티
+ * 1. 심평원 병원기본목록 검색 (API 1: hospInfoServicev2/getHospBasisList)
  */
 export async function fetchHiraFacilities(params: {
   serviceKey?: string;
@@ -106,13 +93,12 @@ export async function fetchHiraFacilities(params: {
       return { items: [], totalCount: 0 };
     }
 
-    const rawItems: HiraApiItem[] = Array.isArray(body.items.item)
+    const rawItems: HiraBasisItem[] = Array.isArray(body.items.item)
       ? body.items.item
       : [body.items.item];
 
     const items: Facility[] = rawItems.map((item) => {
       const cat = mapHiraClCdToCategory(item.clCd, item.yadmNm);
-
       const doctorCount = item.drTotCnt ? Number(item.drTotCnt) : undefined;
       const specialistCount = item.mdeptSdrCnt
         ? Number(item.mdeptSdrCnt)
@@ -147,5 +133,95 @@ export async function fetchHiraFacilities(params: {
   } catch (error) {
     console.error('Error fetching HIRA facilities:', error);
     return { items: [], totalCount: 0 };
+  }
+}
+
+/**
+ * 2. 심평원 의료기관별 상세정보 조회 (API 2: MadmDtlInfoService2.8)
+ * - 시설정보 (/getEqpInfo2.8)
+ * - 세부정보 (/getDtlInfo2.8)
+ * - 진료과목 (/getDgsbjtInfo2.8)
+ * - 간호등급 (/getNursigGrdInfo2.8)
+ * - 교통정보 (/getTrnsprtInfo2.8)
+ */
+export async function fetchHiraFacilityDetail(ykiho: string): Promise<Partial<FacilityDetailInfo> | null> {
+  const serviceKey = process.env.HIRA_API_KEY || '';
+  if (!serviceKey || !ykiho) return null;
+
+  const decodedKey = decodeURIComponent(serviceKey);
+  const baseParams = `serviceKey=${encodeURIComponent(decodedKey)}&ykiho=${encodeURIComponent(ykiho)}&_type=json`;
+
+  try {
+    const [eqpRes, dtlRes, dgsbjtRes, nursRes, trnRes] = await Promise.allSettled([
+      fetch(`${MADM_DTL_URL}/getEqpInfo2.8?${baseParams}`),
+      fetch(`${MADM_DTL_URL}/getDtlInfo2.8?${baseParams}`),
+      fetch(`${MADM_DTL_URL}/getDgsbjtInfo2.8?${baseParams}`),
+      fetch(`${MADM_DTL_URL}/getNursigGrdInfo2.8?${baseParams}`),
+      fetch(`${MADM_DTL_URL}/getTrnsprtInfo2.8?${baseParams}`),
+    ]);
+
+    let equipments: string[] = [];
+    let treatments: string[] = [];
+    let nursingGrade: string | undefined;
+    let transport: { traffic?: string; parking?: string } | undefined;
+    let totalBeds: number | undefined;
+
+    // 장비 파싱
+    if (eqpRes.status === 'fulfilled' && eqpRes.value.ok) {
+      const eqpData = await eqpRes.value.json();
+      const eqpItems = eqpData?.response?.body?.items?.item;
+      if (eqpItems) {
+        const arr = Array.isArray(eqpItems) ? eqpItems : [eqpItems];
+        equipments = arr.map((e: any) => `${e.oftNm || e.eqpNm || '장비'} (${e.oftCnt || e.eqpCnt || 1}대)`);
+      }
+    }
+
+    // 진료과목 파싱
+    if (dgsbjtRes.status === 'fulfilled' && dgsbjtRes.value.ok) {
+      const dgsData = await dgsbjtRes.value.json();
+      const dgsItems = dgsData?.response?.body?.items?.item;
+      if (dgsItems) {
+        const arr = Array.isArray(dgsItems) ? dgsItems : [dgsItems];
+        treatments = arr.map((d: any) => d.dgsbjtCdNm || d.dgsbjtNm).filter(Boolean);
+      }
+    }
+
+    // 간호등급 파싱
+    if (nursRes.status === 'fulfilled' && nursRes.value.ok) {
+      const nursData = await nursRes.value.json();
+      const nursItems = nursData?.response?.body?.items?.item;
+      if (nursItems) {
+        const arr = Array.isArray(nursItems) ? nursItems : [nursItems];
+        const gradeItem = arr.find((n: any) => n.nursigGrd);
+        if (gradeItem) {
+          nursingGrade = `${gradeItem.nursigGrd}등급`;
+        }
+      }
+    }
+
+    // 교통 파싱
+    if (trnRes.status === 'fulfilled' && trnRes.value.ok) {
+      const trnData = await trnRes.value.json();
+      const trnItems = trnData?.response?.body?.items?.item;
+      if (trnItems) {
+        const item = Array.isArray(trnItems) ? trnItems[0] : trnItems;
+        transport = {
+          traffic: item.lineNm ? `${item.lineNm} ${item.arvNm || ''}` : item.trnsprtInfo,
+          parking: item.parkEtc || item.parkQty ? `주차 ${item.parkQty || ''}대 가능 (${item.parkEtc || ''})` : undefined,
+        };
+      }
+    }
+
+    return {
+      ykiho,
+      equipments: equipments.length > 0 ? equipments : undefined,
+      treatments: treatments.length > 0 ? treatments : undefined,
+      nursingGrade,
+      transport,
+      totalBeds,
+    };
+  } catch (error) {
+    console.error('Error fetching facility detail from HIRA:', error);
+    return null;
   }
 }

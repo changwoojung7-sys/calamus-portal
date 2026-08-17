@@ -23,8 +23,13 @@ export const MOCK_FACILITIES: Facility[] = [
     total_beds: 1779,
     doctor_count: 1450,
     specialist_count: 890,
-    treatments: ['내과', '외과', '신경외과', '심장혈관흉부외과', '소아청소년과', '암병원', '응급의학과'],
-    special_treatments: ['국가중앙병원', '중증응급의료센터', '심뇌혈관센터', '로봇수술센터'],
+    treatments: ['내과', '외과', '신경외과', '심장혈관흉부외과', '소아청소년과', '암병원', '응급의학과', '재활의학과'],
+    special_treatments: ['국가중앙병원', '중증응급의료센터', '심뇌혈관센터', '로봇수술센터', '장기이식센터'],
+    equipments: ['MRI 3.0T (7대)', 'CT (12대)', 'PET-CT (3대)', '다빈치 로봇수술기', '선형가속기'],
+    transport: {
+      traffic: '지하철 4호선 혜화역 3번 출구 도보 5분',
+      parking: '옥내/옥외 주차장 완비 (총 1,200대 가능, 진료 당일 무료 주차)',
+    },
     is_hospice: true,
   },
   {
@@ -50,6 +55,11 @@ export const MOCK_FACILITIES: Facility[] = [
     specialist_count: 1100,
     treatments: ['심장내과', '간이식외과', '종양내과', '신경외과', '소아청소년과', '재활의학과'],
     special_treatments: ['장기이식센터 세계 최고 수준', '글로벌 암병원', '심장혈관병원', '응급의료센터'],
+    equipments: ['MRI 3.0T (10대)', 'CT (15대)', '감마나이프', '양성자치료기', '다빈치 SP 로봇수술기'],
+    transport: {
+      traffic: '지하철 2호선 잠실나루역 1번 출구 (병원 셔틀버스 상시 운행 10분 간격)',
+      parking: '대규모 지하/지상 주차빌딩 (총 2,500대 주차 가능)',
+    },
     is_hospice: true,
   },
   {
@@ -74,7 +84,12 @@ export const MOCK_FACILITIES: Facility[] = [
     doctor_count: 1420,
     specialist_count: 910,
     treatments: ['혈액종양내과', '신경과', '외과', '방사선종양학과', '순환기내과'],
-    special_treatments: ['양성자치료센터', '정밀의학 암센터', '스마트병원 시스템'],
+    special_treatments: ['양성자치료센터', '정밀의학 암병원', '스마트병원 물류 AI 시스템'],
+    equipments: ['양성자 치료기', 'MRI 3.0T (8대)', 'Dual Source CT', '다빈치 로봇수술시스템'],
+    transport: {
+      traffic: '지하철 3호선 일원역 1번 출구 연결 통로',
+      parking: '본관/암병원 지하주차장 (총 1,800대 주차 가능)',
+    },
     is_hospice: true,
   },
   {
@@ -99,6 +114,11 @@ export const MOCK_FACILITIES: Facility[] = [
     specialist_count: 980,
     treatments: ['중입자치료센터', '심장혈관병원', '안이비인후과병원', '어린이병원'],
     special_treatments: ['국내 최초 중입자치료기 도입', '로봇수술센터', '완화의료센터'],
+    equipments: ['중입자 치료기 (회전 갠트리)', 'MRI 3.0T', '384채널 초고속 CT', '토모테라피'],
+    transport: {
+      traffic: '경의중앙선 신촌역 2번 출구 / 2호선 신촌역 셔틀버스',
+      parking: '본관 및 암병원 주차장 완비',
+    },
     is_hospice: true,
   },
 
@@ -124,7 +144,12 @@ export const MOCK_FACILITIES: Facility[] = [
     doctor_count: 227,
     specialist_count: 131,
     treatments: ['내과', '외과', '정형외과', '신경과', '응급의학과', '재활의학과'],
-    special_treatments: ['지역거점공공병원', '간호간병통합서비스', '심뇌혈관센터'],
+    special_treatments: ['지역거점공공병원', '간호간병통합서비스', '심뇌혈관센터', '호스피스 완화돌봄'],
+    equipments: ['MRI 3.0T', '128채널 CT', '혈관조영촬영기', '체외충격파쇄석기'],
+    transport: {
+      traffic: '지하철 6호선 봉화산역 3번 출구 도보 10분',
+      parking: '지상/지하 공영주차장 (350대 가능)',
+    },
     is_hospice: true,
   },
   {
@@ -147,7 +172,12 @@ export const MOCK_FACILITIES: Facility[] = [
     doctor_count: 185,
     specialist_count: 110,
     treatments: ['심장혈관내과', '소화기내과', '정형외과', '신경외과'],
-    special_treatments: ['응급의료센터', '화상치료센터', '척추관절센터'],
+    special_treatments: ['지역응급의료센터', '화상치료센터', '척추관절센터'],
+    equipments: ['MRI 3.0T', 'CT (3대)', '디지털 혈관조영기'],
+    transport: {
+      traffic: '수인분당선 서현역 5번 출구 도보 5분',
+      parking: '병원 지하주차장',
+    },
     is_hospice: false,
   },
 
@@ -169,7 +199,12 @@ export const MOCK_FACILITIES: Facility[] = [
     doctor_count: 32,
     specialist_count: 26,
     treatments: ['정형외과', '신경외과', '마취통증의학과', '영상의학과', '내과'],
-    special_treatments: ['보건복지부 지정 관절전문병원', '줄기세포 연골재생', '인공관절 수술'],
+    special_treatments: ['보건복지부 지정 관절전문병원', '줄기세포 연골재생', '3D 인공관절 수술'],
+    equipments: ['MRI 3.0T (3대)', '3D CT', '체외충격파 치료기 (ESWT 6대)'],
+    transport: {
+      traffic: '지하철 3호선/신분당선 양재역 1번 출구 도보 5분',
+      parking: '발렛파킹 및 자주식 주차장 운영',
+    },
     is_hospice: false,
   },
 
@@ -192,7 +227,12 @@ export const MOCK_FACILITIES: Facility[] = [
     total_beds: 240,
     nursing_grade: '1등급',
     treatments: ['한방내과', '침구과', '한방부인과', '한방소아과', '한방재활의학과'],
-    special_treatments: ['중풍재활클리닉', '안면마비클리닉', '척추관절클리닉', '양한방 협진'],
+    special_treatments: ['중풍재활클리닉', '안면마비(구안와사)클리닉', '척추관절클리닉', '양한방 협진 시스템'],
+    equipments: ['경락기능검사기', '수양명경락진단기', '체열진단기(DITI)', '고주파 온열치료기'],
+    transport: {
+      traffic: '지하철 1호선/경의중앙선 회기역 1번 출구 (마을버스 동대문01)',
+      parking: '의료원 통합 주차빌딩',
+    },
     is_hospice: false,
   },
   {
@@ -212,8 +252,13 @@ export const MOCK_FACILITIES: Facility[] = [
     specialist_count: 42,
     total_beds: 180,
     nursing_grade: '1등급',
-    treatments: ['한방재활의학과', '침구과', '한방내과', '영상의학과(협진)'],
-    special_treatments: ['비수술 척추디스크', '추나요법', '교통사고 입원치료'],
+    treatments: ['한방재활의학과', '침구과', '한방내과', '영상의학과(양한방협진)'],
+    special_treatments: ['비수술 척추디스크', '신바로 추나요법', '교통사고 입원치료', '도수치료'],
+    equipments: ['MRI 3.0T', 'X-ray', 'DITI 체열검사기', '무중력 감압치료기'],
+    transport: {
+      traffic: '지하철 7호선/신분당선 논현역 3번 출구 바로 앞',
+      parking: '지하 전용 주차장 (발렛 가능)',
+    },
     is_hospice: false,
   },
 
@@ -233,11 +278,16 @@ export const MOCK_FACILITIES: Facility[] = [
     doctor_count: 3,
     specialist_count: 2,
     treatments: ['침구과', '한방내과', '사상체질과'],
-    special_treatments: ['체질맞춤 한약', '추나교정', '야간진료(화/목 20시까지)'],
+    special_treatments: ['체질맞춤 한약', '추나체형교정', '야간진료(화/목 20시까지)'],
+    equipments: ['체성분분석기(InBody)', '경락기능검사기', 'ICT 간섭파치료기'],
+    transport: {
+      traffic: '교대역 4번 출구 도보 3분',
+      parking: '건물 내 기계식 주차 가능',
+    },
     is_hospice: false,
   },
 
-  // 6. 요양병원 (28 / 21)
+  // 6. 요양병원 (28)
   {
     id: 'fac-nur-01',
     ykiho: 'JDQ4MTYyOCM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyAx',
@@ -257,7 +307,12 @@ export const MOCK_FACILITIES: Facility[] = [
     specialist_count: 9,
     total_beds: 210,
     treatments: ['내과', '재활의학과', '신경과', '가정의학과', '한방내과'],
-    special_treatments: ['심평원 5회 연속 1등급', '혈액투석실 운영', '중증환자 집중케어'],
+    special_treatments: ['심평원 5회 연속 1등급', '혈액투석실(FMC 5008S)', '중증환자 집중케어', '전문재활로봇치료'],
+    equipments: ['최신 고효율 혈액투석기 (30대)', '보행재활로봇', 'DITI 체열검사기', '음압격리실'],
+    transport: {
+      traffic: '지하철 수인분당선 한티역 7번 출구 / 역삼역 셔틀',
+      parking: '지상 및 지하 전용 주차장',
+    },
     is_hospice: false,
   },
   {
@@ -279,7 +334,12 @@ export const MOCK_FACILITIES: Facility[] = [
     specialist_count: 17,
     total_beds: 512,
     treatments: ['재활의학과', '신경과', '내과', '완화의료과'],
-    special_treatments: ['보바스재활치료', '국내 최고 수준 재활센터', '완화돌봄실 운영'],
+    special_treatments: ['보바스 국제재활치료', '국내 최고 수준 재활센터', '완화돌봄실 운영', '노인성 치매안심병동'],
+    equipments: ['로봇 보행치료기(Lokomat)', '수치료실', '연하재활치료기', 'CT'],
+    transport: {
+      traffic: '신분당선 미금역/정자역에서 병원 순환 셔틀버스 상시 운행',
+      parking: '지상 넓은 야외 주차장 완비',
+    },
     is_hospice: true,
   },
 
@@ -302,7 +362,12 @@ export const MOCK_FACILITIES: Facility[] = [
     total_beds: 24,
     grade_evaluation: '보건복지부 지정 전문기관',
     treatments: ['완화의학과', '종양내과', '정신건강의학과'],
-    special_treatments: ['입원형 호스피스', '자문형 호스피스', '영적돌봄 및 가족상담'],
+    special_treatments: ['입원형 호스피스', '자문형 호스피스', '영적돌봄 및 가족상담', '사별가족돌봄 프로그램'],
+    equipments: ['자가통증조절장치(PCA)', '원예치료실', '가족 휴게실 및 목욕시설'],
+    transport: {
+      traffic: '지하철 3/7/9호선 고속터미널역 3번 출구',
+      parking: '서울성모병원 본관 주차장',
+    },
     is_hospice: true,
   },
   {
@@ -323,7 +388,12 @@ export const MOCK_FACILITIES: Facility[] = [
     total_beds: 15,
     grade_evaluation: '중앙호스피스센터',
     treatments: ['호스피스완화의료과', '가정의학과'],
-    special_treatments: ['가정형 호스피스', '완수의료 상담', '통증조절 집중관리'],
+    special_treatments: ['가정형 호스피스', '완수의료 상담', '통증조절 집중관리', '음악/미술 치료'],
+    equipments: ['전문 완화치료베드', '통증조절기', '심신안정실'],
+    transport: {
+      traffic: '3호선 마두역 1번 출구 (버스 88번 환승)',
+      parking: '국립암센터 전용 주차장',
+    },
     is_hospice: true,
   },
 ];

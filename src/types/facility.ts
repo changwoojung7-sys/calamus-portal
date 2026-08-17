@@ -1,16 +1,33 @@
-/**
- * 심평원 종별코드 정의 (clCd)
- * 01: 상급종합병원 (서울대, 아산, 삼성서울 등)
- * 11: 종합병원
- * 21: 병원 (일반 양방)
- * 28: 요양병원 (또는 한방병원)
- * 92: 한방병원
- * 93: 한의원
- * hospice: 호스피스 완화의료 지정기관
- */
 export type FacilityCategoryCode = '01' | '11' | '21' | '28' | '92' | '93' | 'hospice';
 
 export type CategoryFilter = 'ALL' | FacilityCategoryCode;
+
+export interface FacilityEquipment {
+  eqpName: string; // 장비명 (MRI, CT, PET-CT, 체외충격파 등)
+  count?: number; // 보유대수
+}
+
+export interface FacilityTransport {
+  traffic?: string; // 오시는 길 / 지하철 / 버스
+  parking?: string; // 주차 가능 여부 / 주차 대수
+}
+
+export interface FacilityDetailInfo {
+  ykiho: string;
+  name: string;
+  totalBeds?: number; // 총 병상수
+  generalBeds?: number; // 일반입원실
+  icuBeds?: number; // 중환자실
+  specialistCount?: number; // 전문의 수
+  doctorCount?: number; // 의사 총수
+  nursingGrade?: string; // 간호등급
+  equipments?: string[]; // 보유 의료장비 목록
+  treatments?: string[]; // 개설 진료과목
+  specialTreatments?: string[]; // 특수진료 및 특화 클리닉
+  transport?: FacilityTransport; // 교통 및 주차
+  mealAddPrice?: boolean; // 식대가산
+  emergencyRoom?: string; // 응급실 운영 여부
+}
 
 export interface Facility {
   id: string;
@@ -36,6 +53,8 @@ export interface Facility {
   specialist_count?: number; // 전문의 수 (mdeptSdrCnt / cmdcSdrCnt)
   treatments?: string[]; // 개설 진료과목
   special_treatments?: string[]; // 특수진료 및 강점
+  equipments?: string[]; // 의료장비 (CT, MRI 등)
+  transport?: FacilityTransport; // 교통 및 오시는 길
   is_hospice?: boolean;
   distance_meters?: number;
 }
