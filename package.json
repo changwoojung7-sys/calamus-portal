@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "migrate:hosp": "node -r ts-node/register src/scripts/migrateHospitalData.ts",
     "lint": "eslint"
   },
   "dependencies": {
@@ -21,7 +22,8 @@
     "react-dom": "19.0.0",
     "react-markdown": "^10.0.0",
     "remark-gfm": "^4.0.0",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
