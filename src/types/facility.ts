@@ -55,9 +55,30 @@ export interface Facility {
   special_treatments?: string[]; // 특수진료 및 강점
   equipments?: string[]; // 의료장비 (CT, MRI 등)
   transport?: FacilityTransport; // 교통 및 오시는 길
+  special_hospital_field?: string | null; // 전문병원 지정분야
+  detailed_info?: {
+    parking_count?: number;
+    parking_cost?: string;
+    parking_memo?: string;
+    sun_closed?: string;
+    holiday_closed?: string;
+    er_day_yn?: string;
+    er_day_tel?: string;
+    er_night_yn?: string;
+    er_night_tel?: string;
+    lunch_weekday?: string;
+    lunch_sat?: string;
+    rcpt_weekday?: string;
+    rcpt_sat?: string;
+    mon_time?: string;
+    sat_time?: string;
+  };
+  meal_info?: string[];
+  other_staff?: string[];
   is_hospice?: boolean;
   distance_meters?: number;
 }
+
 
 export interface FacilitySearchParams {
   category?: CategoryFilter;

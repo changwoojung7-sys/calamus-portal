@@ -41,7 +41,9 @@ export const FacilityMapSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSido, setSelectedSido] = useState<string>('ALL');
   const [gradeFilter, setGradeFilter] = useState<boolean>(false);
-  const [facilities, setFacilities] = useState<Facility[]>(MOCK_FACILITIES);
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLoadingList, setIsLoadingList] = useState<boolean>(true);
   const [kakaoLoaded, setKakaoLoaded] = useState<boolean>(false);
   const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false);
   const [detailCache, setDetailCache] = useState<{ [id: string]: Facility }>({});
@@ -76,56 +78,50 @@ export const FacilityMapSearch: React.FC = () => {
     }
   }, []);
 
-  // 2. 검색 및 필터링 계산 (오류 방지 및 null-safe)
-  const filteredFacilities = useMemo(() => {
-    const query = (searchTerm || '').trim().toLowerCase();
-
-    return facilities.filter((fac) => {
-      if (!fac) return false;
-
-      // 카테고리 필터
-      const matchesCategory =
-        activeCategory === 'ALL' ||
-        (activeCategory === 'hospice' ? fac.is_hospice : fac.category_code === activeCategory);
-
-      // 검색어 필터 (기관명, 주소, 진료과목, 특수진료, 장비명)
-      let matchesSearch = true;
-      if (query) {
-        const nameMatch = fac.name?.toLowerCase().includes(query) ?? false;
-        const addrMatch = fac.address?.toLowerCase().includes(query) ?? false;
-        const treatMatch = fac.treatments?.some((t) => t?.toLowerCase().includes(query)) ?? false;
-        const specMatch = fac.special_treatments?.some((s) => s?.toLowerCase().includes(query)) ?? false;
-        const eqpMatch = fac.equipments?.some((e) => e?.toLowerCase().includes(query)) ?? false;
-        matchesSearch = nameMatch || addrMatch || treatMatch || specMatch || eqpMatch;
-      }
-
-      // 시도 지역 필터
-      const matchesSido =
-        selectedSido === 'ALL' || (fac.sido_name && fac.sido_name.includes(selectedSido));
-
-      // 1등급 필터
-      const matchesGrade =
-        !gradeFilter ||
-        Boolean(
-          fac.grade_evaluation?.includes('1등급') ||
-          fac.stroke_grade?.includes('1등급') ||
-          fac.pneumonia_grade?.includes('1등급') ||
-          fac.nursing_grade?.includes('1등급')
-        );
-
-      return matchesCategory && matchesSearch && matchesSido && matchesGrade;
-    });
-  }, [facilities, activeCategory, searchTerm, selectedSido, gradeFilter]);
-
-  // 검색 결과 변경 시 선택된 시설 동기화
+  // 2. Supabase 기반 병의원 목록 비동기 조회 (검색어, 카테고리, 지역 연동)
   useEffect(() => {
-    if (filteredFacilities.length > 0) {
-      const stillExists = filteredFacilities.find((f) => f.id === selectedFacility?.id);
-      if (!stillExists) {
-        handleSelectFacility(filteredFacilities[0]);
+    let isCancelled = false;
+    const fetchFacilities = async () => {
+      setIsLoadingList(true);
+      try {
+        const params = new URLSearchParams();
+        if (activeCategory !== 'ALL') params.append('category', activeCategory);
+        if (searchTerm.trim()) params.append('query', searchTerm.trim());
+        if (selectedSido !== 'ALL') params.append('sido', selectedSido);
+        params.append('pageSize', '50');
+
+        const res = await fetch(`/api/facilities?${params.toString()}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (!isCancelled && json.success) {
+            setFacilities(json.data || []);
+            setTotalCount(json.total || 0);
+            if (json.data && json.data.length > 0) {
+              handleSelectFacility(json.data[0]);
+            } else {
+              setSelectedFacility(null);
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load facilities:', err);
+      } finally {
+        if (!isCancelled) setIsLoadingList(false);
       }
-    }
-  }, [filteredFacilities]);
+    };
+
+    const debounceTimer = setTimeout(() => {
+      fetchFacilities();
+    }, 250);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(debounceTimer);
+    };
+  }, [activeCategory, searchTerm, selectedSido]);
+
+  const filteredFacilities = facilities;
+
 
   // 3. 지도 마커 갱신 (카카오맵 활성화 시)
   useEffect(() => {
@@ -213,10 +209,10 @@ export const FacilityMapSearch: React.FC = () => {
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-emerald-400" />
             <input
               type="text"
-              placeholder="기관명, 지역(강남, 분당), 진료과(추나, 암, 관절), 장비(MRI)..."
+              placeholder="예: '한방병원 용인', '요양병원 수원', '유방암 1등급', 'MRI'..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-900/90 py-2.5 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
+              className="w-full rounded-xl border border-slate-700 bg-slate-900/90 py-2.5 pl-10 pr-14 text-sm text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
             />
             {searchTerm && (
               <button
@@ -227,6 +223,27 @@ export const FacilityMapSearch: React.FC = () => {
               </button>
             )}
           </div>
+
+          {/* 퀵 추천 복합 검색어 태그 */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] text-slate-400 no-scrollbar">
+            <span className="shrink-0 text-slate-500 font-medium">추천:</span>
+            {[
+              { label: '한방병원 용인', val: '한방병원 용인' },
+              { label: '요양병원 수원', val: '요양병원 수원' },
+              { label: '유방암 1등급', val: '유방암 1등급' },
+              { label: '호스피스 완화', val: '호스피스 완화' },
+              { label: 'MRI 보유병원', val: 'MRI' },
+            ].map((tag) => (
+              <button
+                key={tag.val}
+                onClick={() => setSearchTerm(tag.val)}
+                className="shrink-0 px-2 py-0.5 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition"
+              >
+                {tag.label}
+              </button>
+            ))}
+          </div>
+
 
           {/* 카테고리 탭 */}
           <div className="flex flex-wrap gap-1.5 text-xs font-medium">
@@ -262,9 +279,23 @@ export const FacilityMapSearch: React.FC = () => {
                 className="bg-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1 border border-slate-700 focus:outline-none focus:border-emerald-500"
               >
                 <option value="ALL">전국 전체</option>
-                <option value="서울">서울특별시</option>
-                <option value="경기">경기도</option>
-                <option value="인천">인천광역시</option>
+                <option value="서울">서울</option>
+                <option value="경기">경기</option>
+                <option value="인천">인천</option>
+                <option value="부산">부산</option>
+                <option value="대구">대구</option>
+                <option value="광주">광주</option>
+                <option value="대전">대전</option>
+                <option value="울산">울산</option>
+                <option value="세종">세종</option>
+                <option value="강원">강원</option>
+                <option value="충북">충북</option>
+                <option value="충남">충남</option>
+                <option value="전북">전북</option>
+                <option value="전남">전남</option>
+                <option value="경북">경북</option>
+                <option value="경남">경남</option>
+                <option value="제주">제주</option>
               </select>
             </div>
 
@@ -282,16 +313,17 @@ export const FacilityMapSearch: React.FC = () => {
           </div>
         </div>
 
-        {/* 시설 리스트 (API 1 연계 결과) */}
+        {/* 시설 리스트 (Supabase DB 연계 결과) */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
           <div className="flex items-center justify-between text-xs text-slate-400 font-medium px-1">
             <span>
-              검색 결과 <strong className="text-emerald-400 font-bold">{filteredFacilities.length}</strong>곳
+              검색 결과 <strong className="text-emerald-400 font-bold">{totalCount.toLocaleString()}</strong>곳 {isLoadingList && '(조회 중...)'}
             </span>
             <span className="text-[11px] text-slate-500 flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> HIRA 병원정보서비스 연동
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> 전국 8만 DB 연동
             </span>
           </div>
+
 
           {filteredFacilities.map((fac) => {
             const isSelected = selectedFacility?.id === fac.id;
@@ -542,7 +574,97 @@ export const FacilityMapSearch: React.FC = () => {
                   </div>
                 )}
 
-                {/* 3. 개설 진료과목 (API 2: /getDgsbjtInfo2.8 연계) */}
+                {/* 3. 진료시간 & 응급실 & 주차 세부정보 (4.세부정보) */}
+                {selectedFacility.detailed_info && Object.keys(selectedFacility.detailed_info).length > 0 && (
+                  <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800/80">
+                    <h4 className="text-sm font-bold text-slate-200 mb-2.5 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-amber-400" /> 진료시간 · 응급실 · 주차 세부정보
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                      {selectedFacility.detailed_info.mon_time && (
+                        <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5 font-medium">🕒 평일 진료시간</span>
+                          <span className="font-semibold text-slate-100">{selectedFacility.detailed_info.mon_time}</span>
+                          {selectedFacility.detailed_info.lunch_weekday && (
+                            <span className="text-[11px] text-slate-400 block mt-0.5">(점심: {selectedFacility.detailed_info.lunch_weekday})</span>
+                          )}
+                        </div>
+                      )}
+                      {selectedFacility.detailed_info.sat_time && (
+                        <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5 font-medium">🕒 토요일 진료시간</span>
+                          <span className="font-semibold text-slate-100">{selectedFacility.detailed_info.sat_time}</span>
+                          {selectedFacility.detailed_info.sun_closed && (
+                            <span className="text-[11px] text-rose-400 block mt-0.5">일요일: {selectedFacility.detailed_info.sun_closed}</span>
+                          )}
+                        </div>
+                      )}
+                      {(selectedFacility.detailed_info.er_day_yn === 'Y' || selectedFacility.detailed_info.er_night_yn === 'Y') && (
+                        <div className="bg-rose-950/40 p-2.5 rounded-xl border border-rose-900/50">
+                          <span className="text-rose-400 block mb-0.5 font-bold">🚨 응급실 운영</span>
+                          <span className="text-rose-200">
+                            주간 {selectedFacility.detailed_info.er_day_yn === 'Y' ? '운영' : '미운영'} / 야간 {selectedFacility.detailed_info.er_night_yn === 'Y' ? '운영' : '미운영'}
+                          </span>
+                          {selectedFacility.detailed_info.er_day_tel && (
+                            <span className="text-[11px] text-rose-300 block mt-0.5">직통: {selectedFacility.detailed_info.er_day_tel}</span>
+                          )}
+                        </div>
+                      )}
+                      {selectedFacility.detailed_info.parking_count !== undefined && (
+                        <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5 font-medium">🚗 주차 안내</span>
+                          <span className="font-semibold text-slate-100">
+                            {selectedFacility.detailed_info.parking_count > 0 ? `총 ${selectedFacility.detailed_info.parking_count}대 가능` : '주차공간 협소'}
+                            {selectedFacility.detailed_info.parking_cost === 'N' ? ' (무료)' : selectedFacility.detailed_info.parking_cost === 'Y' ? ' (유료)' : ''}
+                          </span>
+                          {selectedFacility.detailed_info.parking_memo && (
+                            <span className="text-[11px] text-slate-400 block mt-0.5">{selectedFacility.detailed_info.parking_memo}</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. 전문병원 지정 및 식대가산 / 기타인력 */}
+                {(selectedFacility.special_hospital_field || (selectedFacility.other_staff && selectedFacility.other_staff.length > 0) || (selectedFacility.meal_info && selectedFacility.meal_info.length > 0)) && (
+                  <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800/80 space-y-3">
+                    {selectedFacility.special_hospital_field && (
+                      <div>
+                        <span className="text-xs text-indigo-400 font-bold block mb-1">🏥 보건복지부 지정 전문병원 분야</span>
+                        <span className="px-3 py-1 text-xs rounded-xl bg-indigo-950/60 border border-indigo-500/40 text-indigo-200 font-bold">
+                          ★ {selectedFacility.special_hospital_field} 전문병원
+                        </span>
+                      </div>
+                    )}
+                    {selectedFacility.other_staff && selectedFacility.other_staff.length > 0 && (
+                      <div>
+                        <span className="text-xs text-slate-400 font-medium block mb-1.5">👨‍⚕️ 기타 전문 의료인력 현황</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {selectedFacility.other_staff.map((st, i) => (
+                            <span key={i} className="px-2 py-0.5 text-[11px] rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
+                              {st}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {selectedFacility.meal_info && selectedFacility.meal_info.length > 0 && (
+                      <div>
+                        <span className="text-xs text-slate-400 font-medium block mb-1.5">🍱 입원식 및 식대가산 정보</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {selectedFacility.meal_info.map((m, i) => (
+                            <span key={i} className="px-2 py-0.5 text-[11px] rounded-lg bg-teal-950/50 text-teal-300 border border-teal-800/50">
+                              {m}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 5. 개설 진료과목 (API 2: /getDgsbjtInfo2.8 연계) */}
                 {selectedFacility.treatments && selectedFacility.treatments.length > 0 && (
                   <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800/80">
                     <h4 className="text-sm font-bold text-slate-200 mb-2">개설 진료과목</h4>
@@ -559,11 +681,11 @@ export const FacilityMapSearch: React.FC = () => {
                   </div>
                 )}
 
-                {/* 4. 교통 및 주차 안내 (API 2: /getTrnsprtInfo2.8 연계) */}
+                {/* 6. 교통 및 주차 안내 (API 2: /getTrnsprtInfo2.8 연계) */}
                 {selectedFacility.transport && (
                   <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800/80">
                     <h4 className="text-sm font-bold text-slate-200 mb-2 flex items-center gap-1.5">
-                      <Bus className="w-4 h-4 text-purple-400" /> 오시는 길 및 주차 안내
+                      <Bus className="w-4 h-4 text-purple-400" /> 오시는 길 및 교통편 안내
                     </h4>
                     <div className="space-y-1.5 text-xs text-slate-300">
                       {selectedFacility.transport.traffic && (
@@ -581,6 +703,7 @@ export const FacilityMapSearch: React.FC = () => {
                     </div>
                   </div>
                 )}
+
 
                 {/* 액션 버튼 */}
                 <div className="flex flex-wrap gap-3 pt-2">
@@ -605,12 +728,13 @@ export const FacilityMapSearch: React.FC = () => {
 
               {/* 하단 공공데이터 출처 고지 */}
               <div className="mt-6 pt-4 border-t border-slate-800/80 text-[11px] text-slate-500 text-center flex items-center justify-center gap-2">
-                <span>데이터 출처: 건강보험심사평가원(HIRA) 병원정보 & 상세정보 Open API</span>
+                <span>데이터 출처: 건강보험심사평가원(HIRA) 심평원 공공데이터</span>
                 <span>•</span>
-                <span>실시간 양방향 동기화</span>
+                <span>Supabase PostgreSQL 실시간 동기화</span>
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>

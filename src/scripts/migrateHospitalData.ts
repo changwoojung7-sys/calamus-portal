@@ -128,7 +128,7 @@ async function migratePharmacies() {
 }
 
 /**
- * 3. 병원 상세정보 집계 및 마이그레이션 (시설, 진료과, 장비, 교통, 간호등급)
+ * 3. 병원 상세정보 집계 및 마이그레이션 (시설, 세부정보, 진료과, 장비, 교통, 간호등급, 식대가산, 전문병원, 기타인력)
  */
 async function migrateHospitalDetails() {
   console.log(`\n🔬 [3/3] 병의원 상세정보 종합 집계 시작...`);
@@ -158,11 +158,45 @@ async function migrateHospitalDetails() {
         special_treatments: [],
         equipments: [],
         transports: [],
+        detailed_info: {},
+        meal_info: [],
+        other_staff: [],
+        special_hospital_field: null,
       });
     }
   }
 
-  // 3-2. 진료과목 정보
+  // 3-2. 세부정보 (진료시간, 응급실, 주차, 점심시간)
+  const dtlFile = findFileByPattern('세부정보');
+  if (dtlFile) {
+    console.log(`- 세부정보 (진료시간/응급실/주차) 파싱 중... (${path.basename(dtlFile)})`);
+    const wb = XLSX.readFile(dtlFile);
+    const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    for (const r of rows) {
+      const ykiho = String(r['암호화요양기호']);
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
+      item.detailed_info = {
+        parking_count: r['주차_가능대수'],
+        parking_cost: r['주차_비용 부담여부'],
+        parking_memo: r['주차_기타 안내사항'],
+        sun_closed: r['휴진안내_일요일'],
+        holiday_closed: r['휴진안내_공휴일'],
+        er_day_yn: r['응급실_주간_운영여부'],
+        er_day_tel: r['응급실_주간_전화번호1'],
+        er_night_yn: r['응급실_야간_운영여부'],
+        er_night_tel: r['응급실_야간_전화번호1'],
+        lunch_weekday: r['점심시간_평일'],
+        lunch_sat: r['점심시간_토요일'],
+        rcpt_weekday: r['접수시간_평일'],
+        rcpt_sat: r['접수시간_토요일'],
+        mon_time: r['진료시작시간_월요일'] ? `${r['진료시작시간_월요일']}~${r['진료종료시간_월요일']}` : null,
+        sat_time: r['진료시작시간_토요일'] ? `${r['진료시작시간_토요일']}~${r['진료종료시간_토요일']}` : null,
+      };
+      detailMap.set(ykiho, item);
+    }
+  }
+
+  // 3-3. 진료과목 정보
   const dgsFile = findFileByPattern('진료과목정보');
   if (dgsFile) {
     console.log(`- 진료과목 정보 결합 중... (${path.basename(dgsFile)})`);
@@ -170,7 +204,7 @@ async function migrateHospitalDetails() {
     const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     for (const r of rows) {
       const ykiho = String(r['암호화요양기호']);
-      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [] };
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
       if (r['진료과목코드명'] && !item.treatments.includes(r['진료과목코드명'])) {
         item.treatments.push(String(r['진료과목코드명']));
       }
@@ -178,7 +212,7 @@ async function migrateHospitalDetails() {
     }
   }
 
-  // 3-3. 의료장비 정보
+  // 3-4. 의료장비 정보
   const eqpFile = findFileByPattern('의료장비정보');
   if (eqpFile) {
     console.log(`- 의료장비 정보 결합 중... (${path.basename(eqpFile)})`);
@@ -186,7 +220,7 @@ async function migrateHospitalDetails() {
     const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     for (const r of rows) {
       const ykiho = String(r['암호화요양기호']);
-      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [] };
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
       const eqpStr = `${r['장비코드명'] || '장비'} (${r['장비대수'] || 1}대)`;
       if (!item.equipments.includes(eqpStr)) {
         item.equipments.push(eqpStr);
@@ -195,7 +229,7 @@ async function migrateHospitalDetails() {
     }
   }
 
-  // 3-4. 특수진료 정보
+  // 3-5. 특수진료 정보
   const spcFile = findFileByPattern('특수진료정보');
   if (spcFile) {
     console.log(`- 특수진료 정보 결합 중... (${path.basename(spcFile)})`);
@@ -203,7 +237,7 @@ async function migrateHospitalDetails() {
     const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     for (const r of rows) {
       const ykiho = String(r['암호화요양기호']);
-      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [] };
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
       if (r['검색코드명'] && !item.special_treatments.includes(r['검색코드명'])) {
         item.special_treatments.push(String(r['검색코드명']));
       }
@@ -211,7 +245,21 @@ async function migrateHospitalDetails() {
     }
   }
 
-  // 3-5. 간호등급 정보
+  // 3-6. 전문병원 지정분야
+  const spHospFile = findFileByPattern('전문병원지정분야');
+  if (spHospFile) {
+    console.log(`- 전문병원지정분야 파싱 중... (${path.basename(spHospFile)})`);
+    const wb = XLSX.readFile(spHospFile);
+    const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    for (const r of rows) {
+      const ykiho = String(r['암호화요양기호']);
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
+      item.special_hospital_field = r['검색코드명'] ? String(r['검색코드명']) : null;
+      detailMap.set(ykiho, item);
+    }
+  }
+
+  // 3-7. 간호등급 정보
   const nursFile = findFileByPattern('간호등급정보');
   if (nursFile) {
     console.log(`- 간호등급 정보 결합 중... (${path.basename(nursFile)})`);
@@ -219,7 +267,7 @@ async function migrateHospitalDetails() {
     const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     for (const r of rows) {
       const ykiho = String(r['암호화요양기호']);
-      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [] };
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
       if (r['간호등급']) {
         item.nursing_grade = `${r['간호등급']}등급`;
       }
@@ -227,7 +275,35 @@ async function migrateHospitalDetails() {
     }
   }
 
-  // 3-6. 교통 정보
+  // 3-8. 식대가산 정보
+  const mealFile = findFileByPattern('식대가산정보');
+  if (mealFile) {
+    console.log(`- 식대가산정보 파싱 중... (${path.basename(mealFile)})`);
+    const wb = XLSX.readFile(mealFile);
+    const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    for (const r of rows) {
+      const ykiho = String(r['암호화요양기호']);
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
+      item.meal_info.push(`${r['유형코드명'] || ''} (가산:${r['일반식 가산여부'] || 'N'})`);
+      detailMap.set(ykiho, item);
+    }
+  }
+
+  // 3-9. 기타인력 정보 (약사, 물리치료사, 방사선사 등)
+  const staffFile = findFileByPattern('기타인력정보');
+  if (staffFile) {
+    console.log(`- 기타인력정보 파싱 중... (${path.basename(staffFile)})`);
+    const wb = XLSX.readFile(staffFile);
+    const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    for (const r of rows) {
+      const ykiho = String(r['암호화요양기호']);
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
+      item.other_staff.push(`${r['기타인력코드명'] || '인력'} ${r['기타인력수'] || 1}명`);
+      detailMap.set(ykiho, item);
+    }
+  }
+
+  // 3-10. 교통 정보
   const trnFile = findFileByPattern('교통정보');
   if (trnFile) {
     console.log(`- 교통정보 결합 중... (${path.basename(trnFile)})`);
@@ -235,7 +311,7 @@ async function migrateHospitalDetails() {
     const rows: any[] = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     for (const r of rows) {
       const ykiho = String(r['암호화요양기호']);
-      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [] };
+      const item = detailMap.get(ykiho) || { ykiho, treatments: [], special_treatments: [], equipments: [], transports: [], detailed_info: {}, meal_info: [], other_staff: [] };
       const trnStr = `${r['교통편명'] || ''} ${r['노선번호'] || ''} ${r['하차지점'] || ''}`.trim();
       if (trnStr && !item.transports.includes(trnStr)) {
         item.transports.push(trnStr);
@@ -244,7 +320,21 @@ async function migrateHospitalDetails() {
     }
   }
 
-  const detailList = Array.from(detailMap.values());
+  const detailList = Array.from(detailMap.values()).map(item => {
+    // 키워드 통합 문자열 생성 (진료과, 장비, 특수진료, 전문병원 등)
+    const kw = [
+      ...(item.treatments || []),
+      ...(item.special_treatments || []),
+      ...(item.equipments || []),
+      item.special_hospital_field,
+      item.nursing_grade,
+    ].filter(Boolean).join(' ');
+    return {
+      ...item,
+      search_keywords: kw,
+    };
+  });
+
   console.log(`총 ${detailList.length}건 상세정보 집계 완료. Supabase 적재 중...`);
 
   const BATCH_SIZE = 500;
@@ -258,7 +348,19 @@ async function migrateHospitalDetails() {
     }
   }
   console.log('\n✨ 병의원 상세정보 종합 마이그레이션 완료!');
+
+  // 병원 기본정보 테이블(hosapi_hospital)의 search_keywords 에도 동기화
+  console.log('\n🔄 병원 기본정보 테이블 search_keywords 일괄 업데이트 중...');
+  for (let i = 0; i < detailList.length; i += BATCH_SIZE) {
+    const batch = detailList.slice(i, i + BATCH_SIZE).map(d => ({
+      ykiho: d.ykiho,
+      search_keywords: d.search_keywords,
+    }));
+    await supabase.from('hosapi_hospital').upsert(batch, { onConflict: 'ykiho' });
+  }
+  console.log('✨ search_keywords 동기화 완료!');
 }
+
 
 /**
  * 메인 실행 함수 (분기별 엑셀 파일 자동 일괄 동기화)
