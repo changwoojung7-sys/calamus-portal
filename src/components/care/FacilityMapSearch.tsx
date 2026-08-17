@@ -32,21 +32,32 @@ declare global {
   }
 }
 
-export const FacilityMapSearch: React.FC = () => {
+interface FacilityMapSearchProps {
+  initialCategory?: CategoryFilter;
+}
+
+export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCategory = 'ALL' }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(MOCK_FACILITIES[0]);
-  const [activeCategory, setActiveCategory] = useState<CategoryFilter>('ALL');
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>(initialCategory);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSido, setSelectedSido] = useState<string>('ALL');
-  const [gradeFilter, setGradeFilter] = useState<boolean>(false);
+  const [selectedGrade, setSelectedGrade] = useState<string>('ALL');
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [isLoadingList, setIsLoadingList] = useState<boolean>(true);
   const [kakaoLoaded, setKakaoLoaded] = useState<boolean>(false);
   const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false);
   const [detailCache, setDetailCache] = useState<{ [id: string]: Facility }>({});
+
+  // 외부 initialCategory 변경 시 내부 activeCategory 동기화
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   // 1. 카카오맵 SDK 로드 및 초기화
   useEffect(() => {
@@ -78,7 +89,7 @@ export const FacilityMapSearch: React.FC = () => {
     }
   }, []);
 
-  // 2. Supabase 기반 병의원 목록 비동기 조회 (검색어, 카테고리, 지역 연동)
+  // 2. Supabase 기반 병의원 목록 비동기 조회 (검색어, 카테고리, 지역, 등급 연동)
   useEffect(() => {
     let isCancelled = false;
     const fetchFacilities = async () => {
@@ -88,6 +99,7 @@ export const FacilityMapSearch: React.FC = () => {
         if (activeCategory !== 'ALL') params.append('category', activeCategory);
         if (searchTerm.trim()) params.append('query', searchTerm.trim());
         if (selectedSido !== 'ALL') params.append('sido', selectedSido);
+        if (selectedGrade !== 'ALL') params.append('grade', selectedGrade);
         params.append('pageSize', '50');
 
         const res = await fetch(`/api/facilities?${params.toString()}`);
@@ -118,10 +130,9 @@ export const FacilityMapSearch: React.FC = () => {
       isCancelled = true;
       clearTimeout(debounceTimer);
     };
-  }, [activeCategory, searchTerm, selectedSido]);
+  }, [activeCategory, searchTerm, selectedSido, selectedGrade]);
 
   const filteredFacilities = facilities;
-
 
   // 3. 지도 마커 갱신 (카카오맵 활성화 시)
   useEffect(() => {
@@ -149,7 +160,7 @@ export const FacilityMapSearch: React.FC = () => {
     setMarkers(newMarkers);
   }, [map, kakaoLoaded, filteredFacilities]);
 
-  // 4. 병원 클릭 시 상세정보 API 결합 호출 (심평원 상세정보서비스 연계)
+  // 4. 병원 클릭 시 상세정보 API 결합 호출
   const handleSelectFacility = async (fac: Facility) => {
     setSelectedFacility(fac);
 
@@ -189,18 +200,16 @@ export const FacilityMapSearch: React.FC = () => {
 
   const CATEGORY_TABS: { label: string; value: CategoryFilter; badge?: string }[] = [
     { label: '전체 기관', value: 'ALL' },
-    { label: '상급종합병원', value: '01', badge: '3차' },
-    { label: '종합병원', value: '11', badge: '100병상↑' },
+    { label: '상급·종합병원', value: 'general', badge: '3차·종합' },
+    { label: '한방병원/한의원', value: 'oriental', badge: '전문의' },
+    { label: '요양병원/요양원', value: '28', badge: '실버케어' },
     { label: '일반 병원', value: '21', badge: '양방' },
-    { label: '요양병원', value: '28', badge: '1등급' },
-    { label: '한방병원', value: '92', badge: '협진' },
-    { label: '한의원', value: '93' },
     { label: '호스피스 완화의료', value: 'hospice', badge: '복지부 지정' },
   ];
 
   return (
     <div className="flex flex-col lg:flex-row h-[840px] w-full rounded-3xl overflow-hidden border border-slate-700/60 bg-[#0d1424] shadow-2xl">
-      {/* 좌측 패널: 검색 / 필터 / 리스트 (API 1: 병원정보서비스) */}
+      {/* 좌측 패널: 검색 / 필터 / 리스트 */}
       <div className="w-full lg:w-5/12 flex flex-col h-full border-r border-slate-700/50 bg-[#0a101d]">
         {/* 검색 및 필터 헤더 */}
         <div className="p-4 border-b border-slate-800 bg-[#0e1626] space-y-3">
@@ -244,7 +253,6 @@ export const FacilityMapSearch: React.FC = () => {
             ))}
           </div>
 
-
           {/* 카테고리 탭 */}
           <div className="flex flex-wrap gap-1.5 text-xs font-medium">
             {CATEGORY_TABS.map((tab) => (
@@ -267,8 +275,8 @@ export const FacilityMapSearch: React.FC = () => {
             ))}
           </div>
 
-          {/* 서브 필터 (지역 & 1등급 전용) */}
-          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60">
+          {/* 서브 필터 (지역 & 등급 선택) */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-800/60">
             <div className="flex items-center gap-2 text-xs">
               <span className="text-slate-400 flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-emerald-400" /> 지역:
@@ -299,19 +307,26 @@ export const FacilityMapSearch: React.FC = () => {
               </select>
             </div>
 
-            <button
-              onClick={() => setGradeFilter(!gradeFilter)}
-              className={`text-xs px-2.5 py-1 rounded-lg border transition-colors flex items-center gap-1 ${
-                gradeFilter
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 font-semibold'
-                  : 'bg-slate-800/60 text-slate-400 border-slate-700 hover:text-slate-200'
-              }`}
-            >
-              <Award className="w-3 h-3 text-amber-400" />
-              심평원 1등급 기관만
-            </button>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-slate-400 flex items-center gap-1">
+                <Award className="w-3.5 h-3.5 text-amber-400" /> 등급:
+              </span>
+              <select
+                value={selectedGrade}
+                onChange={(e) => setSelectedGrade(e.target.value)}
+                className="bg-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1 border border-slate-700 focus:outline-none focus:border-amber-500"
+              >
+                <option value="ALL">전체 등급</option>
+                <option value="1등급">심평원 1등급</option>
+                <option value="2등급">심평원 2등급</option>
+                <option value="3등급">심평원 3등급</option>
+                <option value="S등급">간호/적정성 S등급</option>
+                <option value="A등급">간호/적정성 A등급</option>
+              </select>
+            </div>
           </div>
         </div>
+
 
         {/* 시설 리스트 (Supabase DB 연계 결과) */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">

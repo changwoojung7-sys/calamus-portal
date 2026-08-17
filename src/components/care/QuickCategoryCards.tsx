@@ -10,9 +10,9 @@ export const QuickCategoryCards: React.FC<QuickCategoryCardsProps> = ({ onSelect
     {
       title: '상급·종합병원',
       desc: '전국 대학병원 및 대형 종합의료기관',
-      code: '01',
+      code: 'general',
       icon: Building,
-      badge: '3차 대학병원',
+      badge: '3차·종합',
       color: 'from-cyan-500/20 to-blue-950/40',
       borderColor: 'border-cyan-500/30 hover:border-cyan-400',
       iconColor: 'text-cyan-400',
@@ -20,7 +20,7 @@ export const QuickCategoryCards: React.FC<QuickCategoryCardsProps> = ({ onSelect
     {
       title: '한방병원 / 한의원',
       desc: '전국의 전문의 수 & 양한방 협진',
-      code: '28',
+      code: 'oriental',
       icon: Building2,
       badge: '한방 전문의',
       color: 'from-amber-500/20 to-amber-950/40',
@@ -28,11 +28,11 @@ export const QuickCategoryCards: React.FC<QuickCategoryCardsProps> = ({ onSelect
       iconColor: 'text-amber-400',
     },
     {
-      title: '1등급 요양병원',
-      desc: '심평원 적정성 평가 최우수 기관',
+      title: '요양병원 / 요양원',
+      desc: '전문 요양 재활 & 간호간병 케어',
       code: '28',
       icon: ShieldCheck,
-      badge: '평가 1등급',
+      badge: '실버케어',
       color: 'from-indigo-500/20 to-indigo-950/40',
       borderColor: 'border-indigo-500/30 hover:border-indigo-400',
       iconColor: 'text-indigo-400',
@@ -48,6 +48,7 @@ export const QuickCategoryCards: React.FC<QuickCategoryCardsProps> = ({ onSelect
       iconColor: 'text-purple-400',
     },
   ];
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto text-left">

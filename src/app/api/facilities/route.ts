@@ -22,6 +22,12 @@ export async function GET(request: Request) {
     if (category !== 'ALL') {
       if (category === 'hospice') {
         dbQuery = dbQuery.eq('is_hospice', true);
+      } else if (category === 'general') {
+        // 상급종합(01) + 종합병원(11)
+        dbQuery = dbQuery.in('category_code', ['01', '11']);
+      } else if (category === 'oriental') {
+        // 한방병원(92) + 한의원(93)
+        dbQuery = dbQuery.in('category_code', ['92', '93']);
       } else {
         dbQuery = dbQuery.eq('category_code', category);
       }
@@ -31,6 +37,12 @@ export async function GET(request: Request) {
     if (sido && sido !== 'ALL') {
       dbQuery = dbQuery.ilike('sido_name', `%${sido}%`);
     }
+
+    // 3. 등급 필터 (1등급 등)
+    if (grade) {
+      dbQuery = dbQuery.ilike('search_keywords', `%${grade}%`);
+    }
+
 
     // 3. 다중 키워드 AND 검색 (공백 및 슬래시 구분: "한방병원 용인", "요양병원 수원", "유방암 1등급")
     if (query) {

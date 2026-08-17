@@ -1,6 +1,7 @@
-export type FacilityCategoryCode = '01' | '11' | '21' | '28' | '92' | '93' | 'hospice';
+export type FacilityCategoryCode = '01' | '11' | '21' | '28' | '92' | '93' | 'general' | 'oriental' | 'hospice';
 
 export type CategoryFilter = 'ALL' | FacilityCategoryCode;
+
 
 export interface FacilityEquipment {
   eqpName: string; // 장비명 (MRI, CT, PET-CT, 체외충격파 등)

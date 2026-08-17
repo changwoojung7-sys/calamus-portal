@@ -60,22 +60,22 @@ export default function Home() {
           {/* GNB 메인 메뉴 */}
           <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-300">
             <button
-              onClick={() => scrollToSearch("01")}
+              onClick={() => scrollToSearch("general")}
               className="hover:text-emerald-400 transition-colors flex items-center gap-1"
             >
               상급·종합병원
             </button>
             <button
-              onClick={() => scrollToSearch("28")}
+              onClick={() => scrollToSearch("oriental")}
               className="hover:text-emerald-400 transition-colors flex items-center gap-1"
             >
-              한방의료
+              한방병원/한의원
             </button>
             <button
               onClick={() => scrollToSearch("28")}
               className="hover:text-emerald-400 transition-colors flex items-center gap-1"
             >
-              요양·실버케어
+              요양병원/요양원
             </button>
             <button
               onClick={() => scrollToSearch("hospice")}
@@ -97,6 +97,7 @@ export default function Home() {
               힐링 라운지
             </a>
           </nav>
+
 
           {/* 모바일 힐링 라운지 퀵버튼 */}
           <div className="lg:hidden flex items-center">
@@ -138,10 +139,11 @@ export default function Home() {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white drop-shadow-md">
             상급종합병원 · 종합병원부터 <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-              한방 · 1등급 요양병원 · 호스피스
+              한방 · 요양병원/요양원 · 호스피스
             </span>{" "}
             전문 검색
           </h1>
+
 
           <p className="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             전국 7만여 개 의료기관의 공공데이터를 실시간으로 비교하세요.
@@ -176,8 +178,9 @@ export default function Home() {
 
         </div>
 
-        <FacilityMapSearch />
+        <FacilityMapSearch initialCategory={selectedHeroCategory as any} />
       </section>
+
 
       {/* 5. 케어 매거진 & 가이드 섹션 */}
       <CareMagazineSection />
