@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const grade = searchParams.get('grade') || '';
   const sido = searchParams.get('sido') || '';
   const pageNo = parseInt(searchParams.get('pageNo') || '1', 10);
-  const pageSize = parseInt(searchParams.get('pageSize') || '20', 10);
+  const pageSize = parseInt(searchParams.get('pageSize') || '30', 10);
 
   // 1. 심평원 실시간 API 호출 시도 (API 키가 등록되어 있고 유효할 경우)
   let liveItems: Facility[] = [];
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
       }
     }
 
-    // 키워드 검색 (이름, 주소, 진료과목)
+    // 키워드 검색 (이름, 주소, 진료과목, 특수진료)
     if (query) {
       const matchName = fac.name.toLowerCase().includes(query);
       const matchAddr = fac.address.toLowerCase().includes(query);
@@ -52,11 +52,11 @@ export async function GET(request: Request) {
     }
 
     // 시도 필터
-    if (sido && fac.sido_name && !fac.sido_name.includes(sido)) {
+    if (sido && sido !== 'ALL' && fac.sido_name && !fac.sido_name.includes(sido)) {
       return false;
     }
 
-    // 등급 필터
+    // 1등급 필터
     if (grade && fac.grade_evaluation && !fac.grade_evaluation.includes(grade)) {
       return false;
     }

@@ -1,24 +1,22 @@
 # 변경 내역 (CHANGELOG)
 
-## [2026-08-17] Calamus Care 메디컬 & 케어 포털 전면 리뉴얼 및 Git 자동 연동
+## [2026-08-17] Calamus Care 전국 상급종합·종합·일반병원 카테고리 확장 및 심평원 API 연계 강화
 
-### 1. 포털 브랜딩 및 아키텍처 개편 (Calamus Care)
-- **타깃 전환**: 잡학/엔터테인먼트 포털 ➔ **한방의료 & 요양·호스피스 전문 헬스케어 포털 (`Calamus Care`)**
-- **공공데이터 모델링**: 건강보험심사평가원(HIRA) 병원정보서비스 및 병원평가정보 규격(`healthcare_facilities`, `facility_details`)에 맞춘 TypeScript 타입(`Facility`, `FacilityDetail`) 및 Mock 데이터 세트(`mockFacilities.ts`) 구축
-- **심평원 API 연동 모듈**: `src/lib/hira.ts` 및 REST 검색 엔드포인트 `src/app/api/facilities/route.ts` 구현 (실시간 API 키 연계 및 Mock 폴백 지원)
+### 1. 카테고리 및 데이터 모델 확장
+- **전국 모든 병의원 포괄 체계 구축**:
+  - `01` 상급종합병원 (서울대병원, 서울아산, 삼성서울, 신촌세브란스 등 3차 대학병원)
+  - `11` 종합병원 (서울의료원, 분당제생병원 등 2차 대형 종합병원)
+  - `21` 일반 병원 (관절/척추/외과 등 양방 전문 입원병원)
+  - `28` 요양병원 (적정성 평가 1등급, 노인 재활 전문)
+  - `92` 한방병원 (양한방 협진, 침구/추나/재활)
+  - `93` 한의원 (체질 한약, 야간진료)
+  - `hospice` 호스피스 완화의료 (복지부 지정 전문기관)
 
-### 2. 메인 페이지 및 인터랙티브 UI 구현
-- **시설 인터랙티브 탐색기 (`FacilityMapSearch.tsx`)**:
-  - 종별 필터(한방병원: `28`, 한의원: `93`, 요양병원: `21`, 호스피스: `hospice`)
-  - 지역(시도) 및 심평원 적정성 평가 1등급 필터링
-  - 카카오맵 SDK 연동 및 비활성화 시 프리미엄 카드/스펙 폴백 뷰 제공
-- **히어로 섹션 및 퀵 네비게이션 (`QuickCategoryCards.tsx`)**:
-  - 한방병원, 1등급 요양병원, 호스피스 완화의료, 케어 매거진 바로가기
-- **케어 매거진 & 가이드 (`CareMagazineSection.tsx`)**:
-  - 요양병원 vs 요양원 비교, 체질별 한방 케어, 호스피스 이용 가이드 아티클
-- **힐링 라운지 마음 쉼터 배너 (`HealingLoungeBanner.tsx`)**:
-  - 기존 사주(`/saju`), 타로(`/tarot-room`), 꿈해몽(`/dream`), 선택도우미(`/balance`), 성명학(`/name`), 미니게임(`/brake`)을 하단 서브 메뉴로 깔끔하게 통합 배치
-- **GNB 및 푸터 리뉴얼**: `Calamus Care` 정체성에 맞는 다크/에메랄드 톤 디자인 및 법적 고지 갱신
+### 2. 심평원(HIRA) 연계 모듈 고도화 (`src/lib/hira.ts`, `src/app/api/facilities/route.ts`)
+- `hospInfoServicev2` (병원기본목록)의 `drTotCnt`(의사총수), `mdeptSdrCnt`(의과전문의), `cmdcSdrCnt`(한방전문의) 필드 매핑
+- `hospAsmInfoService1` (병원평가정보)의 `asmGrd01`(급성기 뇌졸중), `asmGrd10`(요양병원 적정성), `asmGrd18`(폐렴) 등 다중 평가지표 연계 구조 마련
 
-### 3. Git 자동화 스킬 구축
-- `.agents/skills/git-auto-sync/SKILL.md` 생성하여 원격 저장소(`https://github.com/changwoojung7-sys/calamus-portal.git`)로의 자동 커밋 및 푸시 워크플로우 지원
+### 3. UI/UX 및 카피 고도화
+- **메인 카피**: *"상급종합병원 · 종합병원부터 한방 · 1등급 요양병원 · 호스피스까지"*
+- **GNB 및 퀵 네비게이션**: 상급/종합병원 카드 신설 및 필터링 강화
+- **시설 인터랙티브 탐색기 (`FacilityMapSearch.tsx`)**: 8종 카테고리 탭, 4대 핵심 지표(허가 병상수, 전문의 수, 뇌졸중/적정성 평가, 간호등급) 카드 및 길찾기 지원

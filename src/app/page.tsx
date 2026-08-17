@@ -13,6 +13,8 @@ import {
   ChevronRight,
   Phone,
   Layers,
+  Building,
+  Activity,
 } from "lucide-react";
 import { FacilityMapSearch } from "@/components/care/FacilityMapSearch";
 import { QuickCategoryCards } from "@/components/care/QuickCategoryCards";
@@ -35,7 +37,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#050913] text-slate-100 font-sans selection:bg-emerald-500/30">
       {/* 백그라운드 앰비언트 글로우 */}
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_#0e202e,_#050913)] -z-10" />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_#0c2236,_#050913)] -z-10" />
       <div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent z-50 opacity-80" />
 
       {/* 1. GNB 헤더 */}
@@ -50,13 +52,19 @@ export default function Home() {
                 Calamus <span className="text-emerald-400 font-semibold">Care</span>
               </h1>
               <p className="text-[10px] text-slate-400 tracking-wider font-medium">
-                메디컬 & 요양·호스피스 전문 포털
+                전국 종합 메디컬 & 요양·호스피스 포털
               </p>
             </div>
           </Link>
 
           {/* GNB 메인 메뉴 */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-300">
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-300">
+            <button
+              onClick={() => scrollToSearch("01")}
+              className="hover:text-emerald-400 transition-colors flex items-center gap-1"
+            >
+              상급·종합병원
+            </button>
             <button
               onClick={() => scrollToSearch("28")}
               className="hover:text-emerald-400 transition-colors flex items-center gap-1"
@@ -64,7 +72,7 @@ export default function Home() {
               한방의료
             </button>
             <button
-              onClick={() => scrollToSearch("21")}
+              onClick={() => scrollToSearch("28")}
               className="hover:text-emerald-400 transition-colors flex items-center gap-1"
             >
               요양·실버케어
@@ -91,7 +99,7 @@ export default function Home() {
           </nav>
 
           {/* 모바일 힐링 라운지 퀵버튼 */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <a
               href="#lounge"
               className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-indigo-900/60 text-indigo-200 border border-indigo-700/60 font-semibold"
@@ -124,20 +132,20 @@ export default function Home() {
           {/* 심평원 공공데이터 공식 연계 뱃지 */}
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-950/80 border border-emerald-500/40 px-4 py-1.5 text-xs font-semibold text-emerald-300 mb-6 shadow-lg shadow-emerald-950/60">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
-            건강보험심사평가원(HIRA) 공공데이터 Open API 연계
+            건강보험심사평가원(HIRA) 공공데이터 Open API 실시간 연계
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white drop-shadow-md">
-            우리 부모님, 나에게 꼭 맞는 <br className="hidden sm:inline" />
+            상급종합병원 · 종합병원부터 <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-              한방병원 · 1등급 요양병원 · 호스피스
+              한방 · 1등급 요양병원 · 호스피스
             </span>{" "}
             전문 검색
           </h1>
 
           <p className="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            심평원 적정성 평가 1등급 기관부터 전문 한방의료기관, 따뜻한 완화돌봄 시설까지
-            검증된 인력과 병상 정보를 실시간으로 확인하세요.
+            전국 7만여 개 의료기관의 공공데이터를 실시간으로 비교하세요.
+            전문의 인력, 허가 병상수, 적정성 평가등급까지 검증된 의료 정보를 제공합니다.
           </p>
 
           {/* 퀵 카테고리 카드 바로가기 */}
@@ -159,7 +167,7 @@ export default function Home() {
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-slate-400">
-            종별 필터와 키워드로 최적의 병의원 및 병상을 찾아보세요.
+            상급종합, 종합, 일반병원, 요양, 한방, 호스피스별로 맞춤 시설을 찾아보세요.
           </p>
         </div>
 

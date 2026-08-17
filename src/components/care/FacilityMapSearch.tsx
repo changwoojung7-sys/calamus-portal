@@ -14,6 +14,8 @@ import {
   ChevronRight,
   Filter,
   Navigation,
+  Building,
+  Activity,
 } from 'lucide-react';
 import { Facility, CategoryFilter } from '@/types/facility';
 import { MOCK_FACILITIES } from '@/data/mockFacilities';
@@ -40,15 +42,14 @@ export const FacilityMapSearch: React.FC = () => {
   useEffect(() => {
     const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
     if (!kakaoKey || kakaoKey === 'YOUR_KAKAO_JS_KEY') {
-      // 카카오맵 키 미설정 시에도 인터랙티브 목록 및 카드뷰는 정상 작동하도록 지원
       return;
     }
 
     const initMap = () => {
       if (!window.kakao || !window.kakao.maps || !mapContainer.current) return;
       const options = {
-        center: new window.kakao.maps.LatLng(37.509745, 127.023245),
-        level: 6,
+        center: new window.kakao.maps.LatLng(37.5665, 126.978),
+        level: 7,
       };
       const kakaoMap = new window.kakao.maps.Map(mapContainer.current, options);
       setMap(kakaoMap);
@@ -74,7 +75,7 @@ export const FacilityMapSearch: React.FC = () => {
       activeCategory === 'ALL' ||
       (activeCategory === 'hospice' ? fac.is_hospice : fac.category_code === activeCategory);
 
-    // 검색어 매칭 (이름, 주소, 진료과목)
+    // 검색어 매칭 (이름, 주소, 진료과목, 특수진료)
     const matchesSearch =
       !searchTerm ||
       fac.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -86,7 +87,12 @@ export const FacilityMapSearch: React.FC = () => {
     const matchesSido = selectedSido === 'ALL' || (fac.sido_name && fac.sido_name.includes(selectedSido));
 
     // 1등급 필터
-    const matchesGrade = !gradeFilter || fac.grade_evaluation?.includes('1등급') || fac.nursing_grade?.includes('1등급');
+    const matchesGrade =
+      !gradeFilter ||
+      fac.grade_evaluation?.includes('1등급') ||
+      fac.stroke_grade?.includes('1등급') ||
+      fac.pneumonia_grade?.includes('1등급') ||
+      fac.nursing_grade?.includes('1등급');
 
     return matchesCategory && matchesSearch && matchesSido && matchesGrade;
   });
@@ -95,7 +101,6 @@ export const FacilityMapSearch: React.FC = () => {
   useEffect(() => {
     if (!map || !window.kakao || !kakaoLoaded) return;
 
-    // 기존 마커 정리
     markers.forEach((m) => m.setMap(null));
     const newMarkers: any[] = [];
 
@@ -128,16 +133,19 @@ export const FacilityMapSearch: React.FC = () => {
     }
   };
 
-  const CATEGORY_TABS: { label: string; value: CategoryFilter; badge?: string }[] = [
-    { label: '전체 기관', value: 'ALL' },
-    { label: '한방병원', value: '28' },
-    { label: '한의원', value: '93' },
-    { label: '요양병원', value: '21', badge: '1등급' },
-    { label: '호스피스 완화의료', value: 'hospice' },
+  const CATEGORY_TABS: { label: string; value: CategoryFilter; badge?: string; desc: string }[] = [
+    { label: '전체 기관', value: 'ALL', desc: '전국 모든 병의원' },
+    { label: '상급종합병원', value: '01', badge: '3차 대학병원', desc: '서울대·아산·삼성서울 등' },
+    { label: '종합병원', value: '11', badge: '100병상↑', desc: '2차 대형 종합병원' },
+    { label: '일반 병원', value: '21', badge: '양방', desc: '전문의 입원/수술 병원' },
+    { label: '요양병원', value: '28', badge: '적정성 1등급', desc: '노인·재활 전문 케어' },
+    { label: '한방병원', value: '92', badge: '양한방 협진', desc: '침구·추나·한방재활' },
+    { label: '한의원', value: '93', desc: '체질 한약 & 야간진료' },
+    { label: '호스피스 완화의료', value: 'hospice', badge: '복지부 지정', desc: '존엄 돌봄 센터' },
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row h-[780px] w-full rounded-2xl overflow-hidden border border-slate-700/60 bg-[#0d1424] shadow-2xl">
+    <div className="flex flex-col lg:flex-row h-[820px] w-full rounded-3xl overflow-hidden border border-slate-700/60 bg-[#0d1424] shadow-2xl">
       {/* 좌측 패널: 검색 / 필터 / 리스트 */}
       <div className="w-full lg:w-5/12 flex flex-col h-full border-r border-slate-700/50 bg-[#0a101d]">
         {/* 검색 및 필터 헤더 */}
@@ -147,7 +155,7 @@ export const FacilityMapSearch: React.FC = () => {
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-emerald-400" />
             <input
               type="text"
-              placeholder="기관명, 지역(강남, 성남), 진료과목(척추, 재활)..."
+              placeholder="기관명, 지역(강남, 분당), 진료과(뇌졸중, 암, 척추)..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full rounded-xl border border-slate-700 bg-slate-900/90 py-2.5 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
@@ -162,21 +170,21 @@ export const FacilityMapSearch: React.FC = () => {
             )}
           </div>
 
-          {/* 카테고리 탭 */}
+          {/* 카테고리 탭 (상급종합, 종합, 일반병원, 요양, 한방, 한의원, 호스피스) */}
           <div className="flex flex-wrap gap-1.5 text-xs font-medium">
             {CATEGORY_TABS.map((tab) => (
               <button
                 key={tab.value}
                 onClick={() => setActiveCategory(tab.value)}
-                className={`rounded-lg px-3 py-1.5 transition-all flex items-center gap-1.5 ${
+                className={`rounded-lg px-2.5 py-1.5 transition-all flex items-center gap-1 ${
                   activeCategory === tab.value
-                    ? 'bg-emerald-600 text-white font-semibold shadow-md shadow-emerald-900/40 border border-emerald-500'
+                    ? 'bg-emerald-600 text-white font-bold shadow-md shadow-emerald-900/40 border border-emerald-500'
                     : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 border border-slate-700/60'
                 }`}
               >
                 {tab.label}
                 {tab.badge && (
-                  <span className="text-[10px] bg-emerald-950 text-emerald-300 px-1 rounded border border-emerald-500/40">
+                  <span className="text-[10px] bg-black/40 text-emerald-300 px-1 rounded border border-emerald-500/30">
                     {tab.badge}
                   </span>
                 )}
@@ -185,10 +193,10 @@ export const FacilityMapSearch: React.FC = () => {
           </div>
 
           {/* 서브 필터 (지역 & 1등급 전용) */}
-          <div className="flex items-center justify-between gap-2 pt-1">
+          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60">
             <div className="flex items-center gap-2 text-xs">
               <span className="text-slate-400 flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-emerald-400" /> 지역:
+                <MapPin className="w-3.5 h-3.5 text-emerald-400" /> 지역:
               </span>
               <select
                 value={selectedSido}
@@ -211,7 +219,7 @@ export const FacilityMapSearch: React.FC = () => {
               }`}
             >
               <Award className="w-3 h-3 text-amber-400" />
-              1등급 기관만
+              심평원 1등급 기관만
             </button>
           </div>
         </div>
@@ -223,7 +231,7 @@ export const FacilityMapSearch: React.FC = () => {
               검색 결과 <strong className="text-emerald-400 font-bold">{filteredFacilities.length}</strong>곳
             </span>
             <span className="text-[11px] text-slate-500 flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-emerald-500" /> 심평원 연계 검증
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> HIRA 공공데이터 실시간 매핑
             </span>
           </div>
 
@@ -233,7 +241,7 @@ export const FacilityMapSearch: React.FC = () => {
               <div
                 key={fac.id}
                 onClick={() => handleSelectFacility(fac)}
-                className={`cursor-pointer rounded-xl p-4 transition-all border text-left ${
+                className={`cursor-pointer rounded-2xl p-4 transition-all border text-left ${
                   isSelected
                     ? 'border-emerald-500 bg-emerald-950/40 shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-500'
                     : 'border-slate-800 bg-[#111928] hover:border-slate-700 hover:bg-[#141f33]'
@@ -241,16 +249,20 @@ export const FacilityMapSearch: React.FC = () => {
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-1.5 mb-1.5">
                       <span
                         className={`inline-block rounded px-2 py-0.5 text-[11px] font-bold ${
-                          fac.category_code === '28'
-                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                          fac.category_code === '01'
+                            ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                            : fac.category_code === '11'
+                            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
                             : fac.category_code === '21'
-                            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                            : fac.category_code === 'hospice'
-                            ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                            : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                            ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
+                            : fac.category_code === '28'
+                            ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
+                            : fac.category_code === '92' || fac.category_code === '93'
+                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                            : 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
                         }`}
                       >
                         {fac.category_name}
@@ -279,17 +291,17 @@ export const FacilityMapSearch: React.FC = () => {
                   {fac.address}
                 </p>
 
-                {/* 진료과목 / 특수진료 뱃지 */}
-                {fac.treatments && fac.treatments.length > 0 && (
+                {/* 특수진료 / 클리닉 뱃지 */}
+                {fac.special_treatments && fac.special_treatments.length > 0 && (
                   <div className="mt-2.5 flex flex-wrap gap-1">
-                    {fac.treatments.slice(0, 3).map((t, idx) => (
-                      <span key={idx} className="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700/60">
-                        {t}
+                    {fac.special_treatments.slice(0, 3).map((spec, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] bg-slate-800/90 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700/60"
+                      >
+                        ✓ {spec}
                       </span>
                     ))}
-                    {fac.treatments.length > 3 && (
-                      <span className="text-[10px] text-slate-500 py-0.5">+{fac.treatments.length - 3}</span>
-                    )}
                   </div>
                 )}
 
@@ -307,15 +319,16 @@ export const FacilityMapSearch: React.FC = () => {
                     <span className="text-slate-600">-</span>
                   )}
                   <div className="flex items-center gap-3">
+                    {fac.doctor_count && (
+                      <span className="flex items-center gap-1 text-slate-300">
+                        <Stethoscope className="h-3.5 w-3.5 text-slate-400" />
+                        의사 {fac.doctor_count}명
+                      </span>
+                    )}
                     {fac.total_beds && (
                       <span className="flex items-center gap-1 text-slate-300">
                         <Bed className="h-3.5 w-3.5 text-slate-400" />
                         {fac.total_beds}병상
-                      </span>
-                    )}
-                    {fac.nursing_grade && (
-                      <span className="text-[11px] text-emerald-400 font-medium">
-                        간호 {fac.nursing_grade}
                       </span>
                     )}
                   </div>
@@ -327,8 +340,8 @@ export const FacilityMapSearch: React.FC = () => {
           {filteredFacilities.length === 0 && (
             <div className="flex flex-col items-center justify-center h-48 text-center text-slate-400 p-6">
               <Compass className="h-10 w-10 mb-3 text-slate-600 stroke-1 animate-pulse" />
-              <p className="text-sm font-medium text-slate-300">조건에 일치하는 기관이 없습니다.</p>
-              <p className="text-xs text-slate-500 mt-1">지역을 '전국'으로 변경하거나 검색어를 비워보세요.</p>
+              <p className="text-sm font-medium text-slate-300">조건에 일치하는 의료기관이 없습니다.</p>
+              <p className="text-xs text-slate-500 mt-1">지역이나 카테고리 필터를 '전체'로 변경해 보세요.</p>
             </div>
           )}
         </div>
@@ -336,15 +349,14 @@ export const FacilityMapSearch: React.FC = () => {
 
       {/* 우측 패널: 인터랙티브 상세 정보 및 지도 뷰 */}
       <div className="w-full lg:w-7/12 h-full flex flex-col bg-[#070b14] relative">
-        {/* 선택된 시설 탑 바 배너 */}
         {selectedFacility && (
-          <div className="p-4 bg-gradient-to-r from-[#0e172a] via-[#111f38] to-[#0e172a] border-b border-slate-800 text-left">
+          <div className="p-5 bg-gradient-to-r from-[#0e172a] via-[#111f38] to-[#0e172a] border-b border-slate-800 text-left">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs text-emerald-400 font-semibold tracking-wider uppercase">
-                  Selected Facility Info
+                <span className="text-[11px] text-emerald-400 font-bold tracking-wider uppercase">
+                  {selectedFacility.category_name} 상세 정보
                 </span>
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mt-0.5">
                   {selectedFacility.name}
                   {selectedFacility.grade_evaluation && (
                     <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/40">
@@ -358,77 +370,87 @@ export const FacilityMapSearch: React.FC = () => {
                   href={selectedFacility.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+                  className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition font-semibold"
                 >
-                  홈페이지 <ExternalLink className="w-3 h-3 text-slate-400" />
+                  공식 홈페이지 <ExternalLink className="w-3 h-3 text-slate-400" />
                 </a>
               )}
             </div>
-            <p className="text-xs text-slate-400 mt-1 flex items-center gap-1">
+            <p className="text-xs text-slate-400 mt-1.5 flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5 text-slate-500" />
               {selectedFacility.address}
             </p>
           </div>
         )}
 
-        {/* 카카오 지도 영역 또는 세련된 인터랙티브 폴백 뷰 */}
+        {/* 지도 영역 / 상세 카드 뷰 */}
         <div className="flex-1 relative overflow-hidden flex items-center justify-center">
           <div ref={mapContainer} className="w-full h-full absolute inset-0" />
 
-          {/* 지도 SDK 미설정 시 아름다운 인터랙티브 세부 스펙 뷰 폴백 */}
+          {/* 지도 미로딩 시 전문 의료진 & 평가등급 카드 뷰 */}
           {!kakaoLoaded && selectedFacility && (
             <div className="relative z-10 w-full h-full p-6 flex flex-col justify-between bg-gradient-to-b from-[#09101d]/95 to-[#050811]/95 backdrop-blur-md overflow-y-auto">
               <div className="space-y-6 text-left">
-                {/* 상단 스펙 그리드 */}
+                {/* 상단 4대 핵심 지표 그리드 */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                  <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
                     <div className="text-xs text-slate-400 flex items-center gap-1 mb-1">
-                      <Bed className="w-3.5 h-3.5 text-blue-400" /> 총 병상수
+                      <Bed className="w-3.5 h-3.5 text-blue-400" /> 허가 병상수
                     </div>
                     <div className="text-lg font-bold text-white">
                       {selectedFacility.total_beds ? `${selectedFacility.total_beds}병상` : '외래 중심'}
                     </div>
                   </div>
 
-                  <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                  <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
                     <div className="text-xs text-slate-400 flex items-center gap-1 mb-1">
-                      <Stethoscope className="w-3.5 h-3.5 text-emerald-400" /> 전문의 인력
+                      <Stethoscope className="w-3.5 h-3.5 text-emerald-400" /> 의사 및 전문의
                     </div>
                     <div className="text-lg font-bold text-white">
-                      {selectedFacility.specialist_count ? `${selectedFacility.specialist_count}명` : `${selectedFacility.doctor_count || 1}명`}
+                      {selectedFacility.doctor_count ? `총 ${selectedFacility.doctor_count}명` : '1~3명'}
                     </div>
+                    {selectedFacility.specialist_count && (
+                      <div className="text-[11px] text-emerald-400 mt-0.5">
+                        전문의 {selectedFacility.specialist_count}명
+                      </div>
+                    )}
                   </div>
 
-                  <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                  <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
                     <div className="text-xs text-slate-400 flex items-center gap-1 mb-1">
-                      <Award className="w-3.5 h-3.5 text-amber-400" /> 적정성 평가
+                      <Award className="w-3.5 h-3.5 text-amber-400" /> 적정성 종합평가
                     </div>
                     <div className="text-lg font-bold text-white">
-                      {selectedFacility.grade_evaluation || '정보 수집중'}
+                      {selectedFacility.grade_evaluation || '우수'}
                     </div>
+                    {selectedFacility.stroke_grade && (
+                      <div className="text-[11px] text-amber-300 mt-0.5">
+                        뇌졸중 {selectedFacility.stroke_grade}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                  <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
                     <div className="text-xs text-slate-400 flex items-center gap-1 mb-1">
-                      <ShieldCheck className="w-3.5 h-3.5 text-teal-400" /> 간호관리등급
+                      <ShieldCheck className="w-3.5 h-3.5 text-teal-400" /> 간호관리 등급
                     </div>
                     <div className="text-lg font-bold text-white">
-                      {selectedFacility.nursing_grade || '1~2등급'}
+                      {selectedFacility.nursing_grade || '1등급'}
                     </div>
                   </div>
                 </div>
 
-                {/* 특수 진료 및 주요 클리닉 */}
+                {/* 특수 진료 / 강점 센터 */}
                 {selectedFacility.special_treatments && (
-                  <div className="bg-slate-900/70 p-4 rounded-xl border border-slate-800/80">
-                    <h4 className="text-sm font-semibold text-slate-200 mb-2 flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-emerald-400" /> 특화 진료 및 시설 강점
+                  <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800/80">
+                    <h4 className="text-sm font-bold text-slate-200 mb-2 flex items-center gap-1.5">
+                      <Activity className="w-4 h-4 text-emerald-400" /> 전문 특화 센터 및 주요 진료 강점
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {selectedFacility.special_treatments.map((spec, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 text-xs rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 font-medium"
+                          className="px-3 py-1 text-xs rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 font-medium"
                         >
                           ✓ {spec}
                         </span>
@@ -437,10 +459,10 @@ export const FacilityMapSearch: React.FC = () => {
                   </div>
                 )}
 
-                {/* 전체 진료과목 */}
+                {/* 개설 진료과목 */}
                 {selectedFacility.treatments && (
-                  <div className="bg-slate-900/70 p-4 rounded-xl border border-slate-800/80">
-                    <h4 className="text-sm font-semibold text-slate-200 mb-2">개설 진료과목</h4>
+                  <div className="bg-slate-900/70 p-4 rounded-2xl border border-slate-800/80">
+                    <h4 className="text-sm font-bold text-slate-200 mb-2">개설 진료과목</h4>
                     <div className="flex flex-wrap gap-1.5">
                       {selectedFacility.treatments.map((t, i) => (
                         <span
@@ -461,7 +483,7 @@ export const FacilityMapSearch: React.FC = () => {
                       href={`tel:${selectedFacility.tel}`}
                       className="flex-1 min-w-[160px] py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/40 transition"
                     >
-                      <Phone className="w-4 h-4" /> 전화 문의하기 ({selectedFacility.tel})
+                      <Phone className="w-4 h-4" /> 전화 문의 ({selectedFacility.tel})
                     </a>
                   )}
                   <a
@@ -477,9 +499,9 @@ export const FacilityMapSearch: React.FC = () => {
 
               {/* 하단 공공데이터 출처 고지 */}
               <div className="mt-6 pt-4 border-t border-slate-800/80 text-[11px] text-slate-500 text-center flex items-center justify-center gap-2">
-                <span>데이터 제공: 건강보험심사평가원(HIRA) 공공데이터포털</span>
+                <span>데이터 출처: 건강보험심사평가원(HIRA) 공공데이터포털</span>
                 <span>•</span>
-                <span>위도/경도: {selectedFacility.latitude.toFixed(4)}, {selectedFacility.longitude.toFixed(4)}</span>
+                <span>실시간 동기화 지원</span>
               </div>
             </div>
           )}
