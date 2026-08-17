@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Sparkles,
   User,
@@ -25,8 +25,11 @@ import {
   Trees,
   Mountain,
   Shield,
-  HelpCircle
+  HelpCircle,
+  Download,
+  Check
 } from "lucide-react";
+import html2canvas from "html2canvas";
 import { calculateSaju, SajuCalculationResult } from "@/lib/sajuCalculator";
 
 export default function SajuClient() {
@@ -46,6 +49,10 @@ export default function SajuClient() {
   const [aiReport, setAiReport] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<"CAREER" | "WEALTH" | "RELATION" | "MENTAL">("CAREER");
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
+
+  // 퍼스널 카드 캡처용 Ref
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +64,7 @@ export default function SajuClient() {
 
     setStep("LOADING");
 
-    // 1. 만세력 연산
+    // 1. 만세력 정밀 연산
     const calcResult = calculateSaju(
       birthDate,
       isTimeUnknown ? "" : birthTime,
@@ -66,7 +73,7 @@ export default function SajuClient() {
     setSajuCalc(calcResult);
 
     try {
-      // 2. AI 분석 API 호출
+      // 2. OpenAI GPT-4o 실시간 심층 AI 리포트 생성
       const [res] = await Promise.all([
         fetch("/api/saju", {
           method: "POST",
@@ -83,7 +90,7 @@ export default function SajuClient() {
             followup,
           }),
         }),
-        new Promise((resolve) => setTimeout(resolve, 2000)), // 매끄러운 트랜지션
+        new Promise((resolve) => setTimeout(resolve, 2500)),
       ]);
 
       const data = await res.json();
@@ -98,6 +105,29 @@ export default function SajuClient() {
       console.error(e);
       alert("서버 연결에 실패했습니다. 다시 시도해주세요.");
       setStep("INPUT");
+    }
+  };
+
+  // 인스타/스레드 공유용 퍼스널 카드 이미지 생성 및 다운로드
+  const handleDownloadCard = async () => {
+    if (!cardRef.current) return;
+    setIsCapturing(true);
+    try {
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 2, // 고해상도
+        backgroundColor: "#0d1629",
+        useCORS: true,
+      });
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `Calamus_Personal_Card_${name || "Insight"}.png`;
+      link.click();
+    } catch (err) {
+      console.error("Card capture failed:", err);
+      alert("카드 이미지 생성 중 문제가 발생했습니다.");
+    } finally {
+      setIsCapturing(false);
     }
   };
 
@@ -121,7 +151,7 @@ export default function SajuClient() {
       <header className="text-center mb-8 sm:mb-12 animate-fade-in">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-xs font-semibold mb-4 shadow-lg shadow-emerald-950/50">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Calamus AI Personal Insight Lab</span>
+          <span>Calamus AI Personal Insight Lab (GPT-4o 연동)</span>
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-3">
           데이터 기반 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">퍼스널 사주 랩</span>
@@ -276,10 +306,10 @@ export default function SajuClient() {
             <Sparkles className="w-8 h-8 text-emerald-400 absolute inset-0 m-auto animate-pulse" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-bold text-white">데이터 사주 엔진 연산 중...</h3>
+            <h3 className="text-xl font-bold text-white">GPT-4o 엔진 심층 분석 중...</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
               만세력 정밀 좌표와 5대 오행 에너지를 바탕으로<br />
-              {name}님 맞춤형 커리어·자산 전략을 도출하고 있습니다.
+              {name}님 맞춤형 실전 커리어·자산·멘탈 전략을 도출하고 있습니다.
             </p>
           </div>
         </div>
@@ -288,8 +318,11 @@ export default function SajuClient() {
       {/* 3단계: 모던 퍼스널 리포트 결과 화면 */}
       {step === "RESULT" && sajuCalc && aiReport && (
         <div className="space-y-8 animate-fade-in">
-          {/* A. 퍼스널 코어 & SNS 공유용 핵심 카드 */}
-          <div className="relative rounded-3xl bg-gradient-to-br from-[#121c33] via-[#0d1629] to-[#0a1020] border border-slate-700/80 p-6 sm:p-8 shadow-2xl overflow-hidden">
+          {/* A. 퍼스널 코어 & SNS 공유용 핵심 카드 (캡처 대상) */}
+          <div
+            ref={cardRef}
+            className="relative rounded-3xl bg-gradient-to-br from-[#121c33] via-[#0d1629] to-[#0a1020] border border-slate-700/80 p-6 sm:p-8 shadow-2xl overflow-hidden"
+          >
             {/* 배경 오로라 블러 */}
             <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -304,13 +337,23 @@ export default function SajuClient() {
                   {sajuCalc.modernPersonaBadge}
                 </span>
               </div>
-              <button
-                onClick={handleShare}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 transition"
-              >
-                <Share2 className="w-3.5 h-3.5 text-emerald-400" />
-                {copySuccess ? "링크 복사 완료!" : "공유하기"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleDownloadCard}
+                  disabled={isCapturing}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-md shadow-emerald-950"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  {isCapturing ? "카드 생성 중..." : "📸 퍼스널 카드 다운로드"}
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 transition"
+                >
+                  <Share2 className="w-3.5 h-3.5 text-emerald-400" />
+                  {copySuccess ? "복사 완료!" : "공유"}
+                </button>
+              </div>
             </div>
 
             {/* 메인 헤드라인 & 해시태그 */}
@@ -412,7 +455,7 @@ export default function SajuClient() {
                   <button
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key as any)}
-                    className={`py-3 px-4 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${
+                    className={`py-3.5 px-4 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${
                       activeTab === tab.key
                         ? "bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-950"
                         : "bg-[#0e1628] text-slate-400 border-slate-800 hover:text-slate-200"
@@ -425,7 +468,7 @@ export default function SajuClient() {
               })}
             </div>
 
-            {/* 탭 컨텐츠 */}
+            {/* 탭 컨텐츠 (상세하고 깊이 있는 서술) */}
             <div className="bg-[#0e1628] border border-slate-700/60 rounded-3xl p-6 sm:p-8 shadow-xl">
               {activeTab === "CAREER" && (
                 <div className="space-y-5">
@@ -433,32 +476,32 @@ export default function SajuClient() {
                     <Briefcase className="w-4 h-4" /> 커리어 포지셔닝 &amp; 성공 전략
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
                       <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                         <CheckCircle className="w-4 h-4" /> 핵심 강점 (Superpower)
                       </span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.career_and_business?.superpower}
                       </p>
                     </div>
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
                       <span className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
                         <XCircle className="w-4 h-4" /> 주의할 점 (Blindspot)
                       </span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.career_and_business?.blindspot}
                       </p>
                     </div>
                   </div>
 
                   {aiReport.career_and_business?.fit_roles && (
-                    <div className="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-slate-300">최적 직무 및 롤 핏:</span>
+                    <div className="bg-slate-900/50 p-5 rounded-2xl border border-slate-800 space-y-2.5">
+                      <span className="text-xs font-bold text-slate-300">최적 직무 및 롤 핏 (Fit Roles):</span>
                       <div className="flex flex-wrap gap-2 pt-1">
                         {aiReport.career_and_business.fit_roles.map((r: string, idx: number) => (
                           <span
                             key={idx}
-                            className="px-3 py-1 rounded-full bg-slate-800 text-cyan-300 text-xs font-semibold border border-cyan-500/30"
+                            className="px-3 py-1.5 rounded-xl bg-slate-800 text-cyan-300 text-xs font-semibold border border-cyan-500/30 shadow-sm"
                           >
                             {r}
                           </span>
@@ -467,11 +510,11 @@ export default function SajuClient() {
                     </div>
                   )}
 
-                  <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 space-y-1">
+                  <div className="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 space-y-2">
                     <span className="text-xs font-bold text-emerald-300 flex items-center gap-1">
-                      <Award className="w-3.5 h-3.5" /> 실행 가이드 (Action Tip)
+                      <Award className="w-4 h-4" /> 실전 실행 가이드 (Action Guide)
                     </span>
-                    <p className="text-xs text-slate-200 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                       {aiReport.career_and_business?.action_guide}
                     </p>
                   </div>
@@ -484,15 +527,19 @@ export default function SajuClient() {
                     <Coins className="w-4 h-4" /> 재물 운 &amp; 파이프라인 구축 스타일
                   </div>
                   <div className="space-y-4">
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-amber-300">현금흐름 스타일</span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
+                      <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                        <TrendingUp className="w-4 h-4" /> 현금흐름 &amp; 자산 관리 스타일
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.wealth_flow?.money_style}
                       </p>
                     </div>
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-emerald-400">자산 증식 조언</span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
+                      <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                        <Coins className="w-4 h-4" /> 자산 증식 &amp; 투자 가이드
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.wealth_flow?.investment_tip}
                       </p>
                     </div>
@@ -506,15 +553,19 @@ export default function SajuClient() {
                     <HeartHandshake className="w-4 h-4" /> 대인관계 &amp; 커뮤니케이션 핏
                   </div>
                   <div className="space-y-4">
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-rose-300">소통 성향</span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
+                      <span className="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+                        <User className="w-4 h-4" /> 소통 성향 &amp; 관계 패턴
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.relationship_and_love?.communication_style}
                       </p>
                     </div>
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-emerald-400">시너지 팁</span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
+                      <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                        <Sparkles className="w-4 h-4" /> 시너지 창출을 위한 대인관계 조언
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.relationship_and_love?.advice}
                       </p>
                     </div>
@@ -528,15 +579,19 @@ export default function SajuClient() {
                     <Smile className="w-4 h-4" /> 에너지 배터리 &amp; 멘탈 관리
                   </div>
                   <div className="space-y-4">
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-sky-300">에너지 배터리 특성</span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
+                      <span className="text-xs font-bold text-sky-300 flex items-center gap-1.5">
+                        <Zap className="w-4 h-4" /> 에너지 배터리 충전/방전 특성
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.mental_and_energy?.energy_battery}
                       </p>
                     </div>
-                    <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                      <span className="text-xs font-bold text-emerald-400">리차징 가이드</span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                    <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-2">
+                      <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                        <Smile className="w-4 h-4" /> 번아웃 방지 리차징 가이드
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                         {aiReport.mental_and_energy?.recharge_tip}
                       </p>
                     </div>
@@ -558,20 +613,20 @@ export default function SajuClient() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-1.5">
+              <div className="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-2">
                 <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                   <CheckCircle className="w-4 h-4" /> 오늘 추천하는 행동 (DO)
                 </span>
-                <p className="text-xs text-slate-200 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                   {aiReport.today_action?.do}
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-1.5">
+              <div className="p-5 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-2">
                 <span className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
                   <XCircle className="w-4 h-4" /> 오늘 피하면 좋은 행동 (DON&apos;T)
                 </span>
-                <p className="text-xs text-slate-200 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
                   {aiReport.today_action?.dont}
                 </p>
               </div>
