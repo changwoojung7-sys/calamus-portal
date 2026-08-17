@@ -23,6 +23,35 @@ import { HealingLoungeBanner } from "@/components/care/HealingLoungeBanner";
 import GoogleAd from "@/components/ads/GoogleAd";
 import Footer from "@/components/common/Footer";
 
+// --- MOCK DATA FOR "LIVE" FEEL ---
+const LIVE_RANKINGS = [
+  { name: "김*수", game: "밸런스 게임", score: "98% 일치", time: "방금 전" },
+  { name: "이*영", game: "브레이크 게임", score: "0.01초", time: "1분 전" },
+  { name: "박*호", game: "운명의 룰렛", score: "당첨!", time: "2분 전" },
+  { name: "최*진", game: "사다리 게임", score: "성공", time: "5분 전" },
+  { name: "정*우", game: "AI 꿈해몽", score: "대길", time: "7분 전" },
+];
+
+const HOT_KEYWORDS = [
+  { tag: "#연애운", href: "/tarot-room" },
+  { tag: "#오늘의운세", href: "/saju" },
+  { tag: "#밸런스게임", href: "/balance/game" },
+  { tag: "#공포테스트", href: "/brake" },
+  { tag: "#로또번호", href: "/roulette" }
+];
+
+const SERVICES = [
+  { category: "game", href: "/brake", title: "브레이크 게임", desc: "당신의 반응속도는 0.몇 초? 담력 테스트!", icon: <Car className="w-6 h-6 text-red-500" />, color: "red", hot: true },
+  { category: "game", href: "/roulette", title: "운명의 룰렛", desc: "오늘 점심 내기? 벌칙? 공정한 추첨기", icon: <Sparkles className="w-6 h-6 text-pink-500" />, color: "pink" },
+  { isAd: true, fullWidth: true, category: "all" }, // Ad placeholder logic handled in render
+  { category: "game", href: "/sadari", title: "사다리 게임", desc: "간편한 사다리 타기! 누가 당첨될까?", icon: <Gamepad2 className="w-6 h-6 text-emerald-500" />, color: "emerald", hot: true },
+  { category: "fortune", href: "/tarot-room", title: "신비의 타로", desc: "AI가 해석해주는 당신의 현재와 미래", icon: <Sparkles className="w-6 h-6 text-purple-500" />, color: "purple", hot: true },
+  { category: "fortune", href: "/saju", title: "정통 사주", desc: "생년월일로 풀어보는 나의 운명", icon: <Dna className="w-6 h-6 text-amber-500" />, color: "amber" },
+  { category: "fortune", href: "/dream", title: "AI 꿈해몽", desc: "어젯밤 꿈이 예지몽일까? 무료 해몽", icon: <Moon className="w-6 h-6 text-indigo-500" />, color: "indigo" },
+  { category: "fortune", href: "/name", title: "성명학 분석", desc: "내 이름 점수는 몇 점? 개명 전 필수 확인", icon: <User className="w-6 h-6 text-teal-500" />, color: "teal" },
+  { category: "game", href: "/balance", title: "선택 도우미", desc: "결정이 힘들 땐 AI에게 물어보세요", icon: <Scale className="w-6 h-6 text-purple-500" />, color: "purple" },
+];
+
 export default function Home() {
   const AD_SLOT_ID = "3529245457";
   const [selectedHeroCategory, setSelectedHeroCategory] = useState<string>("ALL");
