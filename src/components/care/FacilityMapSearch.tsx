@@ -319,10 +319,12 @@ export const FacilityMapSearch: React.FC = () => {
             <span>
               검색 결과 <strong className="text-emerald-400 font-bold">{totalCount.toLocaleString()}</strong>곳 {isLoadingList && '(조회 중...)'}
             </span>
-            <span className="text-[11px] text-slate-500 flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> 전국 8만 DB 연동
+            <span className="text-[11px] text-slate-400 flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="text-emerald-300 font-semibold">2026.06월</span> HIRA 공공DB
             </span>
           </div>
+
 
 
           {filteredFacilities.map((fac) => {

@@ -162,13 +162,18 @@ export default function Home() {
             <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs tracking-wider uppercase mb-1">
               <Layers className="h-4 w-4" /> Interactive Medical Facility Explorer
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex flex-wrap items-center gap-3">
               전국 의료기관 & 요양시설 실시간 탐색
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-semibold tracking-normal shadow-sm">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                심평원 제공 2026.06월 최신 데이터
+              </span>
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-slate-400">
             상급종합, 종합, 일반병원, 요양, 한방, 호스피스별로 맞춤 시설을 찾아보세요.
           </p>
+
         </div>
 
         <FacilityMapSearch />
