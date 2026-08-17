@@ -8,7 +8,7 @@ When the user asks to "소스 올려줘", "깃허브 업로드 해줘", or simil
 2. Run standard git status / add / commit / push commands:
    - `git add .`
    - `git commit -m "Feat: Update Calamus Portal source code"`
-   - `git push -u origin main`
+   - `git push origin main`
 3. Always provide clear, green checkmark (✅) confirmation upon completion.
 
 ## Coding Style Rules
