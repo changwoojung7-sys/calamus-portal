@@ -29,7 +29,8 @@ import {
   Download,
   Check
 } from "lucide-react";
-import html2canvas from "html2canvas";
+import { toPng } from "html-to-image";
+
 import { calculateSaju, SajuCalculationResult } from "@/lib/sajuCalculator";
 
 export default function SajuClient() {
@@ -108,19 +109,18 @@ export default function SajuClient() {
     }
   };
 
-  // 인스타/스레드 공유용 퍼스널 카드 이미지 생성 및 다운로드
+  // 인스타/스레드 공유용 퍼스널 카드 이미지 생성 및 다운로드 (html-to-image toPng)
   const handleDownloadCard = async () => {
     if (!cardRef.current) return;
     setIsCapturing(true);
     try {
-      const canvas = await html2canvas(cardRef.current, {
-        scale: 2, // 고해상도
+      const dataUrl = await toPng(cardRef.current, {
+        cacheBust: true,
+        pixelRatio: 2, // 선명한 고해상도
         backgroundColor: "#0d1629",
-        useCORS: true,
       });
-      const image = canvas.toDataURL("image/png");
       const link = document.createElement("a");
-      link.href = image;
+      link.href = dataUrl;
       link.download = `Calamus_Personal_Card_${name || "Insight"}.png`;
       link.click();
     } catch (err) {
@@ -130,6 +130,7 @@ export default function SajuClient() {
       setIsCapturing(false);
     }
   };
+
 
   const handleShare = () => {
     if (navigator.share) {
