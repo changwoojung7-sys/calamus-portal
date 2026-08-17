@@ -30,8 +30,15 @@ import {
   Check
 } from "lucide-react";
 import { toPng } from "html-to-image";
-
+import jsPDF from "jspdf";
 import { calculateSaju, SajuCalculationResult } from "@/lib/sajuCalculator";
+
+declare global {
+  interface Window {
+    Kakao?: any;
+  }
+}
+
 
 export default function SajuClient() {
   const [step, setStep] = useState<"INPUT" | "LOADING" | "RESULT">("INPUT");
@@ -109,7 +116,57 @@ export default function SajuClient() {
     }
   };
 
-  // 인스타/스레드 공유용 퍼스널 카드 이미지 생성 및 다운로드 (html-to-image toPng)
+  // 전체 리포트 캡처용 Ref
+  const pdfContainerRef = useRef<HTMLDivElement>(null);
+  const [isPdfGenerating, setIsPdfGenerating] = useState(false);
+
+  // 1. 전체 리포트(상단+모든 탭+데일리 전략) 고해상도 PDF 다운로드
+  const handleDownloadPDF = async () => {
+    if (!pdfContainerRef.current) return;
+    setIsPdfGenerating(true);
+    try {
+      const dataUrl = await toPng(pdfContainerRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "#070a15",
+      });
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgProps = pdf.getImageProperties(dataUrl);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      let position = 0;
+      let heightLeft = pdfHeight;
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      // 첫 페이지
+      pdf.addImage(dataUrl, "PNG", 0, position, pdfWidth, pdfHeight);
+      heightLeft -= pageHeight;
+
+      // 내용이 길 경우 다음 페이지 분할
+      while (heightLeft > 0) {
+        position = heightLeft - pdfHeight;
+        pdf.addPage();
+        pdf.addImage(dataUrl, "PNG", 0, position, pdfWidth, pdfHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(`Calamus_AI_Saju_Report_${name || "Insight"}.pdf`);
+    } catch (err) {
+      console.error("PDF generation failed:", err);
+      alert("PDF 리포트 생성 중 오류가 발생했습니다.");
+    } finally {
+      setIsPdfGenerating(false);
+    }
+  };
+
+  // 2. 인스타/스레드 공유용 퍼스널 카드 이미지 생성 및 다운로드 (html-to-image toPng)
   const handleDownloadCard = async () => {
     if (!cardRef.current) return;
     setIsCapturing(true);
@@ -131,20 +188,39 @@ export default function SajuClient() {
     }
   };
 
+  // 3. 실제 사주 리포트 요약 텍스트 및 결과 복사/공유
+  const handleShare = async () => {
+    const summaryText = `[Calamus AI 퍼스널 사주 랩 - ${name}님의 분석 리포트]\n\n` +
+      `✨ 핵심 페르소나: "${aiReport?.persona_summary?.headline}"\n` +
+      `🏷️ 해시태그: ${(aiReport?.persona_summary?.hash_tags || []).join(" ")}\n\n` +
+      `🔥 5대 오행 밸런스: ${sajuCalc?.dominantElementName || ""}\n` +
+      `💼 커리어 강점: ${aiReport?.career_and_business?.superpower || ""}\n` +
+      `💰 현금흐름 스타일: ${aiReport?.wealth_flow?.money_style || ""}\n` +
+      `오늘의 행동 팁: ${aiReport?.today_action?.do || ""}\n\n` +
+      `👉 나만의 사주 분석 확인하기: https://calamus.ai.kr/saju`;
 
-  const handleShare = () => {
     if (navigator.share) {
-      navigator.share({
-        title: `${name}님의 Calamus AI 퍼스널 사주 인사이트`,
-        text: `[${aiReport?.persona_summary?.headline || "나만의 퍼스널 인사이트"}] 나의 오행 에너지와 커리어 핏을 확인해보세요!`,
-        url: window.location.href,
-      }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(window.location.href);
+      try {
+        await navigator.share({
+          title: `${name}님의 Calamus AI 퍼스널 사주 리포트`,
+          text: summaryText,
+          url: "https://calamus.ai.kr/saju",
+        });
+        return;
+      } catch {
+        // Fallback to clipboard
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(summaryText);
       setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      setTimeout(() => setCopySuccess(false), 2500);
+    } catch {
+      alert("공유 텍스트 복사에 실패했습니다.");
     }
   };
+
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 text-slate-100">
@@ -318,7 +394,48 @@ export default function SajuClient() {
 
       {/* 3단계: 모던 퍼스널 리포트 결과 화면 */}
       {step === "RESULT" && sajuCalc && aiReport && (
-        <div className="space-y-8 animate-fade-in">
+        <div ref={pdfContainerRef} className="space-y-8 animate-fade-in p-2">
+          {/* 최상단 글로벌 액션 툴바 */}
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0e1628] border border-slate-800 rounded-2xl p-4 shadow-lg">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-emerald-400" />
+                {name}님의 AI 퍼스널 분석 완료
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {/* 1. 전체 리포트 PDF 저장 */}
+              <button
+                onClick={handleDownloadPDF}
+                disabled={isPdfGenerating}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs transition shadow-md shadow-emerald-950/60"
+              >
+                <Download className="w-3.5 h-3.5" />
+                {isPdfGenerating ? "PDF 생성 중..." : "📄 전체 리포트 PDF 저장"}
+              </button>
+
+              {/* 2. 퍼스널 카드 PNG 저장 */}
+              <button
+                onClick={handleDownloadCard}
+                disabled={isCapturing}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-xs transition"
+              >
+                <Download className="w-3.5 h-3.5 text-cyan-400" />
+                {isCapturing ? "카드 생성 중..." : "📸 퍼스널 카드 (PNG)"}
+              </button>
+
+              {/* 3. 리포트 요약 텍스트 & 링크 공유 */}
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 font-bold text-xs transition shadow-sm"
+              >
+                <Share2 className="w-3.5 h-3.5 text-indigo-400" />
+                {copySuccess ? "요약 텍스트 복사 완료!" : "💬 리포트 요약 공유"}
+              </button>
+            </div>
+          </div>
+
           {/* A. 퍼스널 코어 & SNS 공유용 핵심 카드 (캡처 대상) */}
           <div
             ref={cardRef}
@@ -338,24 +455,8 @@ export default function SajuClient() {
                   {sajuCalc.modernPersonaBadge}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleDownloadCard}
-                  disabled={isCapturing}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-md shadow-emerald-950"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  {isCapturing ? "카드 생성 중..." : "📸 퍼스널 카드 다운로드"}
-                </button>
-                <button
-                  onClick={handleShare}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 transition"
-                >
-                  <Share2 className="w-3.5 h-3.5 text-emerald-400" />
-                  {copySuccess ? "복사 완료!" : "공유"}
-                </button>
-              </div>
             </div>
+
 
             {/* 메인 헤드라인 & 해시태그 */}
             <div className="space-y-3 mb-6 relative z-10">
