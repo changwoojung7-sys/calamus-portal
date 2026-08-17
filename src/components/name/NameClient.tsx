@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Loader2 } from 'lucide-react';
 import { InputForm, UserData } from './InputForm';
 import { ResultView } from './ResultView';
+import GoogleAd from "@/components/ads/GoogleAd";
 
 export default function NameClient() {
     const [step, setStep] = useState<'input' | 'result'>('input');
@@ -13,11 +14,16 @@ export default function NameClient() {
     const handleSubmit = async (data: UserData) => {
         setIsLoading(true);
         try {
-            const res = await fetch('/api/name', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+            // Parallel execution: API Call + Min Wait (3s)
+            const [res] = await Promise.all([
+                fetch('/api/name', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }),
+                new Promise(resolve => setTimeout(resolve, 3000))
+            ]);
+
             const json = await res.json();
 
             if (json.result) {
@@ -50,7 +56,22 @@ export default function NameClient() {
             </header>
 
             <main className="w-full">
-                {step === 'input' ? (
+                {isLoading ? (
+                    <div className="flex flex-col items-center justify-center py-20 animate-fade-in text-center">
+                        <div className="relative w-20 h-20 mb-6">
+                            <div className="absolute inset-0 border-4 border-amber-900/30 rounded-full"></div>
+                            <div className="absolute inset-0 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+                            <Sparkles className="absolute inset-0 m-auto text-amber-400 w-8 h-8 animate-pulse" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">성명학적 수리를 분석 중입니다...</h3>
+                        <p className="text-slate-400 text-sm mb-8">획수 음양, 오행, 발음 오행을 계산하고 있습니다.</p>
+
+                        {/* Loading Ad */}
+                        <div className="w-full max-w-[320px] h-[250px] bg-slate-900 flex items-center justify-center rounded-xl overflow-hidden border border-amber-900/50 shadow-lg">
+                            <GoogleAd slot="3529245457" format="rectangle" responsive={false} style={{ display: 'block', width: '300px', height: '250px' }} />
+                        </div>
+                    </div>
+                ) : step === 'input' ? (
                     <div className="w-full animate-fade-in">
                         <div className="text-center mb-8">
                             <h2 className="text-xl font-medium text-amber-500 mb-2">운명 정보 입력</h2>

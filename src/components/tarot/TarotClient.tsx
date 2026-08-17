@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import { TarotCardData } from "./TarotCard";
 import { TarotLayout } from "./TarotLayout";
 import { TarotModal } from "./TarotModal";
-import AdModal from "../ads/AdModal";
+import GoogleAd from "@/components/ads/GoogleAd";
 import rawCards from "@/data/tarot_cards.json";
 
 // Fix image paths safely
@@ -47,8 +47,7 @@ export default function TarotClient() {
     // Deck Shuffle Animation State
     const [isShuffling, setIsShuffling] = useState(false);
 
-    // Ad State
-    const [showAd, setShowAd] = useState(false);
+
 
     // Replaced unused startShuffle with standard draw logic involving shuffle
     const drawCards = () => {
@@ -96,20 +95,26 @@ export default function TarotClient() {
     const runAiAnalysis = async () => {
         if (!drawnCards.length) return;
         setIsAiLoading(true);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to loading area
+
         try {
-            const res = await fetch("/api/tarot", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    question,
-                    spreadDispatch: spread,
-                    spread,
-                    cards: drawnCards,
-                    questionType,
-                    mode: "openai"
-                })
-            });
-            const data = await res.json();
+            // Parallel execution: API Call + Minimum Timer (3s)
+            const [data] = await Promise.all([
+                fetch("/api/tarot", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        question,
+                        spreadDispatch: spread,
+                        spread,
+                        cards: drawnCards,
+                        questionType,
+                        mode: "openai"
+                    })
+                }).then(res => res.json()),
+                new Promise(resolve => setTimeout(resolve, 3000)) // Min 3s wait for Ad
+            ]);
+
             if (data.result) {
                 setAiResult(data.result);
             } else {
@@ -131,7 +136,7 @@ export default function TarotClient() {
     };
 
     return (
-        <div className="w-full max-w-[1800px] mx-auto flex flex-col md:flex-row gap-6 p-6 min-h-[90vh] font-sans text-slate-200">
+        <div className="w-full max-w-[1800px] mx-auto flex flex-col md:flex-row gap-6 p-2 md:p-6 min-h-[90vh] font-sans text-slate-200">
 
             {/* Sidebar (Left) */}
             <aside className="w-full md:w-[320px] shrink-0 flex flex-col gap-6 animate-fade-in-right">
@@ -158,7 +163,7 @@ export default function TarotClient() {
                                     questionType === "직업" ? "이직을 하는게 좋을까요?" :
                                         "이번 달의 전반적인 운세는?"
                             }
-                            className="w-full bg-slate-800/50 border border-slate-700 rounded-xl p-3 text-sm text-white placeholder:text-slate-600 focus:border-purple-500 outline-none transition-all resize-none h-24"
+                            className="w-full bg-slate-800/50 border border-slate-700 rounded-xl p-3 text-sm text-white placeholder:text-slate-600 focus:border-purple-500 outline-none transition-all resize-none h-20"
                         />
                     </div>
 
@@ -280,7 +285,7 @@ export default function TarotClient() {
                     <h3 className="text-3xl font-bold text-slate-100 mb-4 flex items-center gap-3">
                         종합해설
                         {revealedIndices.length === spread && !aiResult && !isAiLoading && (
-                            <button onClick={() => setShowAd(true)} className="text-sm bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-full animate-bounce shadow-lg shadow-purple-900/50 transition-all">
+                            <button onClick={runAiAnalysis} className="text-sm bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-full animate-bounce shadow-lg shadow-purple-900/50 transition-all">
                                 AI 분석 시작하기
                             </button>
                         )}
@@ -288,7 +293,8 @@ export default function TarotClient() {
                 </div>
 
                 {/* Content Container */}
-                <div className="flex-1 bg-slate-900/40 border border-slate-700/30 rounded-3xl p-6 md:p-10 backdrop-blur-sm relative min-h-[600px] flex flex-col">
+                {/* Content Container */}
+                <div className="flex-1 bg-slate-900/40 border border-slate-700/30 rounded-3xl p-3 md:p-10 backdrop-blur-sm relative min-h-[600px] flex flex-col">
 
                     {/* Placeholder when empty */}
                     {drawnCards.length === 0 && !isShuffling && (
@@ -334,9 +340,22 @@ export default function TarotClient() {
                                     </div>
 
                                     {isAiLoading && (
-                                        <div className="flex items-center gap-3 text-purple-300 p-4 bg-purple-900/10 rounded-xl border border-purple-500/20">
-                                            <Loader2 className="w-5 h-5 animate-spin" />
-                                            <span className="text-sm font-medium">카드의 흐름을 읽고 있습니다... 잠시만 기다려주세요.</span>
+                                        <div className="flex flex-col items-center justify-center gap-6 py-10 animate-fade-in">
+                                            <div className="relative w-20 h-20">
+                                                <div className="absolute inset-0 border-4 border-purple-900/30 rounded-full"></div>
+                                                <div className="absolute inset-0 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                                                <Sparkles className="absolute inset-0 m-auto text-purple-400 w-8 h-8 animate-pulse" />
+                                            </div>
+
+                                            <div className="text-center">
+                                                <h3 className="text-xl font-bold text-white mb-2">운명적 카드의 메시지를 해석 중입니다...</h3>
+                                                <p className="text-purple-300/60 text-sm">잠시만 기다려주세요.</p>
+                                            </div>
+
+                                            {/* Loading Ad */}
+                                            <div className="w-full max-w-[320px] h-[100px] bg-slate-800 flex items-center justify-center rounded-xl overflow-hidden border border-slate-700 shadow-lg">
+                                                <GoogleAd slot="3529245457" format="horizontal" responsive={false} style={{ display: 'block', width: '320px', height: '100px' }} />
+                                            </div>
                                         </div>
                                     )}
 
@@ -360,15 +379,7 @@ export default function TarotClient() {
                 onClose={() => setSelectedCardIndex(null)}
             />
 
-            {/* Ad Modal */}
-            <AdModal
-                isOpen={showAd}
-                onClose={() => {
-                    setShowAd(false);
-                    runAiAnalysis();
-                }}
-                slot="3529245457" // Updated with User's Ad Unit ID
-            />
+
 
         </div>
     );

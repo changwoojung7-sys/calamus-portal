@@ -5,6 +5,7 @@ import { Search, Sparkles, BookOpen, ArrowRight, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import dreamsData from "@/data/dreams.json";
+import GoogleAd from "@/components/ads/GoogleAd";
 
 export default function DreamClient() {
     const [mode, setMode] = useState<"SEARCH" | "AI">("SEARCH");
@@ -39,11 +40,15 @@ export default function DreamClient() {
         setError("");
 
         try {
-            const res = await fetch("/api/dream", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ dream: aiInput }),
-            });
+            // Parallel execution: API Call + Min Wait (3s)
+            const [res] = await Promise.all([
+                fetch("/api/dream", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ dream: aiInput }),
+                }),
+                new Promise(resolve => setTimeout(resolve, 3000))
+            ]);
 
             const data = await res.json();
             if (data.result) {
@@ -105,7 +110,7 @@ export default function DreamClient() {
             )}
 
             {/* AI Mode UI */}
-            {mode === "AI" && (
+            {!isLoading && mode === "AI" && (
                 <div className="w-full max-w-2xl space-y-4 animate-fade-in">
                     <div className="bg-slate-900/60 border border-slate-700 rounded-2xl p-6 shadow-xl relative group focus-within:border-purple-500 transition-colors">
                         <textarea
@@ -124,6 +129,24 @@ export default function DreamClient() {
                                 해몽하기
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Loading View with Ad */}
+            {isLoading && (
+                <div className="flex flex-col items-center justify-center py-10 animate-fade-in text-center">
+                    <div className="relative w-20 h-20 mb-6">
+                        <div className="absolute inset-0 border-4 border-purple-900/30 rounded-full"></div>
+                        <div className="absolute inset-0 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                        <Sparkles className="absolute inset-0 m-auto text-purple-400 w-8 h-8 animate-pulse" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">꿈속의 메시지를 해석하고 있습니다...</h3>
+                    <p className="text-slate-400 text-sm mb-8">무의식의 조각들을 연결하여 의미를 찾고 있습니다.</p>
+
+                    {/* Loading Ad */}
+                    <div className="w-full max-w-[320px] h-[250px] bg-slate-900 flex items-center justify-center rounded-xl overflow-hidden border border-purple-900/50 shadow-lg">
+                        <GoogleAd slot="3529245457" format="rectangle" responsive={false} style={{ display: 'block', width: '300px', height: '250px' }} />
                     </div>
                 </div>
             )}
@@ -158,14 +181,14 @@ export default function DreamClient() {
 
                     {/* AI Result */}
                     {result.type === "AI" && (
-                        <div className="prose prose-invert prose-lg max-w-none 
+                        <div className="prose prose-invert prose-lg max-w-none text-slate-100
               leading-loose
               prose-headings:text-purple-300 prose-headings:font-bold
-              prose-p:text-slate-200 prose-p:leading-loose
+              prose-p:text-slate-100 prose-p:leading-loose
               prose-strong:text-purple-400
-              prose-li:text-slate-200
-              prose-blockquote:border-purple-500 prose-blockquote:bg-slate-800/50">
-                            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-800">
+              prose-li:text-slate-100
+              prose-blockquote:border-purple-500 prose-blockquote:bg-slate-800/50 prose-blockquote:text-slate-200">
+                            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-700/50">
                                 <Sparkles className="w-5 h-5 text-purple-400" />
                                 <span className="text-slate-400 text-sm">AI Dream Analysis</span>
                             </div>

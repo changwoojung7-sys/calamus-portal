@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import HanjaModal from '@/components/shared/HanjaModal';
 
 export interface UserData {
     name: string;
@@ -28,6 +29,17 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
         birthType: 'solar',
         concern: '',
     });
+
+    // Hanja Modal State
+    const [isHanjaModalOpen, setIsHanjaModalOpen] = useState(false);
+
+    const openHanjaModal = () => {
+        if (!formData.name) {
+            alert("이름을 먼저 입력해주세요.");
+            return;
+        }
+        setIsHanjaModalOpen(true);
+    };
 
     const yearRef = useRef<HTMLInputElement>(null);
     const monthRef = useRef<HTMLInputElement>(null);
@@ -97,15 +109,24 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
                 </div>
                 <div>
                     <label className="block text-slate-400 mb-2">한자 (Hanja)</label>
-                    <input
-                        type="text"
-                        name="hanja"
-                        required
-                        className="input-field"
-                        placeholder="洪吉童"
-                        value={formData.hanja}
-                        onChange={handleChange}
-                    />
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            name="hanja"
+                            required
+                            className="input-field"
+                            placeholder="洪吉童"
+                            value={formData.hanja}
+                            onChange={handleChange}
+                        />
+                        <button
+                            type="button"
+                            onClick={openHanjaModal}
+                            className="shrink-0 bg-amber-800/50 hover:bg-amber-700/50 text-amber-200 px-4 rounded-xl border border-amber-700/50 transition-colors text-sm font-bold"
+                        >
+                            한자<br />찾기
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -248,6 +269,19 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
             >
                 {isLoading ? '운명 분석 중...' : '무료 사주/성명 풀이 시작'}
             </motion.button>
+
+            {/* Hanja Modal */}
+            {isHanjaModalOpen && (
+                <HanjaModal
+                    name={formData.name}
+                    initialHanja={formData.hanja}
+                    onClose={() => setIsHanjaModalOpen(false)}
+                    onComplete={(selectedHanja) => {
+                        setFormData({ ...formData, hanja: selectedHanja });
+                        setIsHanjaModalOpen(false);
+                    }}
+                />
+            )}
         </motion.form>
     );
 };

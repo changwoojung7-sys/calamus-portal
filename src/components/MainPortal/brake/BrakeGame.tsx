@@ -228,7 +228,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
     } : {};
 
     return (
-        <div className="min-h-screen flex flex-col items-center p-6 bg-[#020617] text-white relative overflow-hidden">
+        <div className="min-h-screen flex flex-col items-center p-6 bg-[#020617] text-white relative overflow-hidden landscape:p-0 landscape:justify-center">
 
             <style jsx>{`
                 @keyframes vibrate {
@@ -257,21 +257,21 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
 
             {/* Main Game Area */}
             {!showRankings ? (
-                <div className="w-full max-w-4xl relative z-10 flex flex-col items-center mt-10">
+                <div className="w-full max-w-4xl relative z-10 flex flex-col items-center mt-10 landscape:mt-0 landscape:w-full landscape:h-screen landscape:max-w-none landscape:justify-between landscape:py-4">
 
                     {/* Header */}
-                    <div className="text-center mb-12">
-                        <div className="inline-block bg-slate-800 px-6 py-2 rounded-2xl border border-slate-700 mb-4 shadow-lg">
-                            <span className="text-slate-400 mr-2 uppercase tracking-widest text-xs font-bold">Current Player</span>
+                    <div className="text-center mb-12 landscape:mb-2 landscape:flex landscape:items-center landscape:gap-4 landscape:scale-75 origin-top">
+                        <div className="inline-block bg-slate-800 px-6 py-2 rounded-2xl border border-slate-700 mb-4 shadow-lg landscape:mb-0">
+                            <span className="text-slate-400 mr-2 uppercase tracking-widest text-xs font-bold landscape:hidden">Current Player</span>
                             <span className="text-2xl font-black text-amber-500">P{currentIndex + 1}. {currentPlayer}</span>
                         </div>
-                        <h2 className="text-6xl font-black italic tracking-tighter drop-shadow-[0_0_25px_rgba(245,158,11,0.4)]">
+                        <h2 className="text-6xl font-black italic tracking-tighter drop-shadow-[0_0_25px_rgba(245,158,11,0.4)] landscape:text-4xl">
                             <span className="text-white">BRAKE</span> <span className="text-red-600">PLEASE</span>
                         </h2>
                     </div>
 
                     {/* TRACK */}
-                    <div className="w-full relative h-48 mb-12 select-none perspective-1000">
+                    <div className="w-full relative h-48 mb-12 select-none perspective-1000 landscape:h-[45vh] landscape:mb-4">
                         {/* Track Surface */}
                         <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 rounded-xl border-y-4 border-slate-700 overflow-hidden shadow-2xl transform rotate-x-12">
 
@@ -332,11 +332,11 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                     </div>
 
                     {/* CONTROLS */}
-                    <div className="w-full max-w-md flex items-center justify-center mb-12 min-h-[140px]">
+                    <div className="w-full max-w-md flex items-center justify-center mb-12 min-h-[140px] landscape:mb-0 landscape:max-w-lg landscape:flex-1">
                         {gameState === "READY" && (
                             <button
                                 onClick={startGame}
-                                className="w-full py-6 bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 rounded-3xl font-black text-4xl shadow-[0_10px_20px_rgba(30,58,138,0.5)] border-b-8 border-blue-900 active:border-b-0 active:translate-y-2 transition-all uppercase tracking-widest flex items-center justify-center gap-4 group"
+                                className="w-full py-6 bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-600 hover:to-blue-400 rounded-3xl font-black text-4xl shadow-[0_10px_20px_rgba(30,58,138,0.5)] border-b-8 border-blue-900 active:border-b-0 active:translate-y-2 transition-all uppercase tracking-widest flex items-center justify-center gap-4 group landscape:py-4 landscape:text-3xl"
                             >
                                 <Flag className="w-10 h-10 group-hover:rotate-12 transition-transform" /> START
                             </button>
@@ -346,7 +346,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                                 onClick={triggerBrake}
                                 onMouseDown={triggerBrake}
                                 onTouchStart={triggerBrake}
-                                className="w-full py-8 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-3xl font-black text-5xl shadow-[0_10px_30px_rgba(225,29,72,0.6)] border-b-8 border-red-900 active:border-b-0 active:translate-y-2 transition-all uppercase tracking-widest flex items-center justify-center gap-6 animate-pulse"
+                                className="w-full py-8 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 rounded-3xl font-black text-5xl shadow-[0_10px_30px_rgba(225,29,72,0.6)] border-b-8 border-red-900 active:border-b-0 active:translate-y-2 transition-all uppercase tracking-widest flex items-center justify-center gap-6 animate-pulse landscape:py-6 landscape:text-4xl"
                             >
                                 <AlertTriangle className="w-12 h-12" /> BRAKE!
                             </button>
@@ -388,7 +388,7 @@ export const BrakeGame = ({ players, onRestart, onToSetup }: BrakeGameProps) => 
                     </div>
 
                     {/* LIVE RECORDS */}
-                    <div className="w-full max-w-2xl">
+                    <div className="w-full max-w-2xl landscape:hidden">
                         <div className="flex items-center gap-2 mb-3 px-2">
                             <Trophy className="w-4 h-4 text-amber-500" />
                             <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Live Standings</span>

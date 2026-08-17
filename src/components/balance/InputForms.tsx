@@ -43,24 +43,24 @@ export default function InputForms({ category, onSubmit, onBack, isLoading }: Pr
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="text-sm text-slate-300">제품군 *</label>
-                                <input required name="productType" placeholder="예: 노트북, 스마트폰" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                                <input required name="productType" placeholder="예: 노트북, 스마트폰" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm text-slate-300">예산 범위 *</label>
-                                <input required name="budget" placeholder="예: 100~150만원" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                                <input required name="budget" placeholder="예: 100~150만원" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">주 용도 *</label>
-                            <input required name="usage" placeholder="예: 영상 편집, 고사양 게임, 문서 작업" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input required name="usage" placeholder="예: 영상 편집, 고사양 게임, 문서 작업" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">필수 조건 *</label>
-                            <input required name="requirements" placeholder="예: 가벼운 무게, 긴 배터리, 대화면" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input required name="requirements" placeholder="예: 가벼운 무게, 긴 배터리, 대화면" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">선호 브랜드 (선택)</label>
-                            <input name="brand" placeholder="예: Apple, Samsung, LG" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input name="brand" placeholder="예: Apple, Samsung, LG" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
                     </>
                 )}
@@ -70,7 +70,7 @@ export default function InputForms({ category, onSubmit, onBack, isLoading }: Pr
                     <>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">현재 상태 *</label>
-                            <select required name="status" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange}>
+                            <select required name="status" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange}>
                                 <option value="">선택해주세요</option>
                                 <option value="재직 중">재직 중</option>
                                 <option value="구직 중">구직 중</option>
@@ -81,17 +81,17 @@ export default function InputForms({ category, onSubmit, onBack, isLoading }: Pr
                             <div className="space-y-2">
                                 <label className="text-sm text-cyan-300 font-bold">A안 (현재/제안1) *</label>
                                 <p className="text-xs text-slate-400">채용공고(사람인 등) 내용을 복사해서 붙여넣으세요.</p>
-                                <textarea required name="optionA" placeholder="연봉, 복지, 출퇴근 거리, 업무 강도 등" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none h-48 resize-none" onChange={handleChange} />
+                                <textarea required name="optionA" placeholder="연봉, 복지, 출퇴근 거리, 업무 강도 등" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none h-48 resize-none" onChange={handleChange} />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm text-blue-300 font-bold">B안 (제안2) *</label>
                                 <p className="text-xs text-slate-400">채용공고(사람인 등) 내용을 복사해서 붙여넣으세요.</p>
-                                <textarea required name="optionB" placeholder="연봉, 복지, 출퇴근 거리, 업무 강도 등" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none h-48 resize-none" onChange={handleChange} />
+                                <textarea required name="optionB" placeholder="연봉, 복지, 출퇴근 거리, 업무 강도 등" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none h-48 resize-none" onChange={handleChange} />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">우선순위 (가치관) *</label>
-                            <input required name="priority" placeholder="예: 당장의 연봉보다 워라밸, 커리어 성장 등" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input required name="priority" placeholder="예: 당장의 연봉보다 워라밸, 커리어 성장 등" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
                     </>
                 )}
@@ -102,20 +102,20 @@ export default function InputForms({ category, onSubmit, onBack, isLoading }: Pr
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="text-sm text-slate-300">여행 시기/기간 *</label>
-                                <input required name="period" placeholder="예: 2월 중순, 3박 4일" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                                <input required name="period" placeholder="예: 2월 중순, 3박 4일" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm text-slate-300">동반인 *</label>
-                                <input required name="companions" placeholder="예: 혼자, 연인, 부모님, 아이" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                                <input required name="companions" placeholder="예: 혼자, 연인, 부모님, 아이" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">여행 취향/스타일 *</label>
-                            <input required name="preference" placeholder="예: 액티비티 위주, 힐링 호캉스, 맛집 탐방" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input required name="preference" placeholder="예: 액티비티 위주, 힐링 호캉스, 맛집 탐방" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">기대하는 날씨 *</label>
-                            <input required name="weather" placeholder="예: 따뜻한 휴양지, 시원한 도시, 눈내리는 곳" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input required name="weather" placeholder="예: 따뜻한 휴양지, 시원한 도시, 눈내리는 곳" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
                     </>
                 )}
@@ -144,13 +144,13 @@ export default function InputForms({ category, onSubmit, onBack, isLoading }: Pr
 
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">가장 걱정되는 결과는 무엇인가요? *</label>
-                            <input required name="worry" placeholder="예: 관계 단절, 경제적 손실, 아이의 상처" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 outline-none" onChange={handleChange} />
+                            <input required name="worry" placeholder="예: 관계 단절, 경제적 손실, 아이의 상처" className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-400 focus:border-cyan-500 outline-none" onChange={handleChange} />
                         </div>
 
                         <div className="space-y-2">
                             <label className="text-sm text-slate-300">어떤 고민이 있으신가요? *</label>
                             <p className="text-xs text-slate-400">상황을 자세히 적어주실수록 더 정확한 균형점을 찾아드릴 수 있습니다. (500자 이상 권장)</p>
-                            <textarea required name="dilemma" placeholder="예: 배우자와 크게 싸웠는데 먼저 사과해야 할까요? 이혼을 고민 중인데..." className="w-full bg-slate-800 border border-slate-700 rounded-lg p-4 text-white focus:border-cyan-500 outline-none h-64 resize-none leading-relaxed" onChange={handleChange} />
+                            <textarea required name="dilemma" placeholder="예: 배우자와 크게 싸웠는데 먼저 사과해야 할까요? 이혼을 고민 중인데..." className="w-full bg-slate-800 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-400 focus:border-cyan-500 outline-none h-64 resize-none leading-relaxed" onChange={handleChange} />
                         </div>
                     </>
                 )}

@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Solar, Lunar } from "lunar-javascript";
 import { Sparkles, Calendar, User, Clock, MessageCircle, AlertCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import GoogleAd from "@/components/ads/GoogleAd";
+import HanjaModal from "@/components/shared/HanjaModal";
 
 export default function SajuClient() {
     const [step, setStep] = useState<"INPUT" | "LOADING" | "RESULT">("INPUT");
@@ -42,24 +44,27 @@ export default function SajuClient() {
                 console.log(`Converted Lunar ${birthDate} -> Solar ${finalDate}`);
             } catch (err) {
                 console.error("Date conversion failed", err);
-                // Fallback or alert? Proceeding with raw date might be wrong, but safer than crashing.
             }
         }
 
         try {
-            const res = await fetch("/api/saju", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name,
-                    name_hanja: nameHanja,
-                    gender,
-                    date_type: dateType,
-                    birthdate: finalDate,
-                    birthtime: birthTime,
-                    followup
-                })
-            });
+            // Parallel execution: API Call + Min Wait (3s) for Ad
+            const [res] = await Promise.all([
+                fetch("/api/saju", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name,
+                        name_hanja: nameHanja,
+                        gender,
+                        date_type: dateType,
+                        birthdate: finalDate,
+                        birthtime: birthTime,
+                        followup
+                    })
+                }),
+                new Promise(resolve => setTimeout(resolve, 3000))
+            ]);
 
             const data = await res.json();
             if (data.result) {
@@ -75,6 +80,17 @@ export default function SajuClient() {
             alert("서버 오류가 발생했습니다.");
             setStep("INPUT");
         }
+    };
+
+    // Hanja Modal State
+    const [isHanjaModalOpen, setIsHanjaModalOpen] = useState(false);
+
+    const openHanjaModal = () => {
+        if (!name) {
+            alert("이름을 먼저 입력해주세요.");
+            return;
+        }
+        setIsHanjaModalOpen(true);
     };
 
     return (
@@ -117,13 +133,22 @@ export default function SajuClient() {
                             </div>
                             <div>
                                 <label className="block text-slate-400 text-sm mb-2">이름 한자 (선택)</label>
-                                <input
-                                    type="text"
-                                    value={nameHanja}
-                                    onChange={e => setNameHanja(e.target.value)}
-                                    placeholder="洪吉童"
-                                    className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-amber-100 focus:border-amber-500 outline-none transition-colors"
-                                />
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        value={nameHanja}
+                                        onChange={e => setNameHanja(e.target.value)}
+                                        placeholder="홍길동 (클릭하여 변환)"
+                                        className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-amber-100 focus:border-amber-500 outline-none transition-colors"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={openHanjaModal}
+                                        className="shrink-0 bg-amber-800/50 hover:bg-amber-700/50 text-amber-200 px-4 rounded-xl border border-amber-700/50 transition-colors text-sm font-bold"
+                                    >
+                                        한자<br />찾기
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -229,7 +254,12 @@ export default function SajuClient() {
                         <Sparkles className="absolute inset-0 m-auto text-amber-400 w-8 h-8 animate-pulse" />
                     </div>
                     <h3 className="text-2xl font-bold text-amber-100 mb-2">운명의 흐름을 읽고 있습니다...</h3>
-                    <p className="text-amber-200/60">AI가 사주, 기문, 성명학을 종합 분석 중입니다.<br />잠시만 기다려주세요.</p>
+                    <p className="text-amber-200/60 mb-8">AI가 사주, 기문, 성명학을 종합 분석 중입니다.<br />잠시만 기다려주세요.</p>
+
+                    {/* Loading Ad */}
+                    <div className="w-full max-w-[320px] h-[250px] bg-slate-900 flex items-center justify-center rounded-xl overflow-hidden border border-amber-900/50 shadow-lg">
+                        <GoogleAd slot="3529245457" format="rectangle" responsive={false} style={{ display: 'block', width: '300px', height: '250px' }} />
+                    </div>
                 </div>
             )}
 
@@ -269,6 +299,19 @@ export default function SajuClient() {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {/* Hanja Modal */}
+            {isHanjaModalOpen && (
+                <HanjaModal
+                    name={name}
+                    initialHanja={nameHanja}
+                    onClose={() => setIsHanjaModalOpen(false)}
+                    onComplete={(selectedHanja) => {
+                        setNameHanja(selectedHanja);
+                        setIsHanjaModalOpen(false);
+                    }}
+                />
             )}
         </div>
     );

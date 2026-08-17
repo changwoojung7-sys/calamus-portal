@@ -20,41 +20,35 @@ export default function Footer() {
     const TermsContent = (
         <div className="space-y-4">
             <h4 className="font-bold text-white text-base">제 1 조 (목적)</h4>
-            <p>이 약관은 유진에이아이(이하 "회사")가 제공하는 칼라머스 포털 및 관련 제반 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+            <p>이 약관은 칼라무스 케어(Calamus Care / 유진에이아이, 이하 "회사")가 제공하는 메디컬 & 케어 인포메이션 포털 및 관련 제반 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
 
-            <h4 className="font-bold text-white text-base">제 2 조 (서비스의 제공)</h4>
+            <h4 className="font-bold text-white text-base">제 2 조 (서비스의 내용 및 면책)</h4>
             <p>회사는 다음과 같은 서비스를 제공합니다.</p>
             <ul className="list-disc pl-5 space-y-1 text-slate-400">
-                <li>AI 기반 운세, 타로, 꿈해몽 분석 정보 제공</li>
-                <li>간단한 게임 및 유틸리티 도구 제공</li>
-                <li>기타 회사가 정하는 서비스</li>
+                <li>건강보험심사평가원(HIRA) 공공데이터 기반 전국 한방병원, 한의원, 요양병원, 호스피스 정보 제공</li>
+                <li>환자 및 보호자를 위한 케어 가이드 아티클 제공</li>
+                <li>마음 쉼터를 위한 사주·타로·힐링 콘텐츠 제공</li>
             </ul>
-            <p className="mt-2 text-amber-400/90 text-xs">※ 본 서비스가 제공하는 운세 및 분석 결과는 AI에 기반한 것으로, 과학적 근거가 없으며 재미와 참고용으로만 이용하시기 바랍니다. 결과에 대한 맹신으로 발생한 문제에 대해 회사는 책임지지 않습니다.</p>
+            <p className="mt-2 text-emerald-400/90 text-xs">※ 본 포털의 의료기관 정보는 공공데이터를 기반으로 하며, 실제 진료 일정 및 병상 현황은 해당 기관으로 직접 문의하시기 바랍니다. 포털의 정보는 참고용이며 전문적인 의학적 진단을 대신할 수 없습니다.</p>
 
-            <h4 className="font-bold text-white text-base">제 3 조 (면책 조항)</h4>
-            <p>회사는 천재지변 또는 이에 준하는 불가항력으로 인해 서비스를 제공할 수 없는 경우 서비스 제공에 대한 책임이 면제됩니다. 또한 이용자의 귀책사유로 인한 서비스 이용 장애에 대하여 책임을 지지 않습니다.</p>
+            <h4 className="font-bold text-white text-base">제 3 조 (책임 제한)</h4>
+            <p>회사는 천재지변 또는 불가항력으로 인한 서비스 중단 및 이용자의 귀책사유로 인한 장애에 대하여 책임을 지지 않습니다.</p>
         </div>
     );
 
     const PrivacyContent = (
         <div className="space-y-4">
-            <div className="p-3 bg-cyan-950/30 border border-cyan-500/30 rounded-lg text-cyan-200">
-                <strong>핵심 요약:</strong> 칼라머스 포털은 회원가입 기능이 없으며, 서버에 사용자의 개인정보(이름, 연락처 등)를 일절 저장하지 않습니다.
+            <div className="p-3 bg-emerald-950/30 border border-emerald-500/30 rounded-lg text-emerald-200">
+                <strong>핵심 요약:</strong> Calamus Care 포털은 별도의 회원가입 없이 누구나 자유롭게 이용 가능하며, 사용자의 개인 식별 정보를 서버에 저장하지 않습니다.
             </div>
 
             <h4 className="font-bold text-white text-base">1. 수집하는 개인정보 항목</h4>
-            <p>본 서비스는 별도의 회원가입 절차가 없으므로, 이용자의 성명, 전화번호, 이메일 등의 개인정보를 수집하거나 저장하지 않습니다.</p>
+            <p>본 서비스는 회원가입 없이 열람 가능한 서비스로 성명, 연락처 등 일체의 개인정보를 수집하거나 보관하지 않습니다.</p>
 
             <h4 className="font-bold text-white text-base">2. 쿠키(Cookie) 및 광고 식별자</h4>
-            <p>서비스 이용 과정에서 다음과 같은 정보가 자동 생성되어 수집될 수 있습니다.</p>
-            <ul className="list-disc pl-5 space-y-1 text-slate-400">
-                <li>Google AdSense 광고 게재를 위한 쿠키 및 사용 데이터</li>
-                <li>서비스 이용 기록, 방문 기록 (Google Analytics 등)</li>
-            </ul>
-            <p>이러한 정보는 개인을 식별할 수 없는 형태로 통계적 분석 및 맞춤형 광고 제공 목적으로만 활용됩니다.</p>
+            <p>서비스 품질 향상 및 Google AdSense 광고 최적화를 위해 통계적 쿠키 데이터가 수집될 수 있습니다.</p>
 
-            <h4 className="font-bold text-white text-base">3. 개인정보 관리 책임자</h4>
-            <p>서비스 관련 문의나 불편 사항은 아래로 연락 주시기 바랍니다.</p>
+            <h4 className="font-bold text-white text-base">3. 관리자 및 고객 문의</h4>
             <ul className="list-disc pl-5 space-y-1 text-slate-400">
                 <li>담당자: 정창우</li>
                 <li>이메일: yujinit2005@gmail.com (문의 전용)</li>
@@ -64,29 +58,34 @@ export default function Footer() {
 
     return (
         <>
-            <footer className="w-full bg-[#0f172a] border-t border-slate-800 text-slate-500 py-10 mt-12">
-                <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-
+            <footer className="w-full bg-[#050811] border-t border-slate-800 text-slate-400 py-12 mt-12 text-left">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                     {/* Company Info */}
                     <div className="space-y-2 text-xs leading-relaxed">
-                        <h5 className="font-bold text-slate-300 text-sm mb-2">유진에이아이 (YujinAI)</h5>
-                        <p>대표자: 정창우 | 사업자등록번호: 519-77-00622</p>
-                        <p>주소: 경기도 용인시 기흥구 동백8로 87</p>
-                        <p>이메일: yujinit2005@gmail.com</p>
-                        <p className="mt-2 text-slate-600">Copyright © 2026 Calamus Portal. All rights reserved.</p>
+                        <div className="flex items-center gap-2">
+                            <span className="font-black text-emerald-400 text-base">Calamus Care</span>
+                            <span className="text-slate-500">|</span>
+                            <span className="font-bold text-slate-300">유진에이아이 (YujinAI)</span>
+                        </div>
+                        <p className="text-slate-400">대표자: 정창우 | 사업자등록번호: 519-77-00622</p>
+                        <p className="text-slate-400">주소: 경기도 용인시 기흥구 동백8로 87 | 이메일: yujinit2005@gmail.com</p>
+                        <p className="text-[11px] text-slate-500">
+                            공공데이터 제공: 건강보험심사평가원(HIRA) / 보건복지부
+                        </p>
+                        <p className="mt-2 text-slate-500">Copyright © 2026 Calamus Care (YujinAI). All rights reserved.</p>
                     </div>
 
                     {/* Legal Links */}
-                    <div className="flex gap-6 text-xs font-medium">
+                    <div className="flex gap-6 text-xs font-semibold text-slate-400">
                         <button
                             onClick={() => openModal("terms")}
-                            className="hover:text-slate-300 transition-colors"
+                            className="hover:text-emerald-400 transition-colors"
                         >
                             이용약관
                         </button>
                         <button
                             onClick={() => openModal("privacy")}
-                            className="hover:text-slate-300 transition-colors"
+                            className="hover:text-emerald-400 transition-colors"
                         >
                             개인정보처리방침
                         </button>
