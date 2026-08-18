@@ -5,7 +5,7 @@ description: Git 변경사항 자동 커밋 및 GitHub 원격 저장소 푸시 �
 
 # Git Auto Sync Skill
 
-이 스킬은 프로젝트 변경사항을 Git에 자동으로 스테이징, 커밋, 그리고 원격 저장소(`origin/master` 또는 현재 브랜치)로 푸시하는 표준 워크플로우를 정의합니다.
+이 스킬은 프로젝트 변경사항을 Git에 자동으로 스테이징, 커밋, 그리고 원격 저장소(`origin/main`)로 푸시하는 표준 워크플로우를 정의합니다.
 
 ## 워크플로우 절차
 
@@ -20,9 +20,10 @@ description: Git 변경사항 자동 커밋 및 GitHub 원격 저장소 푸시 �
 3. **커밋 메시지 작성 및 커밋 (Git Commit)**
    - 명확하고 구체적인 한글/영어 커밋 메시지 작성
    ```powershell
-   git commit -m "feat: <작업 내용 요약>"
+   git commit -m "Feat: <작업 내용 요약>"
    ```
 4. **원격 저장소 푸시 (Git Push)**
    ```powershell
-   git push origin HEAD
+   git push origin main
    ```
+
