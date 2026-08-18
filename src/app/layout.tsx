@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Calamus Care | 메디컬 & 케어 인포메이션 포털",
-    description: "전국 7만여 개 의료기관의 심평원 공공데이터 실시간 연계! 전문의 인력, 병상수, 적정성 평가등급을 한눈에 비교하세요.",
+    description: "전국 7만여 개 의료기관의 심평원 2026.06월 공공데이터 기준! 전문의 인력, 병상수, 적정성 평가등급을 한눈에 비교하세요.",
     type: "website",
   },
 };

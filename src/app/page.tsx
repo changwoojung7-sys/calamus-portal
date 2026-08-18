@@ -41,21 +41,21 @@ const PORTFOLIO_SOLUTIONS: SolutionItem[] = [
     title: "Calamus Care & Portal",
     badge: "공식 브랜드 & 허브",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/50",
-    tagline: "전국 7만여 의료·요양 공공데이터 실시간 연계 허브",
-    description: "심평원 Open API와 실시간 동기화되어 전국 상급종합·일반·한방·요양병원 및 호스피스 완화의료 시설을 스마트하게 검색·비교하는 메디컬 포털입니다.",
+    tagline: "전국 7만여 의료·요양 공공데이터(2026.06월) 허브",
+    description: "건강보험심사평가원(HIRA) 2026.06월 최신 공공데이터를 기반으로 전국 상급종합·일반병원/의원·한방·요양병원 및 호스피스 완화의료 시설을 스마트하게 검색·비교하는 메디컬 포털입니다.",
     domainUrl: "https://calamus.ai.kr",
     domainDisplay: "calamus.ai.kr",
     detailPath: "#search-section",
     isInternalAnchor: true,
     features: [
-      "건강보험심사평가원(HIRA) 실시간 공공데이터 연계",
-      "상급종합/요양/한방/호스피스 전문 카테고리 필터",
+      "건강보험심사평가원(HIRA) 2026.06월 공공데이터 기반",
+      "상급종합/일반병원·의원/요양/한방/호스피스 전문 필터",
       "인터랙티브 지도 기반 위치 탐색 및 상세 정보"
     ],
     techStack: {
       frontend: "React / Next.js",
       backend: "Supabase DB",
-      aiOrInfra: "HIRA Public API"
+      aiOrInfra: "HIRA Public Data (2026.06)"
     },
     accentGradient: "from-emerald-950/80 via-teal-900/60 to-slate-900",
     borderHover: "hover:border-emerald-500/60 hover:shadow-emerald-950/40",
@@ -401,7 +401,7 @@ export default function Home() {
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-950/80 border border-emerald-500/40 px-4 py-1.5 text-xs font-semibold text-emerald-300 mb-3">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
-            건강보험심사평가원(HIRA) 공공데이터 Open API 실시간 연계
+            건강보험심사평가원(HIRA) 공공데이터 (2026.06월 기준)
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
             전국 의료기관 & 요양시설 실시간 탐색

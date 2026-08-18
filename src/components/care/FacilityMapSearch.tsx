@@ -568,7 +568,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] text-emerald-400 font-bold tracking-wider uppercase">
-                    {selectedFacility.category_name} 상세정보 (심평원 실시간)
+                    {selectedFacility.category_name} 상세정보 (심평원 2026.06월 공공데이터)
                   </span>
                   {isLoadingDetail && (
                     <span className="flex items-center gap-1 text-[11px] text-cyan-400 animate-pulse">
@@ -853,7 +853,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
               <div className="mt-6 pt-4 border-t border-slate-800/80 text-[11px] text-slate-500 text-center flex items-center justify-center gap-2">
                 <span>데이터 출처: 건강보험심사평가원(HIRA) 심평원 공공데이터</span>
                 <span>•</span>
-                <span>Supabase PostgreSQL 실시간 동기화</span>
+                <span>Supabase PostgreSQL (2026.06월 HIRA 공공데이터 구축)</span>
               </div>
             </div>
           )}
