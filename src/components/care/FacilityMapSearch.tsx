@@ -36,8 +36,18 @@ interface FacilityMapSearchProps {
   initialCategory?: CategoryFilter;
 }
 
+// 5대 추천 / 스폰서 병원 (지역 명칭 제외 및 공식 광고 슬롯)
+const RECOMMENDED_HOSPITALS = [
+  { name: '효사랑가족요양병원', category: '요양' },
+  { name: '보바스기념병원', category: '재활/요양' },
+  { name: '인창요양병원', category: '요양' },
+  { name: '청주필한방병원', category: '한방' },
+  { name: '신윤수내과의원', category: '내과/투석' },
+];
+
 export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCategory = 'ALL' }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const listContainerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(MOCK_FACILITIES[0]);
@@ -47,10 +57,15 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
   const [selectedGrade, setSelectedGrade] = useState<string>('ALL');
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [pageNo, setPageNo] = useState<number>(1);
   const [isLoadingList, setIsLoadingList] = useState<boolean>(true);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [kakaoLoaded, setKakaoLoaded] = useState<boolean>(false);
   const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false);
   const [detailCache, setDetailCache] = useState<{ [id: string]: Facility }>({});
+
+  const PAGE_SIZE = 40;
+  const hasMore = facilities.length < totalCount;
 
   // 외부 initialCategory 변경 시 내부 activeCategory 동기화
   useEffect(() => {
@@ -89,18 +104,20 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
     }
   }, []);
 
-  // 2. Supabase 기반 병의원 목록 비동기 조회 (검색어, 카테고리, 지역, 등급 연동)
+  // 2. Supabase 기반 병의원 목록 비동기 조회 (첫 페이지 로드 및 필터 변경 시)
   useEffect(() => {
     let isCancelled = false;
-    const fetchFacilities = async () => {
+    const fetchFirstPage = async () => {
       setIsLoadingList(true);
+      setPageNo(1);
       try {
         const params = new URLSearchParams();
         if (activeCategory !== 'ALL') params.append('category', activeCategory);
         if (searchTerm.trim()) params.append('query', searchTerm.trim());
         if (selectedSido !== 'ALL') params.append('sido', selectedSido);
         if (selectedGrade !== 'ALL') params.append('grade', selectedGrade);
-        params.append('pageSize', '50');
+        params.append('pageNo', '1');
+        params.append('pageSize', String(PAGE_SIZE));
 
         const res = await fetch(`/api/facilities?${params.toString()}`);
         if (res.ok) {
@@ -123,7 +140,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
     };
 
     const debounceTimer = setTimeout(() => {
-      fetchFacilities();
+      fetchFirstPage();
     }, 250);
 
     return () => {
@@ -131,6 +148,51 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
       clearTimeout(debounceTimer);
     };
   }, [activeCategory, searchTerm, selectedSido, selectedGrade]);
+
+  // 2-1. 다음 페이지(무한스크롤 / 더보기) 로드 함수
+  const loadMoreFacilities = async () => {
+    if (isLoadingMore || !hasMore) return;
+    setIsLoadingMore(true);
+    const nextPage = pageNo + 1;
+
+    try {
+      const params = new URLSearchParams();
+      if (activeCategory !== 'ALL') params.append('category', activeCategory);
+      if (searchTerm.trim()) params.append('query', searchTerm.trim());
+      if (selectedSido !== 'ALL') params.append('sido', selectedSido);
+      if (selectedGrade !== 'ALL') params.append('grade', selectedGrade);
+      params.append('pageNo', String(nextPage));
+      params.append('pageSize', String(PAGE_SIZE));
+
+      const res = await fetch(`/api/facilities?${params.toString()}`);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data && json.data.length > 0) {
+          setFacilities((prev) => {
+            // 중복 방지 (id 기준)
+            const existingIds = new Set(prev.map((f) => f.id));
+            const newItems = json.data.filter((f: Facility) => !existingIds.has(f.id));
+            return [...prev, ...newItems];
+          });
+          setPageNo(nextPage);
+          setTotalCount(json.total || 0);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load more facilities:', err);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  // 2-2. 리스트 스크롤 감지 핸들러 (무한스크롤)
+  const handleListScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const scrollBottom = target.scrollHeight - target.scrollTop - target.clientHeight;
+    if (scrollBottom < 160 && hasMore && !isLoadingList && !isLoadingMore) {
+      loadMoreFacilities();
+    }
+  };
 
   const filteredFacilities = facilities;
 
@@ -203,7 +265,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
     { label: '상급·종합병원', value: 'general', badge: '3차·종합' },
     { label: '한방병원/한의원', value: 'oriental', badge: '전문의' },
     { label: '요양병원/요양원', value: '28', badge: '실버케어' },
-    { label: '일반 병원', value: '21', badge: '양방' },
+    { label: '일반병원/의원', value: '21', badge: '양방/의원' },
     { label: '호스피스 완화의료', value: 'hospice', badge: '복지부 지정' },
   ];
 
@@ -218,7 +280,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
             <Search className="absolute left-3.5 top-3 h-4 w-4 text-emerald-400" />
             <input
               type="text"
-              placeholder="예: '한방병원 용인', '요양병원 수원', '유방암 1등급', 'MRI'..."
+              placeholder="예: '추나', '척추', '인공신장', '혈액투석', '골밀도', '효사랑가족요양병원' 등..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full rounded-xl border border-slate-700 bg-slate-900/90 py-2.5 pl-10 pr-14 text-sm text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
@@ -233,22 +295,21 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
             )}
           </div>
 
-          {/* 퀵 추천 복합 검색어 태그 */}
+          {/* 5대 추천 / 파트너 병원 (지역 명칭 제외 및 광고 슬롯) */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] text-slate-400 no-scrollbar">
-            <span className="shrink-0 text-slate-500 font-medium">추천:</span>
-            {[
-              { label: '한방병원 용인', val: '한방병원 용인' },
-              { label: '요양병원 수원', val: '요양병원 수원' },
-              { label: '유방암 1등급', val: '유방암 1등급' },
-              { label: '호스피스 완화', val: '호스피스 완화' },
-              { label: 'MRI 보유병원', val: 'MRI' },
-            ].map((tag) => (
+            <span className="shrink-0 text-emerald-400 font-bold flex items-center gap-1">
+              <Sparkles className="w-3 h-3" /> 추천 병원:
+            </span>
+            {RECOMMENDED_HOSPITALS.map((hosp) => (
               <button
-                key={tag.val}
-                onClick={() => setSearchTerm(tag.val)}
-                className="shrink-0 px-2 py-0.5 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition"
+                key={hosp.name}
+                onClick={() => setSearchTerm(hosp.name)}
+                className="shrink-0 px-2.5 py-0.5 rounded-md bg-emerald-950/50 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-700/50 transition font-medium flex items-center gap-1"
               >
-                {tag.label}
+                <span>{hosp.name}</span>
+                <span className="text-[9px] text-emerald-400/70 bg-emerald-900/60 px-1 rounded">
+                  {hosp.category}
+                </span>
               </button>
             ))}
           </div>
@@ -328,11 +389,18 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
         </div>
 
 
-        {/* 시설 리스트 (Supabase DB 연계 결과) */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
-          <div className="flex items-center justify-between text-xs text-slate-400 font-medium px-1">
+        {/* 시설 리스트 (Supabase DB 연계 결과 및 무한 스크롤) */}
+        <div
+          ref={listContainerRef}
+          onScroll={handleListScroll}
+          className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar"
+        >
+          <div className="flex items-center justify-between text-xs text-slate-400 font-medium px-1 sticky top-0 bg-[#0a101d]/90 backdrop-blur py-1 z-10">
             <span>
-              검색 결과 <strong className="text-emerald-400 font-bold">{totalCount.toLocaleString()}</strong>곳 {isLoadingList && '(조회 중...)'}
+              검색 결과 <strong className="text-emerald-400 font-bold">{totalCount.toLocaleString()}</strong>곳 
+              <span className="text-[11px] text-slate-500 ml-1">
+                (현재 {facilities.length.toLocaleString()}개 로드됨)
+              </span>
             </span>
             <span className="text-[11px] text-slate-400 flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -340,7 +408,12 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
             </span>
           </div>
 
-
+          {isLoadingList && facilities.length === 0 && (
+            <div className="flex flex-col items-center justify-center h-48 text-center text-slate-400">
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-400 mb-2" />
+              <p className="text-sm font-medium text-slate-300">의료기관 데이터를 불러오는 중입니다...</p>
+            </div>
+          )}
 
           {filteredFacilities.map((fac) => {
             const isSelected = selectedFacility?.id === fac.id;
@@ -365,6 +438,8 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
                             ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
                             : fac.category_code === '21'
                             ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
+                            : fac.category_code === '31'
+                            ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40'
                             : fac.category_code === '28'
                             ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
                             : fac.category_code === '92' || fac.category_code === '93'
@@ -444,7 +519,38 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
             );
           })}
 
-          {filteredFacilities.length === 0 && (
+          {/* 더보기 버튼 및 로딩 인디케이터 */}
+          {hasMore && (
+            <div className="pt-2 pb-4 text-center">
+              <button
+                onClick={loadMoreFacilities}
+                disabled={isLoadingMore}
+                className="w-full py-3 px-4 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center justify-center gap-2 shadow-md hover:border-emerald-500/50"
+              >
+                {isLoadingMore ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                    <span>추가 병원 목록을 불러오는 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>더 많은 병원 불러오기 (+{PAGE_SIZE}곳)</span>
+                    <span className="text-[11px] text-slate-400">
+                      ({facilities.length.toLocaleString()} / {totalCount.toLocaleString()}곳)
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {!hasMore && facilities.length > 0 && (
+            <div className="py-4 text-center text-xs text-slate-500 border-t border-slate-800/60">
+              전체 {totalCount.toLocaleString()}곳의 조회가 완료되었습니다.
+            </div>
+          )}
+
+          {!isLoadingList && filteredFacilities.length === 0 && (
             <div className="flex flex-col items-center justify-center h-48 text-center text-slate-400 p-6">
               <Compass className="h-10 w-10 mb-3 text-slate-600 stroke-1 animate-pulse" />
               <p className="text-sm font-medium text-slate-300">조건에 일치하는 의료기관이 없습니다.</p>

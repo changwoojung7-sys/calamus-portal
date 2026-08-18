@@ -31,6 +31,9 @@ export async function GET(request: Request) {
       } else if (category === 'oriental') {
         // 한방병원(92) + 한의원(93)
         dbQuery = dbQuery.in('category_code', ['92', '93']);
+      } else if (category === '21' || (category as string) === 'clinic') {
+        // 일반병원(21) + 의원(31)
+        dbQuery = dbQuery.in('category_code', ['21', '31']);
       } else {
         dbQuery = dbQuery.eq('category_code', category);
       }
@@ -42,17 +45,16 @@ export async function GET(request: Request) {
     }
 
     // 3. 등급 필터 (1등급 등)
-    if (grade) {
+    if (grade && grade !== 'ALL') {
       dbQuery = dbQuery.ilike('search_keywords', `%${grade}%`);
     }
 
-
-    // 3. 다중 키워드 AND 검색 (공백 및 슬래시 구분: "한방병원 용인", "요양병원 수원", "유방암 1등급")
+    // 4. 다중 키워드 AND 검색 (오른쪽에 표시되는 진료과목, 장비, 특화, 병원명, 주소 등 전체 LIKE 검색)
     if (query) {
       const tokens = query.split(/[\s/]+/).filter((t: string) => t.length > 0);
       tokens.forEach((token: string) => {
         dbQuery = dbQuery.or(
-          `name.ilike.%${token}%,address.ilike.%${token}%,category_name.ilike.%${token}%,search_keywords.ilike.%${token}%`
+          `name.ilike.%${token}%,address.ilike.%${token}%,category_name.ilike.%${token}%,search_keywords.ilike.%${token}%,sido_name.ilike.%${token}%,sggu_name.ilike.%${token}%,emdong_name.ilike.%${token}%`
         );
       });
     }
