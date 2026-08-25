@@ -11,11 +11,9 @@
 When the user asks to "소스 올려줘", "깃허브 업로드 해줘", "깃 푸시해줘", or similar requests to push source code to GitHub:
 
 1. Git remote repository target: `https://github.com/changwoojung7-sys/calamus-portal.git` (Branch: `main`, Account: `changwoojung7-sys`).
-2. Run standard git status / add / commit / push commands:
-   - `git status`
-   - `git add .`
-   - `git commit -m "Feat: <작업 내용 요약>"` (or default `"Feat: Update Calamus Portal source code"`)
-   - `git push origin main`
+2. Use the `git-auto-sync` skill (`.agents/skills/git-auto-sync/scripts/sync.ps1`) or standard git workflow:
+   - `powershell -ExecutionPolicy Bypass -File .agents/skills/git-auto-sync/scripts/sync.ps1 -Message "Feat: <작업 내용 요약>"`
+   - 또는 `git status` -> `git add .` -> `git commit -m "..."` -> `git push origin main`
 3. Always provide clear, green checkmark (✅) confirmation upon completion.
 
 ## Coding Style Rules
