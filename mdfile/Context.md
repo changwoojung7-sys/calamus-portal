@@ -1,8 +1,8 @@
 # Calamus Portal 프로젝트 아키텍처 및 소스 구조 (Context.md)
 
-> **최종 갱신일**: 2026-08-18  
+> **최종 갱신일**: 2026-08-25  
 > **프로젝트명**: Calamus Portal (Calamus Care & AI Solutions Hub)  
-> **운영 조직**: 유진AI (EUGENE AI)  
+> **운영 조직**: 유진AI(YujinAI)  
 > **기본 스택**: Next.js 15 (App Router), TypeScript, Tailwind CSS, Material UI (MUI), Supabase (PostgreSQL), Cloudflare Pages / Edge Runtime  
 
 ---
@@ -13,9 +13,9 @@ Calamus Portal은 **유진AI의 4대 AI & 케어 솔루션을 통합 소개하�
 
 ### 4대 솔루션 라인업
 1. **Calamus Care & Portal** (`calamus.ai.kr`): 전국 병의원·요양시설 공공데이터(2026.06월 기준) 탐색 허브
-2. **My Re Design** (`myredesign.ai.kr`): AI 기반 라이프스타일 / 개인화 루틴·목표 코칭 PWA
-3. **온안부 (OnAnBu)** (`onanbu.calamus.ai.kr`): 케어 테크 / 시니어·가족 안부 확인 & 웰빙 플랫폼
-4. **Lua Visibility Dashboard** (`lua-visibility.pages.dev`): 초고속 엣지 기반 엔터프라이즈 실시간 BI 대시보드
+2. **My Re Design** (`myredesign.ai.kr`): AI 기반 라이프스타일 / 개인화 루틴·목표 코칭 PWA (공식 가이드 슬라이드 10종 탑재)
+3. **온안부 (OnAnBu)** (`onanbu.calamus.ai.kr`): 케어 테크 / 시니어·가족 안부 확인 & 웰빙 플랫폼 (공식 가이드 슬라이드 11종 탑재)
+4. **LUVIS AI Visibility** (`rualab.co.kr`): 병원 경영진을 위한 AEO/GEO 최적화 통합 관제 및 SOV 분석 웹 엔진 v1.0 (공식 소개 슬라이드 15종 탑재)
 
 ---
 
@@ -32,24 +32,32 @@ CalamusPortal/
 ├── mdfile/                                 # 프로젝트 기획 및 문서 아카이브
 │   ├── CHANGELOG.md                        # 일자별 변경 내역 및 작업 로그
 │   ├── Context.md                          # [본 문서] 프로젝트 소스 구조 및 컨텍스트
-│   ├── calamus 포털 리뉴얼_회사소개 및 포트폴리오.md # 포털 리뉴얼 기획안
-│   ├── 사주 리뉴얼.md
-│   └── 타로카드 리뉴얼.md
+│   ├── 0. Luvis_AI_Visibility_소개.pdf      # [신규] Luvis 공식 소개 슬라이드 15p
+│   ├── 0. My_Re_Design_서비스가이드.pdf     # [신규] My Re Design 공식 가이드 10p
+│   └── 0. 온안부_서비스_가이드.pdf          # [신규] 온안부 공식 서비스 가이드 11p
 │
-├── public/                                 # 정적 자산 및 아이콘
+├── public/                                 # 정적 자산 및 이미지
+│   ├── images/
+│   │   └── solutions/                      # 3대 솔루션 공식 슬라이드 고화질(Retina 2x) 이미지
+│   │       ├── luvis/                      # page_01.png ~ page_15.png (15장)
+│   │       ├── my-re-design/               # page_01.png ~ page_10.png (10장)
+│   │       └── onanbu/                     # page_01.png ~ page_11.png (11장)
 │   └── hospital_info_file/                 # 심평원 분기별 병원정보 엑셀 데이터 파일
 │
 ├── src/
 │   ├── app/                                # Next.js 15 App Router 라우트 정의
 │   │   ├── layout.tsx                      # 글로벌 루트 레이아웃 (SEO, 메타데이터, 폰트)
-│   │   ├── page.tsx                        # 메인 포털 화면 (회사소개, 4대 솔루션 쇼케이스, 병원검색기 연동)
+│   │   ├── page.tsx                        # 메인 포털 화면 (회사소개, 4대 솔루션 쇼케이스, 병원검색관 연결)
 │   │   ├── globals.css                     # 전역 스타일 및 유틸리티 CSS
 │   │   │
-│   │   ├── solutions/                      # [신규] 3대 개별 솔루션 상세 소개 페이지
+│   │   ├── hospitals/                      # [신규] 전국 7.9만 병원·의원·요양시설 실시간 탐색 전용 페이지
+│   │   │   └── page.tsx                    # 심평원 공공데이터 기반 풀스크린 지도 및 무한스크롤 검색기
+│   │   │
+│   │   ├── solutions/                      # 3대 개별 솔루션 상세 소개 페이지
 │   │   │   ├── my-re-design/
-│   │   │   │   └── page.tsx                # My Re Design 상세 스펙 및 공식 사이트 바로가기
+│   │   │   │   └── page.tsx                # [전면개편] PDF 10개 페이지 순서 1:1 완벽 반영 소개 페이지
 │   │   │   ├── onanbu/
-│   │   │   │   └── page.tsx                # 온안부(OnAnBu) 상세 스펙 및 공식 사이트 바로가기
+│   │   │   │   └── page.tsx                # [전면개편] 서비스 가이드 PDF 11개 페이지 순서 1:1 완벽 반영 소개 페이지
 │   │   │   └── lua-visibility/
 │   │   │       └── page.tsx                # Lua Visibility 대시보드 상세 스펙 및 바로가기
 │   │   │

@@ -4,7 +4,6 @@ import { Facility, CategoryFilter } from '@/types/facility';
 
 export const runtime = 'edge';
 
-
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -22,7 +21,7 @@ export async function GET(request: Request) {
       .select('*', { count: 'exact' });
 
     // 1. 카테고리 필터
-    if (category !== 'ALL') {
+    if (category && category !== 'ALL') {
       if (category === 'hospice') {
         dbQuery = dbQuery.eq('is_hospice', true);
       } else if (category === 'general') {
@@ -46,22 +45,21 @@ export async function GET(request: Request) {
 
     // 3. 등급 필터 (1등급 등)
     if (grade && grade !== 'ALL') {
-      dbQuery = dbQuery.ilike('search_keywords', `%${grade}%`);
+      dbQuery = dbQuery.or(`name.ilike.%${grade}%,address.ilike.%${grade}%`);
     }
 
-    // 4. 다중 키워드 AND 검색 (오른쪽에 표시되는 진료과목, 장비, 특화, 병원명, 주소 등 전체 LIKE 검색)
+    // 4. 다중 키워드 검색 (병원명, 주소, 카테고리명, 시도/시군구/읍면동)
     if (query) {
       const tokens = query.split(/[\s/]+/).filter((t: string) => t.length > 0);
       tokens.forEach((token: string) => {
         dbQuery = dbQuery.or(
-          `name.ilike.%${token}%,address.ilike.%${token}%,category_name.ilike.%${token}%,search_keywords.ilike.%${token}%,sido_name.ilike.%${token}%,sggu_name.ilike.%${token}%,emdong_name.ilike.%${token}%`
+          `name.ilike.%${token}%,address.ilike.%${token}%,category_name.ilike.%${token}%,sido_name.ilike.%${token}%,sggu_name.ilike.%${token}%,emdong_name.ilike.%${token}%`
         );
       });
     }
 
     // 정렬: 의사수 많은 순
-    dbQuery = dbQuery.order('doctor_total_cnt', { ascending: false }).range(from, to);
-
+    dbQuery = dbQuery.order('doctor_total_cnt', { ascending: false, nullsFirst: false }).range(from, to);
 
     const { data: hospitals, count, error } = await dbQuery;
 
@@ -91,7 +89,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      total: count || facilities.length,
+      total: count !== null ? count : facilities.length,
       data: facilities,
       source: 'supabase_db',
     });
@@ -100,4 +98,3 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, message: err.message }, { status: 500 });
   }
 }
-
