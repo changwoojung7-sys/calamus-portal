@@ -14,7 +14,6 @@
     "@supabase/supabase-js": "^2.91.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.26.2",
-    "hanja": "^1.1.5",
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",

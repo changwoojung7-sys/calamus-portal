@@ -11,23 +11,10 @@ import {
   ExternalLink,
   ChevronRight,
   ShieldCheck,
-  Building,
-  Building2,
-  HeartHandshake,
   Compass,
   Sparkles,
-  Layers,
-  Clock,
   Activity,
-  CheckCircle2,
-  Calendar,
-  AlertCircle,
-  HelpCircle,
-  Eye,
   Loader2,
-  RefreshCw,
-  Map as MapIcon,
-  FileText,
   X,
   Navigation,
   Bus,
@@ -38,11 +25,39 @@ import {
   Check,
   ShieldAlert
 } from 'lucide-react';
-import { Facility, FacilityDetail } from '@/types/facility';
+import { Facility } from '@/types/facility';
+
+type KakaoLatLng = object;
+
+interface KakaoLatLngBounds {
+  extend(position: KakaoLatLng): void;
+}
+
+interface KakaoMap {
+  setCenter(position: KakaoLatLng): void;
+  setLevel(level: number): void;
+  setBounds(bounds: KakaoLatLngBounds): void;
+  panTo(position: KakaoLatLng): void;
+}
+
+interface KakaoMarker {
+  setMap(map: KakaoMap | null): void;
+}
+
+interface KakaoMapsApi {
+  LatLng: new (latitude: number, longitude: number) => KakaoLatLng;
+  LatLngBounds: new () => KakaoLatLngBounds;
+  Map: new (container: HTMLElement, options: { center: KakaoLatLng; level: number }) => KakaoMap;
+  Marker: new (options: { position: KakaoLatLng; map: KakaoMap; title: string }) => KakaoMarker;
+  event: {
+    addListener(target: KakaoMarker, eventName: string, listener: () => void): void;
+  };
+  load(callback: () => void): void;
+}
 
 declare global {
   interface Window {
-    kakao: any;
+    kakao: { maps: KakaoMapsApi };
   }
 }
 
@@ -82,10 +97,10 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
 
   // 상세정보 API 로딩 & 캐시 상태
   const [isLoadingDetail, setIsLoadingDetail] = useState<boolean>(false);
-  const [detailCache, setDetailCache] = useState<Record<string, FacilityDetail>>({});
+  const [detailCache, setDetailCache] = useState<Record<string, Facility>>({});
 
-  const [map, setMap] = useState<any>(null);
-  const [markers, setMarkers] = useState<any[]>([]);
+  const [map, setMap] = useState<KakaoMap | null>(null);
+  const markersRef = useRef<KakaoMarker[]>([]);
   const [kakaoLoaded, setKakaoLoaded] = useState<boolean>(false);
 
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -205,14 +220,14 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
   useEffect(() => {
     if (!map || !window.kakao || !window.kakao.maps) return;
 
-    markers.forEach((m) => m.setMap(null));
-    const newMarkers: any[] = [];
+    markersRef.current.forEach((marker) => marker.setMap(null));
+    const newMarkers: KakaoMarker[] = [];
     const bounds = new window.kakao.maps.LatLngBounds();
     let hasCoords = false;
 
     facilities.slice(0, 50).forEach((fac) => {
-      const lat = fac.latitude || (fac as any).lat;
-      const lng = fac.longitude || (fac as any).lng;
+      const lat = fac.latitude || fac.lat;
+      const lng = fac.longitude || fac.lng;
 
       if (lat && lng) {
         const pos = new window.kakao.maps.LatLng(lat, lng);
@@ -232,10 +247,10 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
       }
     });
 
-    setMarkers(newMarkers);
+    markersRef.current = newMarkers;
 
-    const selLat = selectedFacility?.latitude || (selectedFacility as any)?.lat;
-    const selLng = selectedFacility?.longitude || (selectedFacility as any)?.lng;
+    const selLat = selectedFacility?.latitude || selectedFacility?.lat;
+    const selLng = selectedFacility?.longitude || selectedFacility?.lng;
 
     if (selLat && selLng) {
       map.setCenter(new window.kakao.maps.LatLng(selLat, selLng));
@@ -249,8 +264,8 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
   const handleSelectFacility = async (fac: Facility) => {
     setSelectedFacility(fac);
 
-    const lat = fac.latitude || (fac as any).lat;
-    const lng = fac.longitude || (fac as any).lng;
+    const lat = fac.latitude || fac.lat;
+    const lng = fac.longitude || fac.lng;
 
     if (map && lat && lng && window.kakao) {
       const pos = new window.kakao.maps.LatLng(lat, lng);
@@ -306,7 +321,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
     { label: '호스피스 완화의료', value: 'hospice', badge: '복지부 지정' },
   ];
 
-  const getPhone = (fac?: Facility | null) => fac?.tel || (fac as any)?.phone || '';
+  const getPhone = (fac?: Facility | null) => fac?.tel || fac?.phone || '';
 
   return (
     <div className="flex flex-col lg:flex-row h-[880px] w-full rounded-3xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-2xl shadow-cyan-950/40 text-left">
@@ -597,7 +612,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
                   onClick={() => setActiveCategory('ALL')}
                   className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-xs"
                 >
-                  '전체 기관'으로 다시 검색
+                  &apos;전체 기관&apos;으로 다시 검색
                 </button>
               )}
             </div>
@@ -631,6 +646,30 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
                 </h2>
               </div>
               <div className="flex items-center gap-2">
+                <div className="flex rounded-lg border border-slate-700 bg-slate-900 p-0.5 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('detail')}
+                    className={`rounded-md px-2.5 py-1.5 transition-colors ${
+                      viewMode === 'detail'
+                        ? 'bg-emerald-600 text-white'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    상세정보
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('map')}
+                    className={`rounded-md px-2.5 py-1.5 transition-colors ${
+                      viewMode === 'map'
+                        ? 'bg-cyan-600 text-white'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    지도보기
+                  </button>
+                </div>
                 {selectedFacility.url && (
                   <a
                     href={selectedFacility.url}
@@ -683,7 +722,7 @@ export const FacilityMapSearch: React.FC<FacilityMapSearchProps> = ({ initialCat
                       총 {selectedFacility.doctor_count || 0}명
                     </div>
                     <div className="text-[11px] text-slate-400 mt-0.5">
-                      전문의 {selectedFacility.specialist_count || (selectedFacility as any).specialist_cnt || Math.floor((selectedFacility.doctor_count || 0) * 0.7)}명
+                      전문의 {selectedFacility.specialist_count || selectedFacility.specialist_cnt || Math.floor((selectedFacility.doctor_count || 0) * 0.7)}명
                     </div>
                   </div>
 

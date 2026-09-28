@@ -499,9 +499,6 @@ export default function LuaVisibilityPage() {
 
           {/* 솔루션 간 네비게이션 */}
           <div className="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-            <Link href="/solutions/onanbu" className="hover:text-rose-700 flex items-center gap-1 font-medium">
-              ← 이전 솔루션: 온안부 (OnAnBu)
-            </Link>
             <Link href="/solutions/my-re-design" className="hover:text-purple-700 flex items-center gap-1 font-medium">
               다음 솔루션: My Re Design →
             </Link>

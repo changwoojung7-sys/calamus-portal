@@ -1,129 +1,249 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
+import React, { useState } from "react";
 import {
   Sparkles,
   Cpu,
   Globe2,
   ArrowRight,
-  Database,
-  Smartphone,
   ShieldCheck,
-  Zap,
-  Target
+  Feather,
+  Radio,
+  History,
+  Lock,
+  HeartHandshake,
+  Compass,
+  CheckCircle2
 } from "lucide-react";
 
 export default function CompanyIntro() {
-  const coreStrengths = [
+  const [lang, setLang] = useState<"ko" | "en">("ko");
+
+  const milestones = [
     {
-      icon: Cpu,
-      title: "실용적 생성형 AI 엔지니어링",
-      desc: "단순한 텍스트 생성을 넘어, 실제 사용자의 행동 변화와 가족 안심 케어, 기업 경영진의 의사결정에 직결되는 고부가가치 상용화 AI 엔진을 설계합니다.",
-      tag: "Actionable AI",
-      color: "text-emerald-600 bg-emerald-50 border-emerald-200",
-      borderColor: "hover:border-emerald-400 hover:shadow-emerald-900/5",
+      period: "1990s",
+      title: "유니텔 PC통신 & 첫 이메일 'Calamus'",
+      desc: "전화선 모뎀 소리와 푸른 터미널 화면 속, 텍스트로 세상과 처음 연결되던 시절 창업자가 만든 첫 이메일 아이디 'calamus'. 사람과 사람이 온라인에서 만나 일을 나누는 모든 여정이 여기서 시작되었습니다."
     },
     {
-      icon: Database,
-      title: "데이터 무결성과 고성능 클라우드",
-      desc: "심평원 공공데이터 정합성 검증부터 Supabase 기반 클라우드 저장소, 실시간 엣지 파이프라인을 구축하여 최고 수준의 신뢰성과 속도를 보장합니다.",
-      tag: "Reliable Data",
-      color: "text-cyan-600 bg-cyan-50 border-cyan-200",
-      borderColor: "hover:border-cyan-400 hover:shadow-cyan-900/5",
+      period: "2000s - 2010s",
+      title: "웹과 클라우드, 엔터프라이즈 아키텍처",
+      desc: "인터넷과 모바일의 급격한 팽창기 속에서 대규모 데이터 파이프라인과 비즈니스 인프라를 설계하며, 기술의 본질은 언제나 '사람의 시간을 아끼고 가치를 이어주는 것'임을 체득했습니다."
     },
     {
-      icon: Smartphone,
-      title: "초개인화 모바일 & 실버 친화적 UX",
-      desc: "설치 없이 즉시 실행되는 모바일 PWA 기술과 직관적인 고대비 UI를 적용하여 남녀노소 모든 세대가 가장 쉽고 편안하게 이용할 수 있습니다.",
-      tag: "Universal UX",
-      color: "text-indigo-600 bg-indigo-50 border-indigo-200",
-      borderColor: "hover:border-indigo-400 hover:shadow-indigo-900/5",
-    },
+      period: "Present & Future",
+      title: "Calamus 2대 솔루션 & Labs 혁신",
+      desc: "온프레미스 3D 가상오피스 'WorkNexus'로 공간의 장벽을 지우고, 지능형 헬스케어 포털 '온안부'로 의료 정보의 격차를 허뭅니다. 30년간 지켜온 갈대의 정신이 오늘날 가장 견고한 소프트웨어로 구현됩니다."
+    }
   ];
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 relative overflow-hidden bg-slate-50/50">
-      {/* 배경 장식 글로우 */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-tr from-emerald-500/5 via-cyan-500/5 to-indigo-500/5 rounded-full blur-3xl pointer-events-none -z-10" />
+    <section id="about" className="py-24 px-4 sm:px-6 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 text-white">
+      {/* 백그라운드 오로라 앰비언트 글로우 */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[550px] bg-gradient-to-tr from-emerald-500/10 via-teal-500/10 to-indigo-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto">
-        {/* 1. 섹션 헤더 및 회사 정체성 소개 */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold tracking-wide uppercase mb-4 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-            About 유진AI(YujinAI) & Calamus Vision
+      <div className="max-w-6xl mx-auto">
+        {/* 언어 토글 스위처 & 배지 */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-bold tracking-wide uppercase shadow-sm">
+            <Feather className="w-3.5 h-3.5 text-emerald-400" />
+            Brand Philosophy & Founder's Story
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            기술로 일상을 바꾸고, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600">
-              AI로 미래의 가치를 연결합니다
-            </span>
-          </h2>
-          <p className="mt-5 text-slate-600 text-sm sm:text-base leading-relaxed">
-            <strong>유진AI(YujinAI)</strong>는 최첨단 생성형 AI와 정밀 데이터 엔지니어링 기술을 결합하여, 
-            개인의 건강한 일상 습관부터 초고령 사회의 가족 안심 돌봄, 공공 의료정보 인프라, 
-            그리고 AI 검색 시대 기업의 시장 지배력 확보까지 <strong>삶과 비즈니스 전 영역에 실질적인 혁신 솔루션을 제공하는 AI 테크 기업</strong>입니다.
-          </p>
+
+          <div className="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700/80">
+            <button
+              onClick={() => setLang("ko")}
+              className={`px-3.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                lang === "ko"
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              한국어 (KR)
+            </button>
+            <button
+              onClick={() => setLang("en")}
+              className={`px-3.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                lang === "en"
+                  ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              English (EN)
+            </button>
+          </div>
         </div>
 
-        {/* 2. 유진AI 기술 경쟁력 및 개발 철학 (3대 핵심 가치) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 text-left">
-          {coreStrengths.map((item, idx) => {
-            const StrengthIcon = item.icon;
-            return (
-              <div
-                key={idx}
-                className={`bg-white border border-slate-200/90 rounded-2xl p-7 relative overflow-hidden group transition-all duration-300 ${item.borderColor} hover:-translate-y-1 hover:shadow-xl shadow-xs`}
-              >
-                <div className="flex items-center justify-between mb-5">
-                  <div className={`w-12 h-12 rounded-xl border flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
-                    <StrengthIcon className="w-6 h-6" />
+        {/* 1. 국문 스토리 버전 */}
+        {lang === "ko" && (
+          <div className="space-y-16 animate-fadeIn">
+            {/* 타이틀 헤더 */}
+            <div className="max-w-3xl">
+              <span className="text-emerald-400 font-semibold text-sm tracking-widest uppercase">
+                About Calamus
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight mt-2 text-white leading-tight">
+                글과 목소리를 잇는 갈대, <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+                  Calamus가 걸어온 길
+                </span>
+              </h2>
+            </div>
+
+            {/* 창업자 스토리 메인 에세이 카드 */}
+            <div className="relative rounded-3xl bg-slate-900/90 border border-slate-800 p-8 sm:p-12 shadow-2xl backdrop-blur-md">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-8 space-y-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                  <div className="border-l-2 border-emerald-500 pl-4 py-1">
+                    <p className="text-emerald-300 font-semibold text-base sm:text-lg italic">
+                      "Calamus는 라틴어로 갈대를 뜻합니다. 옛사람들은 갈대로 펜을 깎아 글을 쓰고, 피리를 만들어 소리를 전했습니다."
+                    </p>
                   </div>
-                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/80">
-                    {item.tag}
-                  </span>
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h4>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{item.desc}</p>
-              </div>
-            );
-          })}
-        </div>
 
-        {/* 3. 통합 에코시스템 비전 배너 & CTA */}
-        <div className="bg-gradient-to-r from-slate-900 via-[#112233] to-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-xl relative overflow-hidden text-left">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8">
-              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
-                <Globe2 className="w-4 h-4" /> Comprehensive AI Ecosystem
+                  <p>
+                    인류가 시공간의 벽을 넘어 서로의 생각과 감정을 연결하기 위해 처음 손에 쥐었던 도구, 그것이 바로 갈대였습니다.
+                    이 이름은 1990년대, 전화선 모뎀 비프음이 방 안을 울리던 <strong className="text-white">PC통신 유니텔 시절 창업자가 처음 만든 이메일 주소</strong>이기도 합니다.
+                  </p>
+
+                  <p>
+                    푸른 터미널 화면 속에서 밤을 지새우며 사람을 만나고, 협업하고, 기술을 나누었던 그 첫 설렘부터 지금까지
+                    지난 30여 년간 온라인에서 이루어진 모든 만남과 비즈니스의 순간을 늘 이 이름과 함께했습니다.
+                  </p>
+
+                  <p className="text-white font-medium">
+                    이제 그 오랜 경험과 사람 중심의 철학을 담아, <strong>떨어져 있어도 같은 공간에서 일하고 숨 쉬는 것처럼 자연스럽게 연결되는 솔루션</strong>을 만듭니다.
+                  </p>
+                </div>
+
+                <div className="lg:col-span-4 bg-slate-950/60 rounded-2xl p-6 border border-slate-800/80 space-y-4">
+                  <div className="flex items-center gap-3 text-emerald-400">
+                    <History className="w-5 h-5" />
+                    <span className="text-xs font-bold uppercase tracking-wider">Heritage & Identity</span>
+                  </div>
+                  <h4 className="text-base font-bold text-white">30년간 이어온 소통의 이름</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    1990s 유니텔 모뎀의 첫 이메일에서 시작하여, 2026년 온프레미스 3D 가상오피스와 지능형 의료 AI까지 끊임없이 진화해 온 연결의 도구입니다.
+                  </p>
+                  <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
+                    <span>Since PC 통신 Unitel</span>
+                    <span className="text-emerald-400 font-semibold">Calamus Portal</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-snug">
-                유진AI(YujinAI)와 함께하는 <br />
-                <span className="text-emerald-400">데이터와 AI 기반의 지속 가능한 미래</span>
-              </h3>
-              <p className="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-                Calamus 공식 허브를 구심점으로 개인(B2C)과 시니어 돌봄(Care), 병원 및 기업(B2B)을 아우르는 
-                초연결 AI 에코시스템을 지속적으로 확장해 나가고 있습니다.
-              </p>
             </div>
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
-              <a
-                href="#portfolio"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm shadow-md transition-all hover:scale-105"
-              >
-                솔루션 포트폴리오 보기
-                <ArrowRight className="w-4 h-4" />
-              </a>
-              <Link
-                href="/hospitals"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-white font-semibold text-sm transition-all hover:scale-105"
-              >
-                전국 메디컬 시설 검색
-              </Link>
+
+            {/* 30년 히스토리 타임라인 */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {milestones.map((m, idx) => (
+                <div
+                  key={idx}
+                  className="bg-slate-900/60 border border-slate-800/80 hover:border-emerald-500/50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                >
+                  <span className="text-xs font-mono font-bold text-emerald-400 px-2.5 py-1 rounded-md bg-emerald-950/80 border border-emerald-500/30">
+                    {m.period}
+                  </span>
+                  <h4 className="text-base font-bold text-white mt-4 mb-2">{m.title}</h4>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{m.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* 3대 핵심 철학 카드 */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+              <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6">
+                <div className="w-10 h-10 rounded-xl bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mb-4">
+                  <HeartHandshake className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-white mb-2">사람 중심의 연결 (Human-Centric)</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  기술을 위한 기술이 아닌, 떨어져 있어도 서로의 온기와 소통을 그대로 느낄 수 있는 도구를 빚어냅니다.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6">
+                <div className="w-10 h-10 rounded-xl bg-teal-950/80 border border-teal-500/40 flex items-center justify-center text-teal-400 mb-4">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-white mb-2">완벽한 데이터 주권 (Data Sovereignty)</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  사내 완결형 온프레미스 인프라를 통해 기업의 가장 소중한 지적 자산과 대화 기록을 외부에 남기지 않습니다.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6">
+                <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 mb-4">
+                  <Compass className="w-5 h-5" />
+                </div>
+                <h4 className="text-base font-bold text-white mb-2">투명하고 정직한 정보 (Open Transparency)</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  공공 보건의료 데이터를 정제하여 정보의 비대칭을 없애고, 환자와 의료기관이 신뢰로 만날 수 있도록 돕습니다.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* 2. 영문 스토리 버전 (Global Version) */}
+        {lang === "en" && (
+          <div className="space-y-16 animate-fadeIn">
+            {/* 타이틀 헤더 */}
+            <div className="max-w-3xl">
+              <span className="text-emerald-400 font-semibold text-sm tracking-widest uppercase">
+                About Calamus
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight mt-2 text-white leading-tight">
+                The Reed That Carried <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+                  Words and Voices
+                </span>
+              </h2>
+            </div>
+
+            {/* 영문 스토리 에세이 카드 */}
+            <div className="relative rounded-3xl bg-slate-900/90 border border-slate-800 p-8 sm:p-12 shadow-2xl backdrop-blur-md">
+              <div className="space-y-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                <div className="border-l-2 border-emerald-500 pl-4 py-1">
+                  <p className="text-emerald-300 font-semibold text-base sm:text-lg italic">
+                    "In Latin, calamus means reed. Long ago, people cut reeds into pens to write and into pipes to make sound. Like those first tools of human connection, we build ways for people to work together, wherever they are."
+                  </p>
+                </div>
+
+                <p>
+                  This name was also the very first email address created by our founder in the 1990s, during the era of dial-up PC networks like Unitel. From those flickering terminal screens to today's cloud computing, WebRTC media servers, and artificial intelligence, every step of meeting people, collaborating on projects, and building businesses has been guided by this name.
+                </p>
+
+                <p>
+                  Now, bringing thirty years of software experience and a human-centric philosophy together, Calamus creates software that connects people across any physical divide—as if sharing the exact same room.
+                </p>
+              </div>
+            </div>
+
+            {/* 영문 핵심 2대 축 소개 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-7 space-y-3">
+                <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                  FLAGSHIP 01
+                </span>
+                <h4 className="text-xl font-bold text-white">Calamus WorkNexus</h4>
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                  An on-premise, 3D virtual office driven by a single in-house server. Zero per-seat recurring fees, zero cloud leak, and complete data sovereignty with LiveKit SFU media streaming and spatial audio.
+                </p>
+              </div>
+
+              <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-7 space-y-3">
+                <span className="text-xs font-mono font-bold text-teal-400 bg-teal-950/80 px-2 py-0.5 rounded border border-teal-500/30">
+                  FLAGSHIP 02
+                </span>
+                <h4 className="text-xl font-bold text-white">OnAnBu (Healthcare Portal)</h4>
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                  An intelligent medical information and hospital discovery portal powered by HIRA official healthcare big data, delivering AI-assisted healthcare consultation and nearby specialized clinic navigation.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

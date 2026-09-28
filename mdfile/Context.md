@@ -1,6 +1,6 @@
 # Calamus Portal 프로젝트 아키텍처 및 소스 구조 (Context.md)
 
-> **최종 갱신일**: 2026-08-25  
+> **최종 갱신일**: 2026-09-03  
 > **프로젝트명**: Calamus Portal (Calamus Care & AI Solutions Hub)  
 > **운영 조직**: 유진AI(YujinAI)  
 > **기본 스택**: Next.js 15 (App Router), TypeScript, Tailwind CSS, Material UI (MUI), Supabase (PostgreSQL), Cloudflare Pages / Edge Runtime  
@@ -144,11 +144,30 @@ CalamusPortal/
 
 ## 4. 데이터베이스 및 백엔드 API 명세
 
-### 4.1 Supabase 테이블
+### 4.1 심평원 공공데이터 원천 및 분기별 갱신 경로
+- **원천 데이터 직접 다운로드 URL**: `https://opendata.hira.or.kr/op/opc/selectOpenData.do?sno=11925`  
+  (건강보험심사평가원 보건의료빅데이터개방시스템 > 공공데이터 > 공공데이터 목록 > **전국 병의원 및 약국 현황**)
+- **공공데이터포털 연계 페이지**: `https://www.data.go.kr/data/15051059/fileData.do` (기관자체 다운로드 연계 방식)
+- **로컬 엑셀 저장소 (`public/hospital_info_file/`)**:
+  - `1.병원정보서비스(YYYY.M.).xlsx`: 전국 7.9만 병의원 기본 정보 (좌표, 종별, 의사수 등)
+  - `2.약국정보서비스(YYYY.M.).xlsx`: 전국 2.4만 약국 기본 정보
+  - `3.의료기관별상세정보서비스_01_시설정보(YYYY.M.).xlsx`: 병상수(일반/상급/중환자/응급실 등)
+  - `4.의료기관별상세정보서비스_02_세부정보(YYYY.M.).xlsx`: 진료시간, 휴진일, 응급실, 주차정보
+  - `5.의료기관별상세정보서비스_03_진료과목정보(YYYY.M.).xlsx`: 병원별 진료과목 목록
+  - `6.의료기관별상세정보서비스_04_교통정보(YYYY.M.).xlsx`: 대중교통 및 오시는 길
+  - `7.의료기관별상세정보서비스_05_의료장비정보(YYYY.M.).xlsx`: CT, MRI, 초음파, 인공신장기 등
+  - `8.의료기관별상세정보서비스_06_식대가산정보(YYYY.M.).xlsx`: 식대 및 영양사/조리사 수
+  - `9.의료기관별상세정보서비스_07_간호등급정보(YYYY.M.).xlsx`: 일반병동 및 중환자실 간호등급
+  - `10.의료기관별상세정보서비스_08_특수진료정보서비스(YYYY.M.).xlsx`: 혈액투석, 체외충격파 등 특화진료
+  - `11.의료기관별상세정보서비스_09_전문병원지정분야(YYYY.M.).xlsx`: 전문병원 지정분야
+  - `12.의료기관별상세정보서비스_10_기타인력정보(YYYY.M.).xlsx`: 약사, 물리치료사 등 기타 인력
+- **DB 배치 동기화 스크립트**: `src/scripts/migrateHospitalData.ts` (`npx tsx src/scripts/migrateHospitalData.ts` 실행 시 `ykiho` 기준 자동 Upsert)
+
+### 4.2 Supabase 테이블
 - **`hosapi_hospital`**: 전국 7.9만 개 병의원 기본 정보 (종별, 전문의수, 의사수, 위경도, PostGIS geom, search_keywords)
 - **`hosapi_hospital_detail`**: 12종 상세 정보 (병상수, 진료과목 JSONB, 장비 JSONB, 특수진료 JSONB, 진료시간 JSONB, 간호등급)
 
-### 4.2 주요 API 라우트
+### 4.3 주요 API 라우트
 - `GET /api/facilities`: 병의원 목록 비동기 조회 (카테고리, 지역, 등급, 다중 토큰 LIKE 검색, pageNo, pageSize)
 - `GET /api/facilities/detail?ykiho=...`: 병의원 12종 종합 상세 스펙 조회
 

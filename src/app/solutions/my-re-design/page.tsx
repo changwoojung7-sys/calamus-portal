@@ -433,21 +433,11 @@ export default function MyReDesignPage() {
               <span>지금 100% 무료 체험 시작하기</span>
               <ExternalLink className="w-4 h-4" />
             </a>
-            <Link
-              href="/solutions/onanbu"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm shadow-md shadow-rose-200 transition-all hover:scale-105"
-            >
-              <span>온안부 솔루션 보러가기</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
 
           <div className="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <Link href="/solutions/lua-visibility" className="hover:text-cyan-700 flex items-center gap-1 font-medium">
               ← 이전 솔루션: LUVIS AI Visibility
-            </Link>
-            <Link href="/solutions/onanbu" className="hover:text-rose-700 flex items-center gap-1 font-medium">
-              다음 솔루션: 온안부 (OnAnBu) →
             </Link>
             <Link href="/" className="hover:text-emerald-700 flex items-center gap-1 font-medium">
               Calamus 포털 메인으로 →

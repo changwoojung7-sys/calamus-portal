@@ -1,4 +1,4 @@
-export type FacilityCategoryCode = '01' | '11' | '21' | '28' | '92' | '93' | 'general' | 'oriental' | 'hospice';
+export type FacilityCategoryCode = '01' | '11' | '21' | '28' | '31' | '92' | '93' | 'general' | 'oriental' | 'hospice';
 
 export type CategoryFilter = 'ALL' | FacilityCategoryCode;
 
@@ -44,6 +44,9 @@ export interface Facility {
   url?: string | null;
   latitude: number;
   longitude: number;
+  lat?: number;
+  lng?: number;
+  phone?: string | null;
   grade_evaluation?: string; // 심평원 종합 평가등급 (1~5등급)
   stroke_grade?: string; // 급성기 뇌졸중 평가등급 (asmGrd01)
   dialysis_grade?: string; // 혈액투석 평가등급 (asmGrd03)
@@ -52,6 +55,7 @@ export interface Facility {
   total_beds?: number; // 총 병상수
   doctor_count?: number; // 총 의사 인력수 (drTotCnt)
   specialist_count?: number; // 전문의 수 (mdeptSdrCnt / cmdcSdrCnt)
+  specialist_cnt?: number; // 레거시 API 호환 전문의 수
   treatments?: string[]; // 개설 진료과목
   special_treatments?: string[]; // 특수진료 및 강점
   equipments?: string[]; // 의료장비 (CT, MRI 등)

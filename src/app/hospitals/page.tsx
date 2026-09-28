@@ -4,19 +4,13 @@ import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
-  Building2,
   ShieldCheck,
   Sparkles,
   ArrowLeft,
-  Search,
-  ExternalLink,
-  MapPin,
-  HeartHandshake
 } from "lucide-react";
 import { FacilityMapSearch } from "@/components/care/FacilityMapSearch";
 import { QuickCategoryCards } from "@/components/care/QuickCategoryCards";
 import { CareMagazineSection } from "@/components/care/CareMagazineSection";
-import CoupangPartnersBanner from "@/components/ads/CoupangPartnersBanner";
 import Footer from "@/components/common/Footer";
 
 function HospitalsSearchContent() {
@@ -61,9 +55,6 @@ function HospitalsSearchContent() {
             <Link href="/solutions/my-re-design" className="hover:text-purple-300 transition-colors">
               My Re Design
             </Link>
-            <Link href="/solutions/onanbu" className="hover:text-rose-300 transition-colors">
-              온안부
-            </Link>
             <Link href="/solutions/lua-visibility" className="hover:text-cyan-300 transition-colors">
               LUVIS
             </Link>
@@ -78,12 +69,7 @@ function HospitalsSearchContent() {
         </div>
       </header>
 
-      {/* 2. 상단 쿠팡 파트너스 효도상품 큐레이션 광고 배너 */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
-        <CoupangPartnersBanner />
-      </div>
-
-      {/* 3. 히어로 섹션 (진한 푸른색 배경 & 고대비 텍스트) */}
+      {/* 2. 히어로 섹션 (진한 푸른색 배경 & 고대비 텍스트) */}
       <section className="relative py-12 sm:py-16 px-4 sm:px-6 text-center overflow-hidden">
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-950/80 border border-emerald-500/40 px-4 py-1.5 text-xs font-bold text-emerald-300 mb-5 shadow-xs">
