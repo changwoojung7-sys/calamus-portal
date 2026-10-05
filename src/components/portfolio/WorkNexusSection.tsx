@@ -4,18 +4,13 @@ import React, { useState } from "react";
 import Image from "next/image";
 import {
   Server,
-  ShieldAlert,
   ShieldCheck,
   DollarSign,
   Users,
-  Volume2,
   Monitor,
-  Building,
   CheckCircle2,
   ExternalLink,
-  ChevronRight,
   Sparkles,
-  Zap,
   Lock,
   Headphones
 } from "lucide-react";
@@ -48,28 +43,43 @@ export default function WorkNexusSection() {
       label: "화면 공유 & 화상회의",
       src: "/images/solutions/worknexus/screen-share.png",
       desc: "방 단위로 완전 격리된 LiveKit SFU 고화질 화면 공유"
+    },
+    {
+      label: "화이트보드 협업",
+      src: "/images/solutions/worknexus/13. 화이트보드 샘플.png",
+      desc: "회의 참가자가 같은 화면에서 아이디어와 업무 내용을 함께 정리"
+    },
+    {
+      label: "모바일 게스트 참여",
+      src: "/images/solutions/worknexus/14.1. 모바일 화면공유 참여자 전체화면.png",
+      desc: "외부 방문자와 모바일 참여자도 화면 공유와 회의에 간편하게 참여"
+    },
+    {
+      label: "공간 커스텀",
+      src: "/images/solutions/worknexus/8. 다양하게 커스텀 가능한 방_회의실.png",
+      desc: "조직과 업무 방식에 맞춰 오피스, 임원실, 회의실을 유연하게 구성"
     }
   ];
 
   const threeNoPrinciples = [
     {
-      title: "인당 월 구독료 0원",
+      title: "사용자별 추가 구독료 없음",
       en: "Zero SaaS Subscriptions",
-      desc: "임직원 수가 10명이든 1,000명이든 추가 과금 없이 사내 서버에서 무제한 운영합니다.",
+      desc: "외부 SaaS처럼 사용자 수가 늘 때마다 매월 좌석 비용이 더해지는 구조가 아닙니다.",
       icon: DollarSign,
       color: "from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/40"
     },
     {
-      title: "클라우드 비용 0원",
-      en: "Zero Cloud Overhead",
-      desc: "외부 AWS/Azure 등 매월 누적되는 고정 인프라 비용 없이 자체 서버 1대로 완결됩니다.",
+      title: "별도 퍼블릭 클라우드 불필요",
+      en: "On-Premise Infrastructure",
+      desc: "AWS·Azure 같은 별도 퍼블릭 클라우드 인프라 대신 고객사 Windows 서버에서 운영합니다.",
       icon: Server,
       color: "from-cyan-500/20 to-blue-500/20 text-cyan-400 border-cyan-500/40"
     },
     {
-      title: "데이터 외부 유출 0%",
+      title: "업무 데이터 사내 보관",
       en: "100% Data Sovereignty",
-      desc: "화상 미디어, 대화 기록, 근태 정보 등 모든 지적 자산이 사내망 내부에 안전하게 격리됩니다.",
+      desc: "화상 미디어, 대화 기록, 근태 정보 등 핵심 업무 데이터를 고객사 인프라 안에서 관리합니다.",
       icon: Lock,
       color: "from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/40"
     }
@@ -78,8 +88,8 @@ export default function WorkNexusSection() {
   const coreFeatures = [
     {
       icon: ShieldCheck,
-      title: "100% 사내 LiveKit SFU 미디어 단일화",
-      desc: "사용자 IP 노출 및 기업 방화벽 차단 문제가 있던 P2P를 완전 제거. 모든 음성/화상이 사내 LiveKit SFU 서버로만 암호화 중계됩니다."
+      title: "사내 구축형 LiveKit SFU 미디어 서버",
+      desc: "사용자 간 P2P 연결 대신 고객사 인프라의 LiveKit SFU를 중심으로 음성·영상·화면 공유 트래픽을 중계합니다."
     },
     {
       icon: Headphones,
@@ -93,8 +103,8 @@ export default function WorkNexusSection() {
     },
     {
       icon: Monitor,
-      title: "Windows 네이티브 무설치 웹 접속",
-      desc: "Docker나 복잡한 가상화 없이 Windows 환경에서 단일 실행 파일로 즉시 가동. 임직원은 크롬/엣지 브라우저로 클릭 즉시 접속합니다."
+      title: "Windows 네이티브 서버 · 웹 접속",
+      desc: "서버는 Windows 환경에서 단일 실행 파일로 운영하고, 임직원은 별도 앱 설치 없이 최신 웹 브라우저로 접속합니다."
     }
   ];
 
@@ -119,8 +129,8 @@ export default function WorkNexusSection() {
               </span>
             </h2>
             <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
-              외부 SaaS 플랫폼을 임대하는 시대는 끝났습니다. 사내망 서버 1대로 인당 구독료 0원, 
-              데이터 유출 걱정 없는 완벽한 하이브리드 워크스페이스를 영구 구축하세요.
+              외부 SaaS를 매월 임대하는 대신 고객사 Windows 서버에 직접 구축합니다.
+              사용자별 추가 구독료 부담을 줄이고, 핵심 업무 데이터의 보관 위치를 직접 통제하세요.
             </p>
           </div>
 
@@ -131,7 +141,7 @@ export default function WorkNexusSection() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-purple-950/50 transition-all hover:scale-105"
             >
-              <span>WorkNexus 솔루션 체험하기</span>
+              <span>WorkNexus 라이브 데모 열기</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
@@ -164,6 +174,13 @@ export default function WorkNexusSection() {
 
         {/* 인터랙티브 쇼케이스 뷰어 (탭 + 이미지 프리뷰) */}
         <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 mb-16 shadow-2xl backdrop-blur-md">
+          <div className="mb-6">
+            <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Product Tour</span>
+            <h3 className="mt-1 text-xl sm:text-2xl font-black text-white">실제 기능 화면으로 확인하세요</h3>
+            <p className="mt-2 text-sm text-slate-400">
+              오피스 입장부터 대규모 회의, 화면 공유, 화이트보드, 모바일 참여까지 주요 업무 흐름을 살펴볼 수 있습니다.
+            </p>
+          </div>
           <div className="flex flex-wrap gap-2 mb-6 border-b border-slate-800/80 pb-4">
             {previewImages.map((tab, idx) => (
               <button

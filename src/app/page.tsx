@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import {
   Sparkles,
-  ExternalLink,
   ArrowRight,
   HeartPulse,
   Monitor,
@@ -135,30 +134,26 @@ export default function Home() {
               className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm shadow-xl shadow-emerald-950/60 hover:scale-105 transition-all"
             >
               <Feather className="w-4 h-4 text-emerald-200" />
-              <span>Calamus 이야기 읽어보기</span>
+              <span>Calamus 회사소개 자세히 보기</span>
               <ArrowRight className="w-3.5 h-3.5 text-emerald-200" />
             </a>
 
             <a
-              href="https://virtual-office.calamus.ai.kr/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#worknexus"
               className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-xl shadow-purple-950/60 hover:scale-105 transition-all"
             >
               <Monitor className="w-4 h-4 text-purple-200" />
-              <span>Calamus WorkNexus 체험하기</span>
-              <ExternalLink className="w-3.5 h-3.5 text-purple-200" />
+              <span>Calamus WorkNexus 자세히 보기</span>
+              <ArrowRight className="w-3.5 h-3.5 text-purple-200" />
             </a>
 
             <a
-              href="https://anondoc.calamus.ai.kr/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#onanbu"
               className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm shadow-lg hover:scale-105 transition-all"
             >
               <HeartPulse className="w-4 h-4 text-teal-300" />
-              <span>온안부 병원검색(Beta)</span>
-              <ExternalLink className="w-3.5 h-3.5 text-teal-300" />
+              <span>온안부 병원검색 자세히 보기</span>
+              <ArrowRight className="w-3.5 h-3.5 text-teal-300" />
             </a>
           </div>
 
