@@ -46,17 +46,17 @@ export default function WorkNexusSection() {
     },
     {
       label: "화이트보드 협업",
-      src: "/images/solutions/worknexus/13. 화이트보드 샘플.png",
+      src: "/images/solutions/worknexus/whiteboard-collaboration.png",
       desc: "회의 참가자가 같은 화면에서 아이디어와 업무 내용을 함께 정리"
     },
     {
       label: "모바일 게스트 참여",
-      src: "/images/solutions/worknexus/14.1. 모바일 화면공유 참여자 전체화면.png",
+      src: "/images/solutions/worknexus/mobile-guest-screen-share.png",
       desc: "외부 방문자와 모바일 참여자도 화면 공유와 회의에 간편하게 참여"
     },
     {
       label: "공간 커스텀",
-      src: "/images/solutions/worknexus/8. 다양하게 커스텀 가능한 방_회의실.png",
+      src: "/images/solutions/worknexus/custom-meeting-room.png",
       desc: "조직과 업무 방식에 맞춰 오피스, 임원실, 회의실을 유연하게 구성"
     }
   ];
