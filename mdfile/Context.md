@@ -38,7 +38,8 @@ CalamusPortal/
 │
 ├── public/                                 # 정적 자산 및 이미지
 │   ├── images/
-│   │   └── solutions/                      # 3대 솔루션 공식 슬라이드 고화질(Retina 2x) 이미지
+│   │   └── solutions/                      # 솔루션 공식 슬라이드 고화질 이미지
+│   │       ├── worknexus/                  # WorkNexus 오피스/회의실/기능 스크린샷 8종 (영상은 YouTube 스트리밍 연동)
 │   │       ├── luvis/                      # page_01.png ~ page_15.png (15장)
 │   │       ├── my-re-design/               # page_01.png ~ page_10.png (10장)
 │   │       └── onanbu/                     # page_01.png ~ page_11.png (11장)

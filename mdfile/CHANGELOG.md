@@ -1,5 +1,23 @@
 # 변경 내역 (CHANGELOG)
 
+## [2026-10-08] Calamus WorkNexus 소개 섹션 유튜브 비디오 쇼케이스 재구성 및 푸시 최적화
+- **공식 유튜브 시연 동영상 2종 연동 (YouTube Embed Player)**:
+  - 5분 사용법 완벽 가이드: `https://youtu.be/KvGI7q73D7A` (ID: `KvGI7q73D7A`)
+  - 핵심 솔루션 요약 쇼츠: `https://youtube.com/shorts/20ZhVVM-nbQ` (ID: `20ZhVVM-nbQ`)
+- **WorkNexus 소개 컴포넌트(`src/components/portfolio/WorkNexusSection.tsx`) 첫 번째 쇼케이스 전면 재구성**:
+  - **듀얼 비디오 스위처**: 상단 토글 버튼을 통해 `[5분 완벽 가이드]`와 `[핵심 요약 쇼츠]`를 원클릭 전환
+  - **YouTube 임베드 플레이어 & 직접 보기 링크 탑재**: 버퍼링 없는 고화질 스트리밍 및 반응형 aspect-video 프레임
+  - **10대 인터랙티브 타임스탬프 챕터 네비게이터 (5분 영상)**:
+    - `0:00` 인트로 ~ `4:45` 엔딩까지 10개 챕터 목록 제공
+    - 챕터 클릭 시 YouTube embed API/URL을 통해 해당 시작 시간(`start=${seconds}`)으로 즉시 점프 및 자동 재생
+    - 개별 챕터 타임스탬프가 적용된 YouTube 원본 바로가기 링크 제공
+  - **YouTube Shorts 3대 핵심 포인트 카드**: 무설치 웹 접속, 3D 공간 음향, 구독료 0원 사내 서버 완결형 핵심 요약 안내
+- **WorkNexus 체험하기 바로가기 URL 갱신**:
+  - 기존 `https://virtual-office.calamus.ai.kr/`에서 `https://worknexus.calamus.ai.kr/`로 상단 헤더 및 섹션 내 바로가기 링크 전면 교체
+  - 버튼 레이블을 'WorkNexus 체험하기' / '워크넥서스 체험하기'로 통일하여 직관성 강화
+- **Git 저장소 최적화 (.gitignore)**:
+  - 대용량 미디어 바이너리(`*.mp4`, `*.m4a`, `*.mp3`, `/public/videos/`) 제외 설정으로 푸시 병목 해소 및 경량화 달성
+
 ## [2026-09-28] Calamus Labs 전용 페이지 분리 및 메인 힐링라운지 3종 직접 노출
 - **Calamus Labs 독립 라우트 신설 (`/labs`)**:
   - 메인 페이지에 포함되어 있던 Labs 본문을 전용 페이지로 분리하고 GNB·모바일 메뉴·퀵 링크를 `/labs`로 연결
