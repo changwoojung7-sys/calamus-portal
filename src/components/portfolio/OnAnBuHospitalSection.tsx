@@ -115,7 +115,7 @@ export default function OnAnBuHospitalSection() {
 
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://anondoc.calamus.ai.kr/"
+              href="https://onanbu.calamus.ai.kr/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black text-sm shadow-lg shadow-emerald-950/50 transition-all hover:scale-105"
@@ -193,7 +193,7 @@ export default function OnAnBuHospitalSection() {
                   지금 바로 온안부 병원검색 전용 포털 사이트에서 전국의 의료기관을 스마트하게 검색해 보세요.
                 </p>
                 <a
-                  href="https://anondoc.calamus.ai.kr/"
+                  href="https://onanbu.calamus.ai.kr/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
