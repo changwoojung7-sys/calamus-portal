@@ -16,12 +16,16 @@ import {
   Play,
   Film,
   Clock,
-  Sparkle
+  Sparkle,
+  Activity,
+  Layers,
+  CalendarCheck
 } from "lucide-react";
+import NetworkDiagnosticsModal from "./NetworkDiagnosticsModal";
 
 // 5분 안내 영상 10대 인터랙티브 챕터
 const videoChapters = [
-  { time: "0:00", seconds: 0, title: "인트로 — 브라우저 출근 3D 가상 오피스" },
+  { time: "0:00", seconds: 0, title: "인트로 — 사내 완결형 보안 협업 워룸 개요" },
   { time: "0:10", seconds: 10, title: "첫 출근 — 무설치 웹 로그인 및 보안 비번 설정" },
   { time: "0:40", seconds: 40, title: "나만의 캐릭터 & 실제 얼굴 사진 등록" },
   { time: "1:14", seconds: 74, title: "하단 툴바 기능 및 자리 저장 / 근태 관리" },
@@ -39,6 +43,7 @@ export default function WorkNexusSection() {
   const [currentChapterIdx, setCurrentChapterIdx] = useState<number>(0);
   const [currentStartSeconds, setCurrentStartSeconds] = useState<number>(0);
   const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
+  const [isDiagOpen, setIsDiagOpen] = useState<boolean>(false);
 
   const videoOptions = [
     {
@@ -59,7 +64,7 @@ export default function WorkNexusSection() {
       youtubeId: "20ZhVVM-nbQ",
       watchUrl: "https://youtube.com/shorts/20ZhVVM-nbQ",
       title: "한눈에 파악하는 WorkNexus 핵심 요약 쇼츠",
-      desc: "추가 구독료 없는 단일 서버 사내망 구축형 3D 가상 오피스의 핵심 특징을 숏폼 영상으로 빠르게 전달합니다."
+      desc: "추가 구독료 없는 단일 서버 사내망 구축형 프라이빗 협업 플랫폼의 핵심 특징을 숏폼 영상으로 빠르게 전달합니다."
     }
   ];
 
@@ -67,49 +72,49 @@ export default function WorkNexusSection() {
     {
       type: "video",
       label: "🎬 공식 시연 영상 (5분 투어 · 쇼츠)",
-      desc: "실제 구동 유튜브 영상으로 체험하는 WorkNexus 3D 오피스 핵심 기능 및 튜토리얼"
+      desc: "실제 구동 유튜브 영상으로 체험하는 WorkNexus 프라이빗 보안 워룸 핵심 기능 및 튜토리얼"
     },
     {
       type: "image",
-      label: "아키텍처 솔루션 특징",
+      label: "보안 워룸 아키텍처",
       src: "/images/solutions/worknexus/solution-overview.png",
-      desc: "독립형 3D 가상 오피스 솔루션 구성 및 엔터프라이즈 올인원 협업 특징"
+      desc: "단 1바이트의 미디어도 외부로 나가지 않는 온프레미스 LiveKit SFU 아키텍처"
     },
     {
       type: "image",
-      label: "오피스 업무 뷰",
+      label: "오피스 업무 뷰 & 2D 모드",
       src: "/images/solutions/worknexus/office-view.png",
-      desc: "로그인 후 실시간 부서별 자리배치와 상태 동기화"
+      desc: "부서별 좌석 배치와 상태 동기화 및 저사양·모바일용 2D 경량 업무 모드 완비"
     },
     {
       type: "image",
       label: "100석 대회의실 / 타운홀",
       src: "/images/solutions/worknexus/meeting-room.png",
-      desc: "전사 세미나 및 100인 수용 발표 무대 (발표자/청중 분리)"
+      desc: "전사 설명회 및 100인 수용 발표 무대 (발표자/청중 권한 분리)"
     },
     {
       type: "image",
       label: "근거리 공간 음향 (Spatial Audio)",
       src: "/images/solutions/worknexus/spatial-audio.png",
-      desc: "동료 아바타에게 다가가면 자연스럽게 목소리가 들리는 거리 기반 음성"
+      desc: "동료 아바타에게 다가가면 자연스럽게 목소리가 들리는 거리 기반 3D 음성"
     },
     {
       type: "image",
       label: "화면 공유 & 화상회의",
       src: "/images/solutions/worknexus/screen-share.png",
-      desc: "방 단위로 완전 격리된 LiveKit SFU 고화질 화면 공유"
+      desc: "방 단위로 완전 격리된 LiveKit SFU 고화질 화면 공유 및 문서 PiP 분리"
     },
     {
       type: "image",
       label: "화이트보드 협업",
       src: "/images/solutions/worknexus/whiteboard-collaboration.png",
-      desc: "회의 참가자가 같은 화면에서 아이디어와 업무 내용을 함께 정리"
+      desc: "회의 참가자가 같은 화면에서 아이디어와 업무 내용을 사내망 내에서 함께 정리"
     },
     {
       type: "image",
-      label: "모바일 게스트 참여",
+      label: "협력업체 1회용 게스트 참여",
       src: "/images/solutions/worknexus/mobile-guest-screen-share.png",
-      desc: "외부 방문자와 모바일 참여자도 화면 공유와 회의에 간편하게 참여"
+      desc: "계정 없는 외부 파트너도 무작위 1회용 코드 링크로 해당 회의방만 격리 참석"
     },
     {
       type: "image",
@@ -150,23 +155,23 @@ export default function WorkNexusSection() {
 
   const threeNoPrinciples = [
     {
-      title: "사용자별 추가 구독료 없음",
+      title: "사용자별 추가 구독료 제로",
       en: "Zero SaaS Subscriptions",
-      desc: "외부 SaaS처럼 사용자 수가 늘 때마다 매월 좌석 비용이 더해지는 구조가 아닙니다.",
+      desc: "사용자 수가 늘 때마다 매월 수백만 원의 좌석 비용이 눈덩이처럼 불어나는 외부 SaaS가 아닙니다.",
       icon: DollarSign,
       color: "from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/40"
     },
     {
-      title: "별도 퍼블릭 클라우드 불필요",
-      en: "On-Premise Infrastructure",
-      desc: "AWS·Azure 같은 별도 퍼블릭 클라우드 인프라 대신 고객사 Windows 서버에서 운영합니다.",
+      title: "외부 클라우드 의존 0%",
+      en: "100% On-Premise Infrastructure",
+      desc: "AWS나 외부 미디어 클라우드 종량제 비용 없이 고객사 Windows/Linux 단일 서버에서 독립 구동됩니다.",
       icon: Server,
       color: "from-cyan-500/20 to-blue-500/20 text-cyan-400 border-cyan-500/40"
     },
     {
-      title: "업무 데이터 사내 보관",
-      en: "100% Data Sovereignty",
-      desc: "화상 미디어, 대화 기록, 근태 정보 등 핵심 업무 데이터를 고객사 인프라 안에서 관리합니다.",
+      title: "완벽한 사내 데이터 주권",
+      en: "Air-Gapped Data Sovereignty",
+      desc: "화상 미디어, 채팅, 근태, 회의 녹화 등 모든 핵심 기밀 데이터가 고객 사내 DB에만 안전하게 보존됩니다.",
       icon: Lock,
       color: "from-emerald-500/20 to-teal-500/20 text-emerald-400 border-emerald-500/40"
     }
@@ -175,23 +180,23 @@ export default function WorkNexusSection() {
   const coreFeatures = [
     {
       icon: ShieldCheck,
-      title: "사내 구축형 LiveKit SFU 미디어 서버",
-      desc: "사용자 간 P2P 연결 대신 고객사 인프라의 LiveKit SFU를 중심으로 음성·영상·화면 공유 트래픽을 중계합니다."
+      title: "사내 구축형 LiveKit SFU 미디어 단일화",
+      desc: "P2P 연결 없이 고객사 서버 내장 LiveKit SFU로 모든 음성·영상·화면공유를 완벽 중계하여 외부 트래픽 비용을 영구 제거합니다."
     },
     {
-      icon: Headphones,
-      title: "마주치면 들리는 근거리 공간 음향",
-      desc: "회의실을 잡지 않아도 3D 공간에서 동료 아바타에게 다가가면 목소리가 들리는 거리 기반 3D Spatial Audio 엔진을 지원합니다."
+      icon: Layers,
+      title: "2D 경량 업무 모드 & 문서 PiP (v1.0.8)",
+      desc: "3D 사옥뿐만 아니라 저사양/모바일용 가벼운 2D 업무 뷰를 지원하며, 3D↔2D 전환 중에도 통화/회의가 끊김 없이 유지됩니다."
     },
     {
       icon: Users,
-      title: "100석 대강당 / 타운홀 미팅",
-      desc: "대규모 전사 설명회와 세미나를 위한 대형 객석. 발표자 권한 분리, 청중 손들기 및 발언권 승인, 고음질 시스템 오디오 동시 송출을 지원합니다."
+      title: "외부 협력업체 1회용 게스트 회의 링크",
+      desc: "사내 계정이 없는 협력업체도 무작위 1회용 코드 링크로 지정된 회의실에만 한정 참석(화면공유·채팅)할 수 있습니다."
     },
     {
-      icon: Monitor,
-      title: "Windows 네이티브 서버 · 웹 접속",
-      desc: "서버는 Windows 환경에서 단일 실행 파일로 운영하고, 임직원은 별도 앱 설치 없이 최신 웹 브라우저로 접속합니다."
+      icon: CalendarCheck,
+      title: "팀·전사 일정 보드 & 폐쇄망 2-Track 완비",
+      desc: "사내 벽면 일정 보드와 구글/ics 연동을 제공하며, 인터넷이 차단된 100% 폐쇄망 사설 CA 환경에서도 원클릭 완벽 동작합니다."
     }
   ];
 
@@ -201,27 +206,38 @@ export default function WorkNexusSection() {
       <div className="absolute top-1/3 -left-48 w-96 h-96 bg-purple-600/15 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-96 h-96 bg-cyan-600/15 rounded-full blur-[120px] pointer-events-none" />
 
+      {/* 사내망 원클릭 진단 모달 */}
+      <NetworkDiagnosticsModal isOpen={isDiagOpen} onClose={() => setIsDiagOpen(false)} />
+
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* 섹션 상단 헤더 */}
+        {/* 섹션 상단 헤더: 보안 워룸 리브랜딩 적용 */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/80 border border-purple-500/50 text-purple-300 text-xs font-bold tracking-wide uppercase mb-4 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-              Flagship Solution 01 · 독립형 3D 가상 오피스
+              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+              Flagship Solution 01 · 온프레미스 프라이빗 보안 워룸 & 협업 플랫폼
             </div>
             <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-              우리 회사 서버 한 대로 완성하는 <br />
+              외부 클라우드 의존 0% · 사내 완결형 <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400">
-                독립 가상 사옥, Calamus WorkNexus
+                프라이빗 보안 워룸, Calamus WorkNexus
               </span>
             </h2>
             <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
-              외부 SaaS를 매월 임대하는 대신 고객사 Windows 서버에 직접 구축합니다.
-              사용자별 추가 구독료 부담을 줄이고, 핵심 업무 데이터의 보관 위치를 직접 통제하세요.
+              보안 규정 및 트래픽 비용으로 일반 클라우드 SaaS(Teams·Zoom)를 쓰지 못하는 연구소, 첨단 제조, 의료기관을 위한 사내망 완결형 솔루션입니다.
+              3D 공간 몰입감과 실용적인 2D 경량 업무 모드, LiveKit SFU 사내 미디어 엔진으로 기밀 유출을 원천 차단합니다.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <button
+              onClick={() => setIsDiagOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-purple-500/40 text-purple-300 hover:text-white font-bold text-sm shadow-md transition-all hover:scale-105"
+            >
+              <Activity className="w-4 h-4 text-purple-400 animate-pulse" />
+              <span>사내망 환경 원클릭 진단</span>
+            </button>
+
             <a
               href="https://worknexus.calamus.ai.kr/"
               target="_blank"
@@ -430,23 +446,23 @@ export default function WorkNexusSection() {
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-purple-950/30 border border-purple-800/30">
-                      <h5 className="text-xs font-bold text-purple-300 mb-1">01. 무설치 웹 접속</h5>
+                      <h5 className="text-xs font-bold text-purple-300 mb-1">01. 무설치 웹 접속 & 2D/3D 하이브리드</h5>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
-                        별도 클라이언트 설치 없이 Chrome, Edge 등 웹 브라우저에서 주소만 입력해 즉시 사옥으로 출근합니다.
+                        별도 클라이언트 설치 없이 Chrome, Edge에서 즉시 접속하며, 3D 가상 공간과 경량 2D 업무 모드를 원클릭 전환합니다.
                       </p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-800/30">
-                      <h5 className="text-xs font-bold text-indigo-300 mb-1">02. 3D 공간 음향 & 자연스러운 소통</h5>
+                      <h5 className="text-xs font-bold text-indigo-300 mb-1">02. 사내 LiveKit SFU & 공간 음향</h5>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
-                        화상회의실을 잡지 않아도 동료 아바타에게 다가가면 목소리가 들리는 근거리 대화로 현장감을 재현합니다.
+                        화상회의실 격리 및 4m 거리 기반 3D 공간 음향, 문서 PiP 회의창 분리로 업무 효율과 현장감을 동시에 제공합니다.
                       </p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-cyan-950/30 border border-cyan-800/30">
-                      <h5 className="text-xs font-bold text-cyan-300 mb-1">03. 구독료 0원 사내 서버 완결형</h5>
+                      <h5 className="text-xs font-bold text-cyan-300 mb-1">03. 100% 데이터 주권 & 폐쇄망 2-Track</h5>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
-                        사용자 수가 늘어도 월 좌석 요금이 발생하지 않으며, 전사 데이터가 사내 Windows 서버에 보관됩니다.
+                        사용자 수가 늘어도 월 구독료가 없으며, 외부 통신을 100% 차단한 에어갭(Air-Gapped) 폐쇄망에서도 완전 구동됩니다.
                       </p>
                     </div>
                   </div>
@@ -455,24 +471,33 @@ export default function WorkNexusSection() {
                 {/* 실시간 라이브 데모 바로가기 배너 */}
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-950/50 to-slate-900 border border-purple-800/40">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold text-purple-300">Live Demo</span>
+                    <span className="text-[11px] font-bold text-purple-300">Live Demo & Diag</span>
                     <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       상시 운영 중
                     </span>
                   </div>
                   <p className="text-xs text-slate-300 mb-3 leading-relaxed">
-                    지금 브라우저에서 실제 WorkNexus 3D 오피스에 접속해보세요.
+                    실제 WorkNexus 플랫폼을 둘러보거나 사내망 호환성을 즉시 검사하세요.
                   </p>
-                  <a
-                    href="https://worknexus.calamus.ai.kr/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-950"
-                  >
-                    <span>워크넥서스 체험하기</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      onClick={() => setIsDiagOpen(true)}
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-purple-500/40 text-purple-300 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
+                    >
+                      <Activity className="w-3.5 h-3.5 text-purple-400" />
+                      <span>사내망 환경 원클릭 진단하기</span>
+                    </button>
+                    <a
+                      href="https://worknexus.calamus.ai.kr/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-950"
+                    >
+                      <span>워크넥서스 체험하기</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -500,21 +525,25 @@ export default function WorkNexusSection() {
               <div className="lg:col-span-4 space-y-4">
                 <div className="bg-slate-950/80 p-5 rounded-2xl border border-slate-800">
                   <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider block mb-1">
-                    Architecture Specs
+                    Enterprise Architecture
                   </span>
-                  <h4 className="text-base font-bold text-white mb-2">사내 완결형 단일 골든 바이너리</h4>
+                  <h4 className="text-base font-bold text-white mb-2">사내 완결형 2-Track 보안 아키텍처</h4>
                   <ul className="space-y-2 text-xs text-slate-300">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Windows 10/11 및 Windows Server 네이티브 지원</span>
+                      <span>Windows & Linux Docker 올인원 단일 패키지 배포</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Cloudflare Named Tunnel 통한 안전한 암호화 외부 접속</span>
+                      <span>Cloudflare 고정 터널(Track 1) vs 100% 폐쇄망 사설 CA(Track 2) 토글</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Ed25519 암호화 라이선스 체계 및 SQLite 초고속 DB</span>
+                      <span>서버 하드웨어 바인딩 Ed25519 비대칭 암호화 서명 라이선스</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>내장 LiveKit SFU 미디어 서버 (P2P 완전 제거 및 외부 트래픽 0원)</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -524,19 +553,17 @@ export default function WorkNexusSection() {
                 </div>
 
                 <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-950/40 to-slate-900 border border-purple-800/40">
-                  <h4 className="text-sm font-bold text-purple-300 mb-1">실시간 라이브 데모</h4>
+                  <h4 className="text-sm font-bold text-purple-300 mb-1">사내망 사전 호환성 진단</h4>
                   <p className="text-xs text-slate-400 mb-3 leading-relaxed">
-                    지금 바로 웹 브라우저에서 실제 구동 중인 WorkNexus 3D 오피스를 둘러보세요.
+                    귀사 방화벽(UDP/TCP) 및 브라우저 환경에서 WorkNexus 미디어 통신이 원활한지 지금 즉시 자동 진단해 보세요.
                   </p>
-                  <a
-                    href="https://worknexus.calamus.ai.kr/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => setIsDiagOpen(true)}
                     className="w-full py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
                   >
-                    <span>워크넥서스 체험하기</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                    <Activity className="w-3.5 h-3.5" />
+                    <span>사내망 환경 원클릭 진단</span>
+                  </button>
                 </div>
               </div>
             </div>

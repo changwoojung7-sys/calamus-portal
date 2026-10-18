@@ -1,6 +1,23 @@
 # 변경 내역 (CHANGELOG)
 
-## [2026-10-08] Calamus WorkNexus 소개 섹션 유튜브 비디오 쇼케이스 재구성 및 푸시 최적화
+## [2026-10-19] Calamus WorkNexus '프라이빗 보안 협업 워룸' 전면 리브랜딩 및 원클릭 사내망/미디어 자동 진단 도구 탑재
+- **WorkNexus 포지셔닝 및 브랜딩 전면 리뉴얼 (`src/components/portfolio/WorkNexusSection.tsx`)**:
+  - 기존 '3D 메타버스 가상 오피스' 중심 프레이밍에서 **'100% 온프레미스 프라이빗 보안 워룸 & 협업 플랫폼'**으로 엔터프라이즈 정체성 전면 재정의
+  - 헤드라인 개정: *"외부 클라우드 의존 0% · 사내 완결형 프라이빗 보안 워룸, Calamus WorkNexus"*
+  - 핵심 가치 제안(3無 원칙) 현행화: 사용자별 추가 구독료 제로, 외부 클라우드 의존 0%, 에어갭(Air-Gapped) 완벽한 사내 데이터 주권
+  - 최신 1.0.8 릴리스 스펙 반영: 2D 경량 업무 모드 & 문서 PiP, 외부 협력업체 1회용 무작위 게스트 회의 링크, 벽면 일정 보드 & 캘린더 연동, 폐쇄망 2-Track 원클릭 토글
+- **사내망 & 미디어 환경 원클릭 자동 진단 도구 신규 개발 (`src/services/networkDiagnostics.ts`, `src/components/portfolio/NetworkDiagnosticsModal.tsx`)**:
+  - 고객사 도입 검토 시 방화벽 및 네트워크 적합성을 브라우저에서 10초 만에 스스로 실측할 수 있는 대화형 진단 도구 구현
+  - **4단계 실시간 자동 프로브**:
+    1. 브라우저 WebRTC 및 WebGL2 그래픽 가속 지원 여부 검사
+    2. 마이크 및 웹캠 디바이스 권한 획득 여부 실시간 테스트
+    3. 화면 공유(Display Media) API 및 시스템 사운드 공유 지원 확인
+    4. WebRTC ICE 후보(STUN/UDP/TCP) 수집 및 사내 방화벽 UDP 포트 개방/지연시간(RTT) 실측
+  - **종합 판정 및 진단 리포트 출력**:
+    - 종합 상태(PASS / WARNING / FAIL) 및 기업 보안팀용 조치 가이드(Track 2 사설 CA 또는 TURN 50000~50300/UDP 허용 안내) 제공
+    - 개인정보/사내망 IP 마스킹 처리된 진단 결과 원클릭 클립보드 복사 및 JSON 파일 다운로드 기능 탑재
+  - WorkNexus 소개 섹션 헤더 및 쇼케이스 배너에 `[사내망 환경 원클릭 진단]` 트리거 버튼 배치 연동 완료
+
 - **공식 유튜브 시연 동영상 2종 연동 (YouTube Embed Player)**:
   - 5분 사용법 완벽 가이드: `https://youtu.be/KvGI7q73D7A` (ID: `KvGI7q73D7A`)
   - 핵심 솔루션 요약 쇼츠: `https://youtube.com/shorts/20ZhVVM-nbQ` (ID: `20ZhVVM-nbQ`)
