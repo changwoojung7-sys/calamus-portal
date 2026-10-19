@@ -207,7 +207,7 @@ export default function OnAnBuHospitalSection() {
         </div>
 
         {/* 4대 주요 특징 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {highlights.map((item, idx) => {
             const Icon = item.icon;
             return (
@@ -223,6 +223,109 @@ export default function OnAnBuHospitalSection() {
               </div>
             );
           })}
+        </div>
+
+        {/* ========================================================= */}
+        {/* [AEO / GEO / Trust] 일반 지도 포털 vs 온안부 의료정보 비교표 */}
+        {/* ========================================================= */}
+        <div className="bg-slate-950/80 border border-slate-800 rounded-3xl p-6 sm:p-10 mb-16 shadow-2xl backdrop-blur-md">
+          <div className="max-w-3xl mb-8">
+            <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-500/30 uppercase">
+              Medical Verification & Intelligence
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black text-white mt-3">
+              일반 지도 앱 vs 온안부(OnAnBu) 지능형 포털
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 mt-2">
+              상업적 리뷰나 키워드 광고에 의존하는 일반 포털과 달리, 국가 공공데이터 기반 100% 팩트 매칭과 환자 중심의 의료 정보 체계를 제공합니다.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400">
+                  <th className="py-3 px-4 font-bold">비교 항목</th>
+                  <th className="py-3 px-4 font-bold text-slate-400">일반 지도 포털 (네이버·카카오 지도)</th>
+                  <th className="py-3 px-4 font-bold text-emerald-300 bg-emerald-950/30 rounded-t-xl">
+                    온안부 (OnAnBu) 의료정보 포털
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">데이터 출처 및 신뢰성</td>
+                  <td className="py-3.5 px-4 text-slate-400">사용자 등록 및 광고주 제휴 정보</td>
+                  <td className="py-3.5 px-4 font-bold text-emerald-400 bg-emerald-950/20">
+                    심평원(HIRA) 7.9만 공공데이터 100% 팩트 그라운딩
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">의료 상세 스펙</td>
+                  <td className="py-3.5 px-4 text-slate-400">위치, 영업시간, 주차 등 단순 정보</td>
+                  <td className="py-3.5 px-4 font-bold text-emerald-400 bg-emerald-950/20">
+                    전문의 수, 인가 병상수, CT/MRI, 간호등급 등 12종 스펙
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">상급병원 퇴원 전원 연계</td>
+                  <td className="py-3.5 px-4 text-slate-400">지원 안 됨 (단순 거리순 나열)</td>
+                  <td className="py-3.5 px-4 font-bold text-teal-300 bg-emerald-950/20">
+                    대학병원 기준 반경 5~15km 배후 전원 매칭 필터 지원
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">고난도 아급성기 케어</td>
+                  <td className="py-3.5 px-4 text-slate-400">투석실, 격리실, 호스피스 구분 어려움</td>
+                  <td className="py-3.5 px-4 font-bold text-cyan-300 bg-emerald-950/20">
+                    투석+재활 동시 수용, 다제내성균 격리실 원클릭 큐레이션
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">증상별 AI 질의응답</td>
+                  <td className="py-3.5 px-4 text-slate-400">키워드 매칭 광고 병원 우선 노출</td>
+                  <td className="py-3.5 px-4 font-bold text-emerald-400 bg-emerald-950/20">
+                    증상별 맞춤 진료과 가이드 & 환각 없는 공공 병원 추천
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* 4대 고난도 아급성기 전원 매칭 스펙 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800">
+            <span className="text-[11px] font-bold text-emerald-400 block mb-1">Critical Care 01</span>
+            <h4 className="text-base font-bold text-white mb-2">혈액투석 + 전문재활 동시 케어</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              신장 투석기와 재활치료실을 모두 갖춘 배후 의료기관을 원클릭 필터링하여 상급병원 퇴원 시 병상 정체를 해결합니다.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800">
+            <span className="text-[11px] font-bold text-teal-400 block mb-1">Critical Care 02</span>
+            <h4 className="text-base font-bold text-white mb-2">다제내성균 격리병상 탐색</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              VRE, CRE 등 감염 격리가 필요한 환자를 위해 1인실 및 격리 병상을 보유한 요양·재활 전문 병원을 신속히 매칭합니다.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800">
+            <span className="text-[11px] font-bold text-cyan-400 block mb-1">Critical Care 03</span>
+            <h4 className="text-base font-bold text-white mb-2">호스피스 완화의료 전문 기관</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              보건복지부 지정 전국 완화의료 전문기관 및 입원형 호스피스 시설의 병상과 전문 인력 현황을 투명하게 안내합니다.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800">
+            <span className="text-[11px] font-bold text-purple-400 block mb-1">Critical Care 04</span>
+            <h4 className="text-base font-bold text-white mb-2">노인장기요양 2.8만 개소 연계</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              의료기관 치료 후 재가급여, 방문요양, 주야간보호, 요양시설로 이어지는 돌봄 전 주기를 하나의 포털로 융합합니다.
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -1,5 +1,39 @@
 # 변경 내역 (CHANGELOG)
 
+## [2026-10-19] 포털 섹션 재배치(1st WorkNexus, 2nd 온안부, Last 회사소개) 및 AEO · GEO · Trust 컨텐츠 & 미래 개발 비전 전면 고도화
+- **메인 포털 섹션 순서 전면 재배치 (`src/app/page.tsx`)**:
+  - 사용자 요구사항에 따라 기존 최상단에 위치하던 '회사소개' 섹션을 최하단(푸터 직전)으로 이동
+  - **1st 플래그십 솔루션**: `Calamus WorkNexus` (사내 완결형 온프레미스 3D 보안 워룸 & 협업 플랫폼)
+  - **2nd 플래그십 솔루션**: `온안부 (OnAnBu)` (HIRA 7.9만 공공데이터 기반 무환각 지능형 병원검색 & 상급병원 배후 전원 포털)
+  - **3rd 라이프 엔터테인먼트**: `힐링 라운지` (사주, 타로, 꿈해몽 3종 배너)
+  - **4th [마지막 배치]**: `CompanyIntro` (Calamus 30년 헤리티지, 미래 개발 로드맵, AEO/GEO Fact Sheet)
+  - GNB 네비게이션 헤더, 모바일 메뉴, Hero 퀵 버튼 및 앵커 링크 순서도 `WorkNexus -> 온안부 -> Labs -> 힐링 라운지 -> 회사소개`로 일체화
+- **CompanyIntro 전면 확장 및 미래 개발 비전 · AEO/GEO/Trust Fact Sheet 구축 (`src/components/portfolio/CompanyIntro.tsx`)**:
+  - **30년 소통 헤리티지 유지**: 1990s 유니텔 PC통신 첫 이메일 'Calamus'(갈대: 펜과 피리)에서 시작된 사람 중심 소통 철학
+  - **[신규] 전략적 엔지니어링 개발 로드맵 2대 트랙 명시**:
+    - **Track 1: 의료계 의료정보 서비스 지속 확대**:
+      - Phase 1 (운영 중): HIRA 7.9만 병의원 공공데이터 및 12종 상세스펙(인가병상, CT/MRI, 간호등급) 실시간 동기화
+      - Phase 2 (시범 운영): 대학병원 전원 코디네이터 전용 무료 아급성기(투석+재활, 격리실, 호스피스) 배후 전원 익명 매칭 워크스페이스
+      - Phase 3 (확대 예정): 각급 병의원 맞춤형 24/7 AI 입원상담 챗봇 & 노인장기요양기관 2.8만 개소(시설급여/재가급여) 통합 포털 구축
+    - **Track 2: 가상오피스 기반 엔터프라이즈 AI 서비스 전방위 확대**:
+      - Phase 1 (출시 완료): 단일 서버 온프레미스 3D 공간, 내장 LiveKit SFU(P2P 제거, 구독료 0원), 4m 공간 음향, 100석 타운홀 세미나
+      - Phase 2 (구축 중): 폐쇄망 내에서 동작하는 사내 회의 AI 실시간 다이제스트 요약 & Action Item 자동 도출 (Meeting Scribe)
+      - Phase 3 (확대 예정): 사내 기밀 유출 없는 온프레미스 사내 지식검색(Private sLLM / RAG) 및 글로벌 다국어 실시간 통번역 스트리밍
+  - **[신규] AEO / GEO / Trust Fact Sheet & 구조화 FAQ 아코디언 탑재**:
+    - AI 검색 엔진(ChatGPT, Perplexity, Google AI Overviews, Claude)이 질문에 즉각 답변·인용할 수 있는 4대 정밀 Q&A
+    - E-E-A-T 신뢰성 인증 카드 (30+년 경험, 100% SFU 전문성, 79,000+ 심평원 공공데이터 권위, 0% 누출 온프레미스 데이터 주권 신뢰)
+- **WorkNexus 섹션 컨텐츠 풍부화 (`src/components/portfolio/WorkNexusSection.tsx`)**:
+  - **일반 클라우드 SaaS vs Calamus WorkNexus 상세 비교표**: 월 구독료(인당 누적 비용 vs 0원 영구 운영), 데이터 주권(해외 클라우드 vs 100% 사내망 완결), 미디어 엔진(P2P 노출 vs 내장 LiveKit SFU), 폐쇄망 지원 여부
+  - **8대 산업군별 맞춤형 3D 가상 사옥 설계 안내**: 금융·핀테크, 첨단제조·반도체, 종합병원·의료원, 공공기관, 대학교·연구원, IT·소프트웨어, 무역, 전문 서비스 펌
+  - **시스템 권장 사양 및 핵심 네트워크 포트 제원표** (Windows 10/11 포터블 엔진 구동, 3001/7880/50000~50200 규격)
+- **온안부(OnAnBu) 섹션 컨텐츠 풍부화 (`src/components/portfolio/OnAnBuHospitalSection.tsx`)**:
+  - **일반 지도 포털(네이버/카카오 지도) vs 온안부 의료정보 포털 비교표**: 공공데이터 100% 팩트 매칭, 전문의/병상/장비 12종 스펙, 대학병원 배후 전원 매칭, 고난도 아급성기 케어 구분
+  - **4대 고난도 아급성기 전원 매칭 스펙 카드**: 혈액투석+전문재활 동시 케어, 다제내성균(VRE/CRE) 격리병상 탐색, 호스피스 완화의료 전문 기관, 노인장기요양 2.8만 개소 연계
+- **글로벌 루트 레이아웃 AEO / GEO 메타데이터 & Schema.org JSON-LD 구축 (`src/app/layout.tsx`)**:
+  - 타이틀 & 설명문 전면 개정: WorkNexus 사내 완결형 3D 가상오피스 + 온안부 심평원 7.9만 의료정보 포털 + 30년 헤리티지
+  - `Organization` (Calamus / YujinAI), `SoftwareApplication` (WorkNexus), `MedicalWebPage` (온안부), `FAQPage` (AEO 4대 핵심 질문답변) 전역 구조화 데이터 주입
+- **빌드 검증**: `npm run build` 클린 컴파일 통과 (0 errors, 15개 정적/동적 라우트 최적화 완료)
+
 ## [2026-10-19] Calamus WorkNexus '프라이빗 보안 협업 워룸' 전면 리브랜딩 및 원클릭 사내망/미디어 자동 진단 도구 탑재
 - **WorkNexus 포지셔닝 및 브랜딩 전면 리뉴얼 (`src/components/portfolio/WorkNexusSection.tsx`)**:
   - 기존 '3D 메타버스 가상 오피스' 중심 프레이밍에서 **'100% 온프레미스 프라이빗 보안 워룸 & 협업 플랫폼'**으로 엔터프라이즈 정체성 전면 재정의

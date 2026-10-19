@@ -571,7 +571,7 @@ export default function WorkNexusSection() {
         </div>
 
         {/* 4대 핵심 기능 그리드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {coreFeatures.map((feat, idx) => {
             const Icon = feat.icon;
             return (
@@ -588,8 +588,139 @@ export default function WorkNexusSection() {
             );
           })}
         </div>
+
+        {/* ========================================================= */}
+        {/* [AEO / GEO / Trust] 일반 클라우드 SaaS vs WorkNexus 비교표 */}
+        {/* ========================================================= */}
+        <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-10 mb-16 shadow-2xl backdrop-blur-md">
+          <div className="max-w-3xl mb-8">
+            <span className="text-xs font-mono font-bold text-purple-400 bg-purple-950/80 px-2.5 py-1 rounded border border-purple-500/30 uppercase">
+              TCO & Architecture Comparison
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black text-white mt-3">
+              일반 클라우드 SaaS vs Calamus WorkNexus
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 mt-2">
+              매월 인원수에 비례해 증가하는 매몰 비용(Sunk Cost)과 외부 유출 위험을 단 한 번의 사내 구축으로 종결합니다.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400">
+                  <th className="py-3 px-4 font-bold">비교 항목</th>
+                  <th className="py-3 px-4 font-bold text-slate-400">기존 클라우드 SaaS (Teams/Zoom/Gather)</th>
+                  <th className="py-3 px-4 font-bold text-purple-300 bg-purple-950/30 rounded-t-xl">
+                    Calamus WorkNexus (온프레미스)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">월간 구독료</td>
+                  <td className="py-3.5 px-4 text-slate-400">인당 월 1.5만~3만원 (100인 연 2,400만원+)</td>
+                  <td className="py-3.5 px-4 font-bold text-emerald-400 bg-purple-950/20">
+                    인당 추가 구독료 0원 (단일 서버 영구 운영)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">데이터 주권</td>
+                  <td className="py-3.5 px-4 text-slate-400">외부/해외 데이터센터 보관 (유출 우려)</td>
+                  <td className="py-3.5 px-4 font-bold text-emerald-400 bg-purple-950/20">
+                    100% 사내망 완결 (에어갭 폐쇄망 지원)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">미디어 엔진</td>
+                  <td className="py-3.5 px-4 text-slate-400">외부 P2P 또는 클라우드 종량제 미디어 서버</td>
+                  <td className="py-3.5 px-4 font-bold text-purple-300 bg-purple-950/20">
+                    사내 내장 LiveKit SFU (P2P 차단 및 트래픽 0원)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">외부 접속 방식</td>
+                  <td className="py-3.5 px-4 text-slate-400">공용 웹/포트 개방 필수</td>
+                  <td className="py-3.5 px-4 font-bold text-purple-300 bg-purple-950/20">
+                    Cloudflare Named Tunnel 고정 보안 주소 제공
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3.5 px-4 font-semibold text-white">공간 커스터마이징</td>
+                  <td className="py-3.5 px-4 text-slate-400">정해진 템플릿만 제한적 사용</td>
+                  <td className="py-3.5 px-4 font-bold text-cyan-300 bg-purple-950/20">
+                    8대 산업군별 3D 공간 맞춤 커스텀 제작
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* 8대 산업군 맞춤형 템플릿 & 시스템 사양 그리드 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          {/* 8대 산업군 템플릿 */}
+          <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8">
+            <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider block mb-2">
+              Industry Tailored Solutions
+            </span>
+            <h4 className="text-xl font-bold text-white mb-3">8대 산업군별 전용 가상 사옥 설계</h4>
+            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+              조직 구조와 보안 가이드라인에 최적화된 독립 사옥을 커스텀 구축해 드립니다.
+            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              {[
+                { name: "금융 · 핀테크", desc: "망분리 완결형" },
+                { name: "첨단제조 · 반도체", desc: "연구 기밀 보호" },
+                { name: "종합병원 · 의료원", desc: "환자정보 보호" },
+                { name: "공공기관 · 공기업", desc: "사내망 완결" },
+                { name: "대학교 · 연구원", desc: "타운홀 대강당" },
+                { name: "IT · 소프트웨어", desc: "애자일 룸" },
+                { name: "글로벌 무역 · 상사", desc: "시차 초월 협업" },
+                { name: "전문 서비스 펌", desc: "VIP 게스트룸" }
+              ].map((ind, idx) => (
+                <div key={idx} className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-center">
+                  <div className="font-bold text-white truncate">{ind.name}</div>
+                  <div className="text-[10px] text-purple-400 mt-1">{ind.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 시스템 권장 사양 및 포트 안내 */}
+          <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8">
+            <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider block mb-2">
+              System Specifications
+            </span>
+            <h4 className="text-xl font-bold text-white mb-3">서버 권장 사양 & 기술 제원</h4>
+            <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+              별도의 복잡한 Linux나 Docker 없이 Windows 10/11 환경에서도 포터블 엔진으로 즉시 구동됩니다.
+            </p>
+
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                <span className="text-slate-400">서버 운영체제</span>
+                <span className="font-bold text-white">Windows 10/11 or Windows Server / Linux</span>
+              </div>
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                <span className="text-slate-400">하드웨어 권장</span>
+                <span className="font-bold text-white">CPU 4코어 이상, RAM 8GB 이상, 유선 LAN</span>
+              </div>
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                <span className="text-slate-400">지원 웹 브라우저</span>
+                <span className="font-bold text-emerald-400">Chrome, Edge, Whale, Safari (무설치)</span>
+              </div>
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                <span className="text-slate-400">핵심 포트 규격</span>
+                <span className="font-mono text-purple-300">3001 (Web), 7880 (LiveKit), 50000~50200 (UDP)</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
+
 
