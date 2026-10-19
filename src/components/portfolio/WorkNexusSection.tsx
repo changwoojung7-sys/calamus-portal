@@ -19,7 +19,10 @@ import {
   Sparkle,
   Activity,
   Layers,
-  CalendarCheck
+  CalendarCheck,
+  BookOpen,
+  FileText,
+  Download
 } from "lucide-react";
 import NetworkDiagnosticsModal from "./NetworkDiagnosticsModal";
 
@@ -68,59 +71,145 @@ export default function WorkNexusSection() {
     }
   ];
 
+  // 12종 공식 매뉴얼 & 기술 가이드 PDF 데이터셋
+  const manualsList = [
+    {
+      id: "user-guide",
+      category: "사용자 가이드",
+      title: "01. 일반 사용자 매뉴얼",
+      desc: "무설치 웹 브라우저 출근, 3D 아바타 세팅, 근접 공간 음향, 1:1 통화 및 회의실 이용 방법",
+      pdfUrl: "/manuals/worknexus/manual-01-user-guide.pdf",
+      size: "4.9 MB",
+      badge: "User"
+    },
+    {
+      id: "admin-guide",
+      category: "관리자 가이드",
+      title: "02. 고객 관리자 매뉴얼",
+      desc: "부서 및 조직도 구성, 관리자 권한 설정, 3D 사옥 좌석 배치 및 근태 기록 엑셀(CSV) 추출",
+      pdfUrl: "/manuals/worknexus/manual-02-admin-guide.pdf",
+      size: "1.8 MB",
+      badge: "Admin"
+    },
+    {
+      id: "server-ops",
+      category: "서버 운영",
+      title: "03. 서버 운영자 매뉴얼",
+      desc: "단일 Golden Binary 런타임 구동, 포터블 프로세스 관리 및 SQLite 고속 DB 무결성 점검",
+      pdfUrl: "/manuals/worknexus/manual-03-server-ops.pdf",
+      size: "492 KB",
+      badge: "Ops"
+    },
+    {
+      id: "https-tunnel",
+      category: "네트워크 보안",
+      title: "04. 사내망 HTTPS 구축 가이드",
+      desc: "Cloudflare Named Tunnel 무설치 고정 보안 도메인 연동 및 기업 방화벽 포트 통제 가이드",
+      pdfUrl: "/manuals/worknexus/manual-12-https-tunnel.pdf",
+      size: "1.0 MB",
+      badge: "Security"
+    },
+    {
+      id: "windows-install",
+      category: "서버 설치",
+      title: "05. Windows 서버 설치 매뉴얼",
+      desc: "Windows 10/11 및 Windows Server 환경에서 별도 Docker/Node 없이 즉시 구동하는 절차",
+      pdfUrl: "/manuals/worknexus/manual-04-windows-install.pdf",
+      size: "854 KB",
+      badge: "Windows"
+    },
+    {
+      id: "linux-install",
+      category: "서버 설치",
+      title: "06. Linux VM 설치 매뉴얼",
+      desc: "Ubuntu / Rocky Linux 환경 컨테이너 배포 및 백그라운드 시스템 서비스 데몬 등록 절차",
+      pdfUrl: "/manuals/worknexus/manual-05-linux-install.pdf",
+      size: "373 KB",
+      badge: "Linux"
+    },
+    {
+      id: "meeting-screenshare",
+      category: "화상회의",
+      title: "07. 화상회의 & 화면공유 가이드",
+      desc: "LiveKit SFU 미디어 단일화 채널 격리, 화면 및 시스템 사운드 동시 송출, 문서 PiP 분리",
+      pdfUrl: "/manuals/worknexus/manual-06-meeting-screenshare.pdf",
+      size: "1.9 MB",
+      badge: "Meeting"
+    },
+    {
+      id: "townhall-guide",
+      category: "세미나",
+      title: "08. 100석 타운홀 세미나 가이드",
+      desc: "전사 설명회 무대 발표자/청중 권한 분리, 손들기 발언권 승인 및 Web Audio 에코 방지",
+      pdfUrl: "/manuals/worknexus/manual-07-townhall-guide.pdf",
+      size: "636 KB",
+      badge: "Townhall"
+    },
+    {
+      id: "security-network",
+      category: "보안 규격",
+      title: "09. 보안 네트워크 구축 가이드",
+      desc: "100% 망분리 에어갭 사설 CA 구축 및 LiveKit UDP 50000~50200 미디어 포트 제어 규격",
+      pdfUrl: "/manuals/worknexus/manual-08-security-network.pdf",
+      size: "909 KB",
+      badge: "Network"
+    },
+    {
+      id: "backup-recovery",
+      category: "장애 대비",
+      title: "10. 백업 및 장애복구 매뉴얼",
+      desc: "사내 SQLite DB 온라인 핫스냅샷 백업, 데이터 아카이빙 및 긴급 시스템 복원 매뉴얼",
+      pdfUrl: "/manuals/worknexus/manual-09-backup-recovery.pdf",
+      size: "321 KB",
+      badge: "Backup"
+    },
+    {
+      id: "troubleshooting-faq",
+      category: "문제 해결",
+      title: "11. 장애대응 FAQ",
+      desc: "카메라/마이크 브라우저 권한, 방화벽 통신 장애 시 대체 경로, 사내망 자주 묻는 질문",
+      pdfUrl: "/manuals/worknexus/manual-10-troubleshooting-faq.pdf",
+      size: "399 KB",
+      badge: "FAQ"
+    },
+    {
+      id: "checklist",
+      category: "검수 기준",
+      title: "12. 설치완료 검수 체크리스트",
+      desc: "고객사 서버 납품 및 사내망 구축 완료 시 고객 IT보안팀과 함께 점검하는 20대 항목표",
+      pdfUrl: "/manuals/worknexus/manual-11-checklist.pdf",
+      size: "593 KB",
+      badge: "Checklist"
+    }
+  ];
+
+  // 쇼케이스 탭 (영상 3종 + 공식 매뉴얼 센터 1종으로 정돈)
   const showcaseTabs = [
     {
-      type: "video",
+      id: "youtube-tour",
+      type: "youtube",
       label: "🎬 공식 시연 영상 (5분 투어 · 쇼츠)",
       desc: "실제 구동 유튜브 영상으로 체험하는 WorkNexus 프라이빗 보안 워룸 핵심 기능 및 튜토리얼"
     },
     {
-      type: "image",
-      label: "보안 워룸 아키텍처",
-      src: "/images/solutions/worknexus/solution-overview.png",
-      desc: "단 1바이트의 미디어도 외부로 나가지 않는 온프레미스 LiveKit SFU 아키텍처"
+      id: "screenshare-meeting",
+      type: "video",
+      label: "🎬 화면 공유 & 화상회의 (실제 시연)",
+      src: "/videos/worknexus-screenshare-meeting.mp4",
+      desc: "방 단위로 완전 격리된 LiveKit SFU 고화질 화면 공유 및 회의실 운영 실제 시연 영상"
     },
     {
-      type: "image",
-      label: "오피스 업무 뷰 & 2D 모드",
-      src: "/images/solutions/worknexus/office-view.png",
-      desc: "부서별 좌석 배치와 상태 동기화 및 저사양·모바일용 2D 경량 업무 모드 완비"
+      id: "guest-smalltalk",
+      type: "video",
+      label: "🎬 협력업체 1회용 게스트 참여 (실제 시연)",
+      src: "/videos/worknexus-meeting-small-talking.mp4",
+      desc: "사내 계정 없는 외부 파트너도 무작위 1회용 코드 링크로 해당 회의방만 격리 참석하는 실제 시연 영상"
     },
     {
-      type: "image",
-      label: "100석 대회의실 / 타운홀",
-      src: "/images/solutions/worknexus/meeting-room.png",
-      desc: "전사 설명회 및 100인 수용 발표 무대 (발표자/청중 권한 분리)"
-    },
-    {
-      type: "image",
-      label: "근거리 공간 음향 (Spatial Audio)",
-      src: "/images/solutions/worknexus/spatial-audio.png",
-      desc: "동료 아바타에게 다가가면 자연스럽게 목소리가 들리는 거리 기반 3D 음성"
-    },
-    {
-      type: "image",
-      label: "화면 공유 & 화상회의",
-      src: "/images/solutions/worknexus/screen-share.png",
-      desc: "방 단위로 완전 격리된 LiveKit SFU 고화질 화면 공유 및 문서 PiP 분리"
-    },
-    {
-      type: "image",
-      label: "화이트보드 협업",
-      src: "/images/solutions/worknexus/whiteboard-collaboration.png",
-      desc: "회의 참가자가 같은 화면에서 아이디어와 업무 내용을 사내망 내에서 함께 정리"
-    },
-    {
-      type: "image",
-      label: "협력업체 1회용 게스트 참여",
-      src: "/images/solutions/worknexus/mobile-guest-screen-share.png",
-      desc: "계정 없는 외부 파트너도 무작위 1회용 코드 링크로 해당 회의방만 격리 참석"
-    },
-    {
-      type: "image",
-      label: "공간 커스텀",
-      src: "/images/solutions/worknexus/custom-meeting-room.png",
-      desc: "조직과 업무 방식에 맞춰 오피스, 임원실, 회의실을 유연하게 구성"
+      id: "manuals",
+      type: "manuals",
+      label: "📚 도입 · 구축 및 운영 매뉴얼 (12종 PDF)",
+      desc: "고객사 IT팀, 경영진, 관리자를 위한 12종 공식 시스템 구축, 보안 네트워크, 운영 및 사용자 가이드 PDF 센터"
     }
   ];
 
@@ -319,18 +408,21 @@ export default function WorkNexusSection() {
           <div className="flex flex-wrap gap-2 mb-6 border-b border-slate-800/80 pb-4">
             {showcaseTabs.map((tab, idx) => {
               const isSelected = activeTab === idx;
+              const isVideo = tab.type === "video" || tab.src?.endsWith(".mp4");
               return (
                 <button
                   key={idx}
                   onClick={() => setActiveTab(idx)}
                   className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
                     isSelected
-                      ? "bg-purple-600 text-white shadow-md shadow-purple-900/40"
-                      : "bg-slate-800/60 text-slate-400 hover:text-white hover:bg-slate-800"
+                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-900/50 scale-[1.02]"
+                      : "bg-slate-800/60 text-slate-300 hover:text-white hover:bg-slate-800"
                   }`}
                 >
-                  {idx === 0 && <Play className="w-3.5 h-3.5 fill-current text-purple-200" />}
-                  {tab.label}
+                  {tab.id === "youtube-tour" && <Play className="w-3.5 h-3.5 fill-current text-purple-200" />}
+                  {tab.type === "video" && <Film className="w-3.5 h-3.5 text-cyan-300" />}
+                  {tab.id === "manuals" && <BookOpen className="w-3.5 h-3.5 text-amber-300" />}
+                  <span>{tab.label}</span>
                 </button>
               );
             })}
@@ -501,56 +593,173 @@ export default function WorkNexusSection() {
                 </div>
               </div>
             </div>
-          ) : (
-            /* [탭 1~8: 기존 스크린샷 뷰어] */
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* 고화질 스크린샷 영역 */}
-              <div className="lg:col-span-8 relative aspect-[16/10] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 group">
-                {showcaseTabs[activeTab].src && (
-                  <Image
-                    src={showcaseTabs[activeTab].src!}
-                    alt={showcaseTabs[activeTab].label}
-                    fill
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 1024px) 100vw, 65vw"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 right-4 text-white text-xs sm:text-sm bg-slate-900/80 backdrop-blur-md p-3 rounded-xl border border-slate-700/60">
-                  <span className="font-bold text-purple-400">💡 {showcaseTabs[activeTab].label}:</span> {showcaseTabs[activeTab].desc}
+          ) : activeTab === 3 ? (
+            /* [탭 3: 12종 공식 매뉴얼 & 기술 가이드 PDF 센터] */
+            <div className="space-y-6">
+              {/* 매뉴얼 센터 상단 헤더 */}
+              <div className="bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/30 p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-950/80 border border-purple-500/40 text-purple-300 text-xs font-bold">
+                    <BookOpen className="w-3.5 h-3.5 text-purple-400" />
+                    <span>Calamus WorkNexus Official Enterprise Documentation</span>
+                  </div>
+                  <h4 className="text-xl sm:text-2xl font-black text-white">
+                    엔터프라이즈 도입 · 구축 및 운영 가이드 매뉴얼 (전체 12종)
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+                    연구소, 첨단 제조, 의료기관 및 공공기관 IT/보안팀을 위한 공식 설치, 네트워크 방화벽 구축, 화상회의 및 사용자 가이드 PDF 전문입니다.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={() => setIsDiagOpen(true)}
+                    className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-purple-500/40 text-purple-300 font-bold text-xs flex items-center gap-2 transition-all shadow-md"
+                  >
+                    <Activity className="w-3.5 h-3.5 text-purple-400" />
+                    <span>사내망 환경 원클릭 진단</span>
+                  </button>
                 </div>
               </div>
 
-              {/* 제품 스펙 및 핵심 강점 리스트 */}
-              <div className="lg:col-span-4 space-y-4">
-                <div className="bg-slate-950/80 p-5 rounded-2xl border border-slate-800">
-                  <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider block mb-1">
-                    Enterprise Architecture
-                  </span>
-                  <h4 className="text-base font-bold text-white mb-2">사내 완결형 2-Track 보안 아키텍처</h4>
-                  <ul className="space-y-2 text-xs text-slate-300">
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Windows & Linux Docker 올인원 단일 패키지 배포</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>Cloudflare 고정 터널(Track 1) vs 100% 폐쇄망 사설 CA(Track 2) 토글</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>서버 하드웨어 바인딩 Ed25519 비대칭 암호화 서명 라이선스</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>내장 LiveKit SFU 미디어 서버 (P2P 완전 제거 및 외부 트래픽 0원)</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>출퇴근(Clock-in/out) 자동 기록 & 근태 엑셀(CSV) 다운로드</span>
-                    </li>
-                  </ul>
+              {/* 12종 매뉴얼 그리드 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {manualsList.map((m) => (
+                  <div
+                    key={m.id}
+                    className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80 hover:border-purple-500/50 transition-all flex flex-col justify-between group shadow-sm hover:shadow-purple-950/30"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-500/30">
+                          {m.category}
+                        </span>
+                        <span className="text-[11px] font-mono text-slate-500">
+                          {m.size}
+                        </span>
+                      </div>
+                      <h5 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors mb-1.5">
+                        {m.title}
+                      </h5>
+                      <p className="text-xs text-slate-400 leading-relaxed mb-4">
+                        {m.desc}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-3 border-t border-slate-800/80">
+                      <a
+                        href={m.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-2 px-3 rounded-lg bg-slate-900 hover:bg-purple-950/80 border border-slate-700/80 hover:border-purple-500/50 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-purple-400" />
+                        <span>PDF 열람</span>
+                        <ExternalLink className="w-3 h-3 text-slate-500" />
+                      </a>
+                      <a
+                        href={m.pdfUrl}
+                        download
+                        className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-white transition-all"
+                        title="PDF 다운로드"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* [탭 1, 2: MP4 실제 시연 비디오 뷰어] */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* 미디어 뷰어 영역 (MP4 비디오 플레이어) */}
+              <div className="lg:col-span-8 relative aspect-[16/10] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 group flex items-center justify-center shadow-2xl">
+                {showcaseTabs[activeTab]?.src && (
+                  <video
+                    key={showcaseTabs[activeTab].src}
+                    src={showcaseTabs[activeTab].src}
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-contain bg-black"
+                  />
+                )}
+
+                {/* 상단 비디오 재생 안내 배지 */}
+                <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-purple-500/40 text-xs text-purple-300 font-bold">
+                  <Film className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+                  <span>실제 시연 영상 재생 중 (소리를 켜서 확인하세요)</span>
                 </div>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 text-white text-xs sm:text-sm bg-slate-900/90 backdrop-blur-md p-3.5 rounded-xl border border-slate-700/60 z-10 shadow-lg">
+                  <span className="font-bold text-purple-400">💡 {showcaseTabs[activeTab]?.label}:</span> {showcaseTabs[activeTab]?.desc}
+                </div>
+              </div>
+
+              {/* 제품 스펙 및 탭별 특화 강점 리스트 */}
+              <div className="lg:col-span-4 space-y-4">
+                {/* 탭 1: 화면 공유 & 화상회의 특화 */}
+                {activeTab === 1 ? (
+                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-purple-500/40 shadow-xl space-y-3">
+                    <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider block">
+                      SFU Media Architecture
+                    </span>
+                    <h4 className="text-base font-bold text-white">LiveKit SFU 기반 독립 격리 화상회의</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      방 단위로 완전 격리된 미디어 채널을 통해 다른 회의방과 소리·화면 간섭이 일체 발생하지 않습니다.
+                    </p>
+                    <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>사내 서버 LiveKit SFU 미디어 단일화 (P2P 완전 제거)</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>발표자 화면 네온 글로우 및 시스템 사운드 동시 송출</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>문서 PiP 분리 뷰어로 회의 중 다른 창 작업 가능</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>3D ↔ 2D 업무 모드 전환 중에도 회의 및 공유 끊김 없음</span>
+                      </li>
+                    </ul>
+                  </div>
+                ) : activeTab === 2 ? (
+                  /* 탭 2: 협력업체 1회용 게스트 참여 특화 */
+                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-cyan-500/40 shadow-xl space-y-3">
+                    <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider block">
+                      Guest Access & Security
+                    </span>
+                    <h4 className="text-base font-bold text-white">외부 협력업체 1회용 격리 링크</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      사내 계정이 없는 협력업체 담당자도 브라우저 설치 없이 1회용 코드로 지정된 회의방에만 안전하게 참석합니다.
+                    </p>
+                    <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>계정 발급 불필요: 이름·소속 입력만으로 즉시 입장</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>지정된 특정 회의실 외 3D 사옥 내부 진입 원천 차단</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>Chrome, Edge, 모바일 브라우저 무설치 웹 접속 지원</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>주최자 회의 종료 시 외부 게스트 세션 즉시 만료 회수</span>
+                      </li>
+                    </ul>
+                  </div>
+                ) : null}
 
                 <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-950/40 to-slate-900 border border-purple-800/40">
                   <h4 className="text-sm font-bold text-purple-300 mb-1">사내망 사전 호환성 진단</h4>
