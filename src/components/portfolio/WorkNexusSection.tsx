@@ -183,7 +183,7 @@ export default function WorkNexusSection() {
     }
   ];
 
-  // 쇼케이스 탭 (영상 3종 + 공식 매뉴얼 센터 1종으로 정돈)
+  // 쇼케이스 탭 (유튜브 시연 3종 + 공식 매뉴얼 센터 1종으로 정돈)
   const showcaseTabs = [
     {
       id: "youtube-tour",
@@ -193,17 +193,19 @@ export default function WorkNexusSection() {
     },
     {
       id: "screenshare-meeting",
-      type: "video",
-      label: "🎬 화면 공유 & 화상회의 (실제 시연)",
-      src: "/videos/worknexus-screenshare-meeting.mp4",
-      desc: "방 단위로 완전 격리된 LiveKit SFU 고화질 화면 공유 및 회의실 운영 실제 시연 영상"
+      type: "youtube",
+      youtubeId: "Yi4NM_l7l78",
+      watchUrl: "https://youtu.be/Yi4NM_l7l78",
+      label: "🎬 화면 공유 & 화상회의 (시연 영상)",
+      desc: "LiveKit SFU 기반 완전 격리 회의실, 초저지연 화면 및 시스템 사운드 동시 송출 실제 시연"
     },
     {
-      id: "guest-smalltalk",
-      type: "video",
-      label: "🎬 협력업체 1회용 게스트 참여 (실제 시연)",
-      src: "/videos/worknexus-meeting-small-talking.mp4",
-      desc: "사내 계정 없는 외부 파트너도 무작위 1회용 코드 링크로 해당 회의방만 격리 참석하는 실제 시연 영상"
+      id: "smalltalk-call-calendar",
+      type: "youtube",
+      youtubeId: "MQeGH2KLmsk",
+      watchUrl: "https://youtu.be/MQeGH2KLmsk",
+      label: "🎬 회의실 스몰토크 · 1:1 통화 & 일정관리",
+      desc: "3D 공간음향 기반 자연스러운 스몰토크, 비공개 1:1 통화 및 사옥 벽면 인터랙티브 캘린더 연동 시연"
     },
     {
       id: "manuals",
@@ -408,7 +410,6 @@ export default function WorkNexusSection() {
           <div className="flex flex-wrap gap-2 mb-6 border-b border-slate-800/80 pb-4">
             {showcaseTabs.map((tab, idx) => {
               const isSelected = activeTab === idx;
-              const isVideo = tab.type === "video" || tab.src?.endsWith(".mp4");
               return (
                 <button
                   key={idx}
@@ -420,7 +421,8 @@ export default function WorkNexusSection() {
                   }`}
                 >
                   {tab.id === "youtube-tour" && <Play className="w-3.5 h-3.5 fill-current text-purple-200" />}
-                  {tab.type === "video" && <Film className="w-3.5 h-3.5 text-cyan-300" />}
+                  {tab.id === "screenshare-meeting" && <Film className="w-3.5 h-3.5 text-cyan-300" />}
+                  {tab.id === "smalltalk-call-calendar" && <Headphones className="w-3.5 h-3.5 text-pink-300" />}
                   {tab.id === "manuals" && <BookOpen className="w-3.5 h-3.5 text-amber-300" />}
                   <span>{tab.label}</span>
                 </button>
@@ -670,32 +672,53 @@ export default function WorkNexusSection() {
               </div>
             </div>
           ) : (
-            /* [탭 1, 2: MP4 실제 시연 비디오 뷰어] */
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* 미디어 뷰어 영역 (MP4 비디오 플레이어) */}
-              <div className="lg:col-span-8 relative aspect-[16/10] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 group flex items-center justify-center shadow-2xl">
-                {showcaseTabs[activeTab]?.src && (
-                  <video
-                    key={showcaseTabs[activeTab].src}
-                    src={showcaseTabs[activeTab].src}
-                    controls
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-contain bg-black"
-                  />
-                )}
+            /* [탭 1, 2: 유튜브 실제 시연 비디오 뷰어] */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* 비디오 플레이어 프레임 (YouTube 반응형 iframe) */}
+              <div className="lg:col-span-8 flex flex-col gap-3">
+                <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-purple-500/30 shadow-2xl group">
+                  {showcaseTabs[activeTab]?.youtubeId && (
+                    <iframe
+                      key={showcaseTabs[activeTab].youtubeId}
+                      src={`https://www.youtube.com/embed/${showcaseTabs[activeTab].youtubeId}?rel=0`}
+                      title={showcaseTabs[activeTab].label}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="w-full h-full border-0"
+                    />
+                  )}
 
-                {/* 상단 비디오 재생 안내 배지 */}
-                <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-purple-500/40 text-xs text-purple-300 font-bold">
-                  <Film className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                  <span>실제 시연 영상 재생 중 (소리를 켜서 확인하세요)</span>
+                  {/* 상단 비디오 정보 배지 오버레이 */}
+                  <div className="absolute top-3 left-3 flex items-center gap-2 pointer-events-none">
+                    <span className="px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md text-[11px] font-bold text-purple-300 border border-purple-500/40 flex items-center gap-1 shadow-lg">
+                      <Film className="w-3 h-3 text-cyan-400" />
+                      실제 기능 시연 영상 (YouTube)
+                    </span>
+                  </div>
                 </div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 right-4 text-white text-xs sm:text-sm bg-slate-900/90 backdrop-blur-md p-3.5 rounded-xl border border-slate-700/60 z-10 shadow-lg">
-                  <span className="font-bold text-purple-400">💡 {showcaseTabs[activeTab]?.label}:</span> {showcaseTabs[activeTab]?.desc}
+                {/* 비디오 하단 설명 및 유튜브 바로가기 */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950/70 border border-slate-800">
+                  <div>
+                    <h4 className="text-sm font-bold text-white mb-0.5">
+                      {showcaseTabs[activeTab]?.label}
+                    </h4>
+                    <p className="text-xs text-slate-400">
+                      {showcaseTabs[activeTab]?.desc}
+                    </p>
+                  </div>
+                  {showcaseTabs[activeTab]?.watchUrl && (
+                    <a
+                      href={showcaseTabs[activeTab]?.watchUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600/30 border border-red-500/40 text-red-300 hover:text-white text-xs font-semibold shrink-0 transition-all"
+                    >
+                      <Play className="w-3 h-3 fill-current" />
+                      <span>YouTube에서 보기</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -731,31 +754,31 @@ export default function WorkNexusSection() {
                     </ul>
                   </div>
                 ) : activeTab === 2 ? (
-                  /* 탭 2: 협력업체 1회용 게스트 참여 특화 */
-                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-cyan-500/40 shadow-xl space-y-3">
-                    <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider block">
-                      Guest Access & Security
+                  /* 탭 2: 회의실 스몰토크 & 1:1 통화 · 일정관리 특화 */
+                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-pink-500/40 shadow-xl space-y-3">
+                    <span className="text-[11px] font-bold text-pink-400 uppercase tracking-wider block">
+                      Communication & Calendar Sync
                     </span>
-                    <h4 className="text-base font-bold text-white">외부 협력업체 1회용 격리 링크</h4>
+                    <h4 className="text-base font-bold text-white">회의실 스몰토크 & 1:1 통화 · 일정관리</h4>
                     <p className="text-xs text-slate-400 leading-relaxed">
-                      사내 계정이 없는 협력업체 담당자도 브라우저 설치 없이 1회용 코드로 지정된 회의방에만 안전하게 참석합니다.
+                      3D 가상 공간에서 마주치면 자연스럽게 연결되는 4m 공간 음향 스몰토크부터 비밀 보장 1:1 통화, 사옥 벽면 실시간 캘린더 연동으로 팀 협업을 가속화합니다.
                     </p>
                     <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
                       <li className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>계정 발급 불필요: 이름·소속 입력만으로 즉시 입장</span>
+                        <span>4m 근접 3D 공간 음향: 복도·라운지에서 마주치면 즉시 스몰토크 시작</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>지정된 특정 회의실 외 3D 사옥 내부 진입 원천 차단</span>
+                        <span>1:1 프라이빗 통화 & 전화부스: 간섭 없는 비공개 음성 암호화 통화</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>Chrome, Edge, 모바일 브라우저 무설치 웹 접속 지원</span>
+                        <span>벽면 인터랙티브 캘린더 & 일정보드: 팀 일정 및 회의실 현황 실시간 동기화</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>주최자 회의 종료 시 외부 게스트 세션 즉시 만료 회수</span>
+                        <span>외부 협력업체 1회용 링크 지원: 무설치 코드로 지정 회의방만 격리 참석</span>
                       </li>
                     </ul>
                   </div>
