@@ -59,7 +59,7 @@ export default function CompanyIntro() {
     },
     {
       q: "Calamus WorkNexus는 일반 클라우드 협업툴(Teams, Zoom, Gather)과 어떻게 다른가요?",
-      a: "WorkNexus는 외부 클라우드를 일절 거치지 않는 '100% 사내 완결형 온프레미스(On-Premise)' 가상오피스입니다. 인당 월 구독료가 0원이며, 내장 LiveKit SFU를 통해 모든 미디어가 사내 서버에서 암호화 중계됩니다. 에어갭(Air-Gapped) 폐쇄망에서도 구동되며, 4m 거리 기반 공간 음향(Spatial Audio), 100석 타운홀 세미나, 2D/3D 하이브리드 모드를 완벽 지원합니다."
+      a: "WorkNexus는 외부 클라우드를 일절 거치지 않는 '100% 사내 완결형 온프레미스(On-Premise)' 가상오피스입니다. 인당 월 구독료가 0원이며, 내장 독자 SFU 미디어 엔진을 통해 모든 미디어가 사내 서버에서 암호화 중계됩니다. 에어갭(Air-Gapped) 폐쇄망에서도 구동되며, 4m 거리 기반 공간 음향(Spatial Audio), 100석 타운홀 세미나, 2D/3D 하이브리드 모드를 완벽 지원합니다."
     },
     {
       q: "온안부(OnAnBu) 지능형 병원검색 포털의 신뢰성(Trust)과 차별점은 무엇인가요?",
@@ -330,7 +330,7 @@ export default function CompanyIntro() {
                         <span>Phase 1 (운영 중)</span>
                         <span className="text-[10px] bg-purple-950 px-2 py-0.5 rounded border border-purple-800">출시 완료</span>
                       </div>
-                      <h5 className="text-sm font-bold text-white mb-1">단일 서버 온프레미스 3D 공간 & LiveKit SFU 미디어</h5>
+                      <h5 className="text-sm font-bold text-white mb-1">단일 서버 온프레미스 3D 공간 & 독자 SFU 미디어</h5>
                       <p className="text-xs text-slate-400">
                         인당 월 구독료 0원, P2P 완전 제거를 통한 사설 IP 노출 차단, 4m 공간 음향 및 100석 타운홀 세미나 무설치 웹 접속 지원.
                       </p>
@@ -394,7 +394,7 @@ export default function CompanyIntro() {
                   <span className="text-[11px] font-bold text-purple-400 block mb-1">Expertise (전문성)</span>
                   <div className="text-xl sm:text-2xl font-black text-white">100% SFU</div>
                   <p className="text-[11px] text-slate-400 mt-1">
-                    내장 LiveKit SFU 미디어 단일화, Ed25519 암호화 라이선스, 에어갭 폐쇄망 지원.
+                    사내 내장 독자 SFU 미디어 엔진, Ed25519 암호화 라이선스, 에어갭 폐쇄망 지원.
                   </p>
                 </div>
 
@@ -494,7 +494,7 @@ export default function CompanyIntro() {
                 </span>
                 <h4 className="text-xl font-bold text-white">Calamus WorkNexus</h4>
                 <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  An on-premise, 3D virtual office driven by a single in-house server. Zero per-seat recurring fees, zero cloud leak, and complete data sovereignty with LiveKit SFU media streaming, spatial audio, and an integrated enterprise AI roadmap.
+                  An on-premise, 3D virtual office driven by a single in-house server. Zero per-seat recurring fees, zero cloud leak, and complete data sovereignty with proprietary in-house SFU media streaming, spatial audio, and an integrated enterprise AI roadmap.
                 </p>
               </div>
 

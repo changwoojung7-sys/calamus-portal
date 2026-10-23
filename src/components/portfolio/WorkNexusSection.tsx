@@ -47,6 +47,16 @@ export default function WorkNexusSection() {
   const [currentStartSeconds, setCurrentStartSeconds] = useState<number>(0);
   const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
   const [isDiagOpen, setIsDiagOpen] = useState<boolean>(false);
+  const [isManualModalOpen, setIsManualModalOpen] = useState<boolean>(false);
+  const [selectedManualTitle, setSelectedManualTitle] = useState<string>("");
+  const [manualFormSubmitted, setManualFormSubmitted] = useState<boolean>(false);
+  const [manualFormData, setManualFormData] = useState({ company: "", name: "", email: "", phone: "" });
+
+  const handleRequestManual = (manualTitle: string) => {
+    setSelectedManualTitle(manualTitle);
+    setManualFormSubmitted(false);
+    setIsManualModalOpen(true);
+  };
 
   const videoOptions = [
     {
@@ -71,14 +81,13 @@ export default function WorkNexusSection() {
     }
   ];
 
-  // 12종 공식 매뉴얼 & 기술 가이드 PDF 데이터셋
+  // 12종 공식 기술 백서 & 엔터프라이즈 가이드 데이터셋
   const manualsList = [
     {
       id: "user-guide",
       category: "사용자 가이드",
       title: "01. 일반 사용자 매뉴얼",
       desc: "무설치 웹 브라우저 출근, 3D 아바타 세팅, 근접 공간 음향, 1:1 통화 및 회의실 이용 방법",
-      pdfUrl: "/manuals/worknexus/manual-01-user-guide.pdf",
       size: "4.9 MB",
       badge: "User"
     },
@@ -87,7 +96,6 @@ export default function WorkNexusSection() {
       category: "관리자 가이드",
       title: "02. 고객 관리자 매뉴얼",
       desc: "부서 및 조직도 구성, 관리자 권한 설정, 3D 사옥 좌석 배치 및 근태 기록 엑셀(CSV) 추출",
-      pdfUrl: "/manuals/worknexus/manual-02-admin-guide.pdf",
       size: "1.8 MB",
       badge: "Admin"
     },
@@ -95,17 +103,15 @@ export default function WorkNexusSection() {
       id: "server-ops",
       category: "서버 운영",
       title: "03. 서버 운영자 매뉴얼",
-      desc: "단일 Golden Binary 런타임 구동, 포터블 프로세스 관리 및 SQLite 고속 DB 무결성 점검",
-      pdfUrl: "/manuals/worknexus/manual-03-server-ops.pdf",
+      desc: "초경량 독립 실행형 프로세스 구동, 백그라운드 서비스 관리 및 사내 고속 암호화 DB 무결성 점검",
       size: "492 KB",
       badge: "Ops"
     },
     {
       id: "https-tunnel",
       category: "네트워크 보안",
-      title: "04. 사내망 HTTPS 구축 가이드",
-      desc: "Cloudflare Named Tunnel 무설치 고정 보안 도메인 연동 및 기업 방화벽 포트 통제 가이드",
-      pdfUrl: "/manuals/worknexus/manual-12-https-tunnel.pdf",
+      title: "04. 제로트러스트 보안 터널 구축 가이드",
+      desc: "제로트러스트 사내 암호화 터널링 연동 및 기업 방화벽 무포트 개방 원격 접속 가이드",
       size: "1.0 MB",
       badge: "Security"
     },
@@ -113,8 +119,7 @@ export default function WorkNexusSection() {
       id: "windows-install",
       category: "서버 설치",
       title: "05. Windows 서버 설치 매뉴얼",
-      desc: "Windows 10/11 및 Windows Server 환경에서 별도 Docker/Node 없이 즉시 구동하는 절차",
-      pdfUrl: "/manuals/worknexus/manual-04-windows-install.pdf",
+      desc: "Windows 10/11 및 Windows Server 환경에서 별도 외부 종속성 없이 즉시 구동하는 절차",
       size: "854 KB",
       badge: "Windows"
     },
@@ -122,8 +127,7 @@ export default function WorkNexusSection() {
       id: "linux-install",
       category: "서버 설치",
       title: "06. Linux VM 설치 매뉴얼",
-      desc: "Ubuntu / Rocky Linux 환경 컨테이너 배포 및 백그라운드 시스템 서비스 데몬 등록 절차",
-      pdfUrl: "/manuals/worknexus/manual-05-linux-install.pdf",
+      desc: "Ubuntu / Rocky Linux 사내 서버 환경 배포 및 백그라운드 시스템 서비스 데몬 등록 절차",
       size: "373 KB",
       badge: "Linux"
     },
@@ -131,8 +135,7 @@ export default function WorkNexusSection() {
       id: "meeting-screenshare",
       category: "화상회의",
       title: "07. 화상회의 & 화면공유 가이드",
-      desc: "LiveKit SFU 미디어 단일화 채널 격리, 화면 및 시스템 사운드 동시 송출, 문서 PiP 분리",
-      pdfUrl: "/manuals/worknexus/manual-06-meeting-screenshare.pdf",
+      desc: "사내 완결형 SFU 미디어 채널 격리, 초저지연 화면 및 시스템 사운드 동시 송출, 문서 PiP 분리",
       size: "1.9 MB",
       badge: "Meeting"
     },
@@ -141,7 +144,6 @@ export default function WorkNexusSection() {
       category: "세미나",
       title: "08. 100석 타운홀 세미나 가이드",
       desc: "전사 설명회 무대 발표자/청중 권한 분리, 손들기 발언권 승인 및 Web Audio 에코 방지",
-      pdfUrl: "/manuals/worknexus/manual-07-townhall-guide.pdf",
       size: "636 KB",
       badge: "Townhall"
     },
@@ -149,8 +151,7 @@ export default function WorkNexusSection() {
       id: "security-network",
       category: "보안 규격",
       title: "09. 보안 네트워크 구축 가이드",
-      desc: "100% 망분리 에어갭 사설 CA 구축 및 LiveKit UDP 50000~50200 미디어 포트 제어 규격",
-      pdfUrl: "/manuals/worknexus/manual-08-security-network.pdf",
+      desc: "100% 망분리 에어갭(Air-Gapped) 사내 사설 보안 인증 체계 및 미디어 암호화 통신 규격",
       size: "909 KB",
       badge: "Network"
     },
@@ -158,8 +159,7 @@ export default function WorkNexusSection() {
       id: "backup-recovery",
       category: "장애 대비",
       title: "10. 백업 및 장애복구 매뉴얼",
-      desc: "사내 SQLite DB 온라인 핫스냅샷 백업, 데이터 아카이빙 및 긴급 시스템 복원 매뉴얼",
-      pdfUrl: "/manuals/worknexus/manual-09-backup-recovery.pdf",
+      desc: "사내 임베디드 데이터베이스 무중단 실시간 백업, 데이터 아카이빙 및 긴급 시스템 복원 매뉴얼",
       size: "321 KB",
       badge: "Backup"
     },
@@ -168,7 +168,6 @@ export default function WorkNexusSection() {
       category: "문제 해결",
       title: "11. 장애대응 FAQ",
       desc: "카메라/마이크 브라우저 권한, 방화벽 통신 장애 시 대체 경로, 사내망 자주 묻는 질문",
-      pdfUrl: "/manuals/worknexus/manual-10-troubleshooting-faq.pdf",
       size: "399 KB",
       badge: "FAQ"
     },
@@ -177,13 +176,12 @@ export default function WorkNexusSection() {
       category: "검수 기준",
       title: "12. 설치완료 검수 체크리스트",
       desc: "고객사 서버 납품 및 사내망 구축 완료 시 고객 IT보안팀과 함께 점검하는 20대 항목표",
-      pdfUrl: "/manuals/worknexus/manual-11-checklist.pdf",
       size: "593 KB",
       badge: "Checklist"
     }
   ];
 
-  // 쇼케이스 탭 (유튜브 시연 3종 + 공식 매뉴얼 센터 1종으로 정돈)
+  // 쇼케이스 탭 (유튜브 시연 3종 + 엔터프라이즈 기술 백서 센터 1종으로 정돈)
   const showcaseTabs = [
     {
       id: "youtube-tour",
@@ -197,7 +195,7 @@ export default function WorkNexusSection() {
       youtubeId: "Yi4NM_l7l78",
       watchUrl: "https://youtu.be/Yi4NM_l7l78",
       label: "🎬 화면 공유 & 화상회의 (시연 영상)",
-      desc: "LiveKit SFU 기반 완전 격리 회의실, 초저지연 화면 및 시스템 사운드 동시 송출 실제 시연"
+      desc: "사내 완결형 고성능 SFU 기반 완전 격리 회의실, 초저지연 화면 및 시스템 사운드 동시 송출 실제 시연"
     },
     {
       id: "smalltalk-call-calendar",
@@ -210,8 +208,8 @@ export default function WorkNexusSection() {
     {
       id: "manuals",
       type: "manuals",
-      label: "📚 도입 · 구축 및 운영 매뉴얼 (12종 PDF)",
-      desc: "고객사 IT팀, 경영진, 관리자를 위한 12종 공식 시스템 구축, 보안 네트워크, 운영 및 사용자 가이드 PDF 센터"
+      label: "📚 엔터프라이즈 기술 백서 및 가이드 (12종)",
+      desc: "고객사 IT팀, 경영진, 관리자를 위한 12종 공식 시스템 구축, 보안 네트워크, 운영 및 사용자 기술 백서"
     }
   ];
 
@@ -271,8 +269,8 @@ export default function WorkNexusSection() {
   const coreFeatures = [
     {
       icon: ShieldCheck,
-      title: "사내 구축형 LiveKit SFU 미디어 단일화",
-      desc: "P2P 연결 없이 고객사 서버 내장 LiveKit SFU로 모든 음성·영상·화면공유를 완벽 중계하여 외부 트래픽 비용을 영구 제거합니다."
+      title: "사내 구축형 독자 SFU 미디어 엔진",
+      desc: "P2P 연결 없이 사내 서버 내장 독자 SFU 미디어 엔진으로 모든 음성·영상·화면공유를 완벽 중계하여 외부 트래픽 비용을 영구 제거합니다."
     },
     {
       icon: Layers,
@@ -316,7 +314,7 @@ export default function WorkNexusSection() {
             </h2>
             <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
               보안 규정 및 트래픽 비용으로 일반 클라우드 SaaS(Teams·Zoom)를 쓰지 못하는 연구소, 첨단 제조, 의료기관을 위한 사내망 완결형 솔루션입니다.
-              3D 공간 몰입감과 실용적인 2D 경량 업무 모드, LiveKit SFU 사내 미디어 엔진으로 기밀 유출을 원천 차단합니다.
+              3D 공간 몰입감과 실용적인 2D 경량 업무 모드, 사내 완결형 고성능 SFU 미디어 엔진으로 기밀 유출을 원천 차단합니다.
             </p>
           </div>
 
@@ -547,7 +545,7 @@ export default function WorkNexusSection() {
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-800/30">
-                      <h5 className="text-xs font-bold text-indigo-300 mb-1">02. 사내 LiveKit SFU & 공간 음향</h5>
+                      <h5 className="text-xs font-bold text-indigo-300 mb-1">02. 사내 고성능 SFU & 공간 음향</h5>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
                         화상회의실 격리 및 4m 거리 기반 3D 공간 음향, 문서 PiP 회의창 분리로 업무 효율과 현장감을 동시에 제공합니다.
                       </p>
@@ -596,29 +594,29 @@ export default function WorkNexusSection() {
               </div>
             </div>
           ) : activeTab === 3 ? (
-            /* [탭 3: 12종 공식 매뉴얼 & 기술 가이드 PDF 센터] */
+            /* [탭 3: 12종 공식 기술 백서 & 엔터프라이즈 가이드 센터] */
             <div className="space-y-6">
               {/* 매뉴얼 센터 상단 헤더 */}
               <div className="bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/30 p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-950/80 border border-purple-500/40 text-purple-300 text-xs font-bold">
-                    <BookOpen className="w-3.5 h-3.5 text-purple-400" />
-                    <span>Calamus WorkNexus Official Enterprise Documentation</span>
+                    <Lock className="w-3.5 h-3.5 text-purple-400" />
+                    <span>Calamus WorkNexus Enterprise Technical Whitepapers</span>
                   </div>
                   <h4 className="text-xl sm:text-2xl font-black text-white">
-                    엔터프라이즈 도입 · 구축 및 운영 가이드 매뉴얼 (전체 12종)
+                    엔터프라이즈 공식 기술 백서 및 운영 가이드 (전체 12종)
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
-                    연구소, 첨단 제조, 의료기관 및 공공기관 IT/보안팀을 위한 공식 설치, 네트워크 방화벽 구축, 화상회의 및 사용자 가이드 PDF 전문입니다.
+                    연구소, 첨단 제조, 의료기관 및 공공기관 IT/보안팀을 위한 공식 시스템 구축, 보안 규격 및 사용자 기술 백서입니다. 기업 보안 및 핵심 IP 보호를 위해 도입 심사 및 기업 인증 후 열람 권한이 부여됩니다.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
-                    onClick={() => setIsDiagOpen(true)}
-                    className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-purple-500/40 text-purple-300 font-bold text-xs flex items-center gap-2 transition-all shadow-md"
+                    onClick={() => handleRequestManual("엔터프라이즈 종합 기술 백서 패키지")}
+                    className="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-lg shadow-purple-950/60"
                   >
-                    <Activity className="w-3.5 h-3.5 text-purple-400" />
-                    <span>사내망 환경 원클릭 진단</span>
+                    <FileText className="w-4 h-4 text-purple-200" />
+                    <span>전체 백서 일괄 열람 신청</span>
                   </button>
                 </div>
               </div>
@@ -635,8 +633,8 @@ export default function WorkNexusSection() {
                         <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-500/30">
                           {m.category}
                         </span>
-                        <span className="text-[11px] font-mono text-slate-500">
-                          {m.size}
+                        <span className="text-[10px] text-amber-400/90 font-semibold flex items-center gap-1">
+                          <Lock className="w-3 h-3" /> 기업 인증 전용
                         </span>
                       </div>
                       <h5 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors mb-1.5">
@@ -647,25 +645,14 @@ export default function WorkNexusSection() {
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 pt-3 border-t border-slate-800/80">
-                      <a
-                        href={m.pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 py-2 px-3 rounded-lg bg-slate-900 hover:bg-purple-950/80 border border-slate-700/80 hover:border-purple-500/50 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                    <div className="pt-3 border-t border-slate-800/80">
+                      <button
+                        onClick={() => handleRequestManual(m.title)}
+                        className="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-purple-950/80 border border-purple-500/30 hover:border-purple-500/60 text-purple-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all group/btn shadow-sm"
                       >
-                        <FileText className="w-3.5 h-3.5 text-purple-400" />
-                        <span>PDF 열람</span>
-                        <ExternalLink className="w-3 h-3 text-slate-500" />
-                      </a>
-                      <a
-                        href={m.pdfUrl}
-                        download
-                        className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-white transition-all"
-                        title="PDF 다운로드"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                      </a>
+                        <Lock className="w-3.5 h-3.5 text-purple-400 group-hover/btn:text-white transition-colors" />
+                        <span>기업 기술 백서 열람 신청</span>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -730,14 +717,14 @@ export default function WorkNexusSection() {
                     <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider block">
                       SFU Media Architecture
                     </span>
-                    <h4 className="text-base font-bold text-white">LiveKit SFU 기반 독립 격리 화상회의</h4>
+                    <h4 className="text-base font-bold text-white">독자 SFU 기반 독립 격리 화상회의</h4>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       방 단위로 완전 격리된 미디어 채널을 통해 다른 회의방과 소리·화면 간섭이 일체 발생하지 않습니다.
                     </p>
                     <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
                       <li className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>사내 서버 LiveKit SFU 미디어 단일화 (P2P 완전 제거)</span>
+                        <span>사내 서버 독자 SFU 미디어 단일화 (P2P 완전 제거)</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -867,14 +854,14 @@ export default function WorkNexusSection() {
                   <td className="py-3.5 px-4 font-semibold text-white">미디어 엔진</td>
                   <td className="py-3.5 px-4 text-slate-400">외부 P2P 또는 클라우드 종량제 미디어 서버</td>
                   <td className="py-3.5 px-4 font-bold text-purple-300 bg-purple-950/20">
-                    사내 내장 LiveKit SFU (P2P 차단 및 트래픽 0원)
+                    사내 내장 초저지연 SFU 미디어 서버 (P2P 차단 및 트래픽 0원)
                   </td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 font-semibold text-white">외부 접속 방식</td>
                   <td className="py-3.5 px-4 text-slate-400">공용 웹/포트 개방 필수</td>
                   <td className="py-3.5 px-4 font-bold text-purple-300 bg-purple-950/20">
-                    Cloudflare Named Tunnel 고정 보안 주소 제공
+                    인바운드 포트 개방 없는 제로트러스트 보안 터널링
                   </td>
                 </tr>
                 <tr>
@@ -927,7 +914,7 @@ export default function WorkNexusSection() {
             </span>
             <h4 className="text-xl font-bold text-white mb-3">서버 권장 사양 & 기술 제원</h4>
             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
-              별도의 복잡한 Linux나 Docker 없이 Windows 10/11 환경에서도 포터블 엔진으로 즉시 구동됩니다.
+              별도의 복잡한 인프라 종속성 없이 Windows 10/11 및 Linux 환경에서 독립 실행형 포터블 엔진으로 즉시 구동됩니다.
             </p>
 
             <div className="space-y-2.5 text-xs">
@@ -944,13 +931,150 @@ export default function WorkNexusSection() {
                 <span className="font-bold text-emerald-400">Chrome, Edge, Whale, Safari (무설치)</span>
               </div>
               <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                <span className="text-slate-400">핵심 포트 규격</span>
-                <span className="font-mono text-purple-300">3001 (Web), 7880 (LiveKit), 50000~50200 (UDP)</span>
+                <span className="text-slate-400">네트워크 보안 연동</span>
+                <span className="font-semibold text-purple-300">사내 방화벽 정책 맞춤형 단일/보안 포트 커스텀 지원</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ========================================================= */}
+      {/* [Gated Lead Modal] 엔터프라이즈 기술 백서 열람 신청 모달 */}
+      {/* ========================================================= */}
+      {isManualModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-lg rounded-3xl bg-slate-900 border border-purple-500/40 p-6 sm:p-8 shadow-2xl text-left">
+            <button
+              onClick={() => setIsManualModalOpen(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 transition-colors"
+            >
+              ✕
+            </button>
+
+            {!manualFormSubmitted ? (
+              <>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="px-2.5 py-1 rounded-md bg-purple-950/80 border border-purple-500/40 text-purple-300 text-xs font-bold flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-purple-400" />
+                    <span>보안 인증 심사</span>
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">Enterprise Only</span>
+                </div>
+
+                <h3 className="text-xl font-black text-white mb-2">
+                  기술 백서 열람 권한 신청
+                </h3>
+                <p className="text-xs text-slate-300 mb-6 leading-relaxed">
+                  신청하신 <span className="text-purple-300 font-bold">[{selectedManualTitle}]</span> 문서는 Calamus의 핵심 엔지니어링 지식재산권이 포함되어 있어, 기업 담당자 인증 후 열람 링크를 전달해 드립니다.
+                </p>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setManualFormSubmitted(true);
+                  }}
+                  className="space-y-3.5 text-xs"
+                >
+                  <div>
+                    <label className="block text-slate-300 font-semibold mb-1">
+                      기업 / 기관명 <span className="text-pink-400">*</span>
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="예: (주)유진에이아이 / OO대학교 의과대학"
+                      value={manualFormData.company}
+                      onChange={(e) => setManualFormData({ ...manualFormData, company: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-slate-300 font-semibold mb-1">
+                        신청자 성함 / 직책 <span className="text-pink-400">*</span>
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="예: 홍길동 팀장"
+                        value={manualFormData.name}
+                        onChange={(e) => setManualFormData({ ...manualFormData, name: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-300 font-semibold mb-1">
+                        연락처 <span className="text-pink-400">*</span>
+                      </label>
+                      <input
+                        required
+                        type="tel"
+                        placeholder="010-0000-0000"
+                        value={manualFormData.phone}
+                        onChange={(e) => setManualFormData({ ...manualFormData, phone: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-slate-300 font-semibold mb-1">
+                      회사 / 업무용 이메일 <span className="text-pink-400">*</span>
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      placeholder="name@company.com (기업 도메인 필수)"
+                      value={manualFormData.email}
+                      onChange={(e) => setManualFormData({ ...manualFormData, email: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                    />
+                    <p className="text-[10px] text-slate-500 mt-1">
+                      * 기밀 유출 방지를 위해 일반 개인 메일(gmail, naver 등)은 열람 승인이 제한될 수 있습니다.
+                    </p>
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-purple-950/60 transition-all hover:scale-[1.01]"
+                    >
+                      열람 권한 신청 및 인증 요청
+                    </button>
+                  </div>
+                </form>
+              </>
+            ) : (
+              <div className="text-center py-6 space-y-4">
+                <div className="w-14 h-14 mx-auto rounded-full bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    열람 권한 신청이 접수되었습니다
+                  </h3>
+                  <p className="text-xs text-slate-300 max-w-sm mx-auto leading-relaxed">
+                    기업 보안 담당자의 인증 심사 후 기재해 주신 업무용 이메일(<span className="text-purple-300 font-bold">{manualFormData.email}</span>)로 1회용 보안 열람 링크를 전달해 드립니다.
+                  </p>
+                </div>
+                <div className="pt-2">
+                  <button
+                    onClick={() => {
+                      setIsManualModalOpen(false);
+                      setManualFormSubmitted(false);
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors"
+                  >
+                    확인
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

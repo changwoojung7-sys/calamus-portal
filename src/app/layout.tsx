@@ -90,7 +90,7 @@ export default function RootLayout({
         "knowsAbout": [
           "On-Premise 3D Virtual Office",
           "Data Sovereignty",
-          "LiveKit SFU Media Architecture",
+          "Proprietary SFU Media Architecture",
           "Healthcare Big Data Analytics",
           "HIRA Public Medical Data",
           "Answer Engine Optimization (AEO)",
@@ -103,7 +103,7 @@ export default function RootLayout({
         "name": "Calamus WorkNexus (워크넥서스)",
         "operatingSystem": "Windows 10/11, Windows Server, Linux (Docker)",
         "applicationCategory": "BusinessApplication",
-        "description": "우리 회사 사내 서버 한 대로 운영하는 독립형 온프레미스 3D 가상오피스. 인당 월구독료 0원, 내장 LiveKit SFU 미디어 단일화(P2P 제거), 4m 공간 음향 및 100석 타운홀 세미나 완비.",
+        "description": "우리 회사 사내 서버 한 대로 운영하는 독립형 온프레미스 3D 가상오피스. 인당 월구독료 0원, 내장 독자 SFU 미디어 엔진(P2P 제거), 4m 공간 음향 및 100석 타운홀 세미나 완비.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -139,7 +139,7 @@ export default function RootLayout({
             "name": "Calamus WorkNexus 가상오피스의 핵심 차별점은 무엇인가요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "외부 클라우드 SaaS와 달리 인당 월 구독료가 없으며, 모든 미디어와 데이터가 고객사 서버 내장 LiveKit SFU를 통해 암호화 중계되어 외부 유출이 원천 차단됩니다. 100% 에어갭 폐쇄망에서도 구동되며 4m 거리 기반 공간 음향과 100석 타운홀 세미나를 지원합니다."
+              "text": "외부 클라우드 SaaS와 달리 인당 월 구독료가 없으며, 모든 미디어와 데이터가 고객사 서버 내장 독자 SFU 미디어 엔진을 통해 암호화 중계되어 외부 유출이 원천 차단됩니다. 100% 에어갭 폐쇄망에서도 구동되며 4m 거리 기반 공간 음향과 100석 타운홀 세미나를 지원합니다."
             }
           },
           {

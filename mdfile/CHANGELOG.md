@@ -1,5 +1,20 @@
 # 변경 내역 (CHANGELOG)
 
+## [2026-10-24] WorkNexus 지식재산권(IP) 보호 및 역공학 방지를 위한 기술 노출 정제 & 엔터프라이즈 게이팅(Gated Lead) 전환
+- **12종 매뉴얼 PDF 다이렉트 링크 제거 및 기업 인증 열람 신청 모달 구축 (`src/components/portfolio/WorkNexusSection.tsx`)**:
+  - 누구나 무제한 다운로드 가능하던 12종 PDF 다이렉트 링크를 전면 제거하여 AI 및 경쟁사의 시스템 역공학/복제 차단
+  - 기업명, 담당자 성함/직책, 연락처, 회사 업무용 이메일을 접수하는 **[기업 기술 백서 열람 신청]** B2B 리드 게이팅(Gated Content) 모달 연동
+  - 12종 매뉴얼 상세 설명 내 엔지니어링 밑천(Golden Binary, SQLite, Cloudflare Named Tunnel, LiveKit UDP 포트 등)을 엔터프라이즈 보안 및 성능 가치 중심으로 정제
+- **특정 오픈소스 및 인프라 명칭 독자 기술로 추상화 (`WorkNexusSection.tsx`, `CompanyIntro.tsx`, `layout.tsx`, `NetworkDiagnosticsModal.tsx`)**:
+  - `LiveKit SFU` -> `사내 완결형 독자 SFU 미디어 엔진`으로 전면 변경하여 자체 기술력 브랜딩 및 오픈소스 조립 복제 방지
+  - `Cloudflare Named Tunnel` -> `인바운드 포트 개방 없는 제로트러스트 사내 암호화 터널링`으로 정제
+  - `SQLite 고속 DB / 핫스냅샷` -> `사내 완결형 임베디드 암호화 데이터베이스`로 정제
+- **시스템 기술 제원 표의 '구체적 포트 번호(3001, 7880, 50000~50200 UDP)' 완전 제거**:
+  - 내부 포트 번호 노출을 삭제하고 `사내 방화벽 정책 맞춤형 단일/보안 포트 커스텀 지원`으로 대체
+- **일반 클라우드 SaaS vs WorkNexus 비교표(TCO) 정제**:
+  - 미디어 엔진 및 접속 방식 항목을 단순 오픈소스 명칭 대신 `사내 내장 초저지연 SFU 미디어 서버 (P2P 차단 및 트래픽 0원)`, `인바운드 포트 개방 없는 제로트러스트 보안 터널링`으로 비즈니스 혜택 중심 재정의
+- **타입 검증**: `npx tsc --noEmit` 클린 통과 (0 errors)
+
 ## [2026-10-19] WorkNexus 쇼케이스 비디오 2종 공식 유튜브 영상 전환 및 '회의실 스몰토크 · 1:1 통화 · 일정관리' 전면 리포커싱
 - **쇼케이스 비디오 2종 유튜브 반응형 플레이어 전환 (`src/components/portfolio/WorkNexusSection.tsx`)**:
   - 기존 로컬 MP4 비디오를 고화질 유튜브 반응형 iframe 플레이어로 교체하여 로딩 속도 및 모바일/PC 재생 안정성 확보

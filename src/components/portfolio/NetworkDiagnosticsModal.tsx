@@ -233,7 +233,7 @@ export default function NetworkDiagnosticsModal({
             <p className="text-slate-400 text-[11px] leading-relaxed">
               사내망에서 UDP 미디어 스트림이 차단되는 경우, 공급사 포털에서 발급되는{" "}
               <strong className="text-white">Track 2 (100% 폐쇄망 사설 CA 모드)</strong> 또는 사내 전용
-              LiveKit SFU TURN 포트(50000~50300/UDP)를 허용하시면 원활하게 통신됩니다.
+              미디어 중계 보안 포트 지정을 통해 방화벽 간섭 없이 원활하게 통신할 수 있습니다.
             </p>
           </div>
         </div>
