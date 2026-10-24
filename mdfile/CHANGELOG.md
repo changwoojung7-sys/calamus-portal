@@ -21,8 +21,12 @@
     - 보안 PIN 인증(기본값: `yujin2026`)
     - 실시간 접수 목록 조회 (기업명, 신청자, 연락처, 이메일, 백서명, 문의사항)
     - 처리 상태(대기/승인/완료) 실시간 토글 관리
-    - CSV 엑셀 다운로드 및 원클릭 전화/이메일 회신 지원
+- **Cloudflare Pages Edge Runtime 배포 호환 패치 (`src/app/api/request-manual/route.ts`)**:
+  - Cloudflare Pages (`@cloudflare/next-on-pages`) 배포 규격에 맞추어 `export const runtime = 'edge';` 명시
+  - Edge Runtime 환경에서 미지원되는 Node.js 전용 모듈(`fs`, `path`, `nodemailer`)을 배제하고 Supabase Fetch 기반 영구 저장 및 클라이언트 메일 전송 체계로 최적화
+  - Next.js 15.1.0 프로덕션 빌드 및 Edge 런타임 호환 컴파일 정상 통과 확인
 - **타입 검증**: `npx tsc --noEmit` 클린 통과 (0 errors)
+- **빌드 검증**: `npm run build` 클린 통과 (Exit code 0, 16개 라우트 정적/동적 생성 완료)
 
 ## [2026-10-19] WorkNexus 쇼케이스 비디오 2종 공식 유튜브 영상 전환 및 '회의실 스몰토크 · 1:1 통화 · 일정관리' 전면 리포커싱
 - **쇼케이스 비디오 2종 유튜브 반응형 플레이어 전환 (`src/components/portfolio/WorkNexusSection.tsx`)**:

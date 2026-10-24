@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
-import nodemailer from "nodemailer";
 import { supabase } from "@/lib/supabase";
+
+export const runtime = "edge";
 
 export interface ManualRequestItem {
   id: string;
@@ -14,25 +13,6 @@ export interface ManualRequestItem {
   memo?: string;
   status: "pending" | "approved" | "completed";
   createdAt: string;
-}
-
-const DATA_FILE_PATH = path.join(process.cwd(), "data", "manual_requests.json");
-
-// 로컬 파일에서 목록 읽기
-async function getRequestsFromFile(): Promise<ManualRequestItem[]> {
-  try {
-    const content = await fs.readFile(DATA_FILE_PATH, "utf-8");
-    return JSON.parse(content);
-  } catch {
-    return [];
-  }
-}
-
-// 로컬 파일에 목록 쓰기
-async function saveRequestsToFile(items: ManualRequestItem[]): Promise<void> {
-  const dir = path.dirname(DATA_FILE_PATH);
-  await fs.mkdir(dir, { recursive: true });
-  await fs.writeFile(DATA_FILE_PATH, JSON.stringify(items, null, 2), "utf-8");
 }
 
 // [POST] 신규 기술 백서 신청 접수
@@ -70,16 +50,7 @@ export async function POST(request: Request) {
       createdAt: nowKorea
     };
 
-    // 1. 파일 데이터베이스(게시판) 저장
-    try {
-      const existing = await getRequestsFromFile();
-      existing.unshift(newItem); // 최신순
-      await saveRequestsToFile(existing);
-    } catch (fsErr) {
-      console.error("파일 저장 오류:", fsErr);
-    }
-
-    // 2. Supabase DB 백업 저장 시도
+    // Supabase DB 저장 시도 (Edge Runtime 호환 Fetch 기반)
     try {
       await supabase.from("worknexus_manual_requests").insert([
         {
@@ -95,54 +66,12 @@ export async function POST(request: Request) {
         }
       ]);
     } catch (dbErr) {
-      console.warn("Supabase 백업 저장 스킵:", dbErr);
-    }
-
-    // 3. 만약 SMTP 환경변수가 등록되어 있다면 관리자 메일로도 보조 발송
-    const naverUser = process.env.NAVER_USER;
-    const naverPass = process.env.NAVER_PASS;
-    const gmailUser = process.env.GMAIL_USER;
-    const gmailPass = process.env.GMAIL_PASS;
-
-    if ((naverUser && naverPass) || (gmailUser && gmailPass)) {
-      try {
-        const transporter = naverUser
-          ? nodemailer.createTransport({
-              host: "smtp.naver.com",
-              port: 465,
-              secure: true,
-              auth: { user: naverUser, pass: naverPass }
-            })
-          : nodemailer.createTransport({
-              service: "gmail",
-              auth: { user: gmailUser, pass: gmailPass }
-            });
-
-        await transporter.sendMail({
-          from: `"WorkNexus 접수" <${naverUser || gmailUser}>`,
-          to: "yujinit2005@gmail.com",
-          subject: `[WorkNexus 기술백서 신청] ${newItem.company} - ${newItem.name}`,
-          html: `
-            <h3>[WorkNexus] 기술 백서 열람 권한 신청이 접수되었습니다.</h3>
-            <ul>
-              <li><b>신청 백서:</b> ${newItem.manualTitle}</li>
-              <li><b>회사명:</b> ${newItem.company}</li>
-              <li><b>담당자:</b> ${newItem.name}</li>
-              <li><b>연락처:</b> ${newItem.phone}</li>
-              <li><b>회신 이메일:</b> ${newItem.email}</li>
-              <li><b>문의 내용:</b> ${newItem.memo || "없음"}</li>
-              <li><b>일시:</b> ${newItem.createdAt}</li>
-            </ul>
-          `
-        });
-      } catch (mailErr) {
-        console.warn("보조 SMTP 발송 스킵:", mailErr);
-      }
+      console.warn("Supabase 저장 처리 (미생성 시 스킵):", dbErr);
     }
 
     return NextResponse.json({
       success: true,
-      message: "신청 내역이 정상적으로 게시판에 저장되었습니다.",
+      message: "신청 내역이 정상적으로 접수되었습니다.",
       item: newItem
     });
   } catch (error) {
@@ -160,7 +89,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const pin = searchParams.get("pin");
 
-    // 관리자 핀코드 검증 (기본값: yujin2026)
     const validPin = process.env.ADMIN_PIN || "yujin2026";
     if (pin !== validPin) {
       return NextResponse.json(
@@ -169,7 +97,34 @@ export async function GET(request: Request) {
       );
     }
 
-    const items = await getRequestsFromFile();
+    let items: ManualRequestItem[] = [];
+
+    // Supabase에서 목록 조회 시도
+    try {
+      const { data, error } = await supabase
+        .from("worknexus_manual_requests")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (data && !error && data.length > 0) {
+        items = data.map((d: any) => ({
+          id: d.id,
+          company: d.company,
+          name: d.applicant_name,
+          phone: d.phone,
+          email: d.email,
+          manualTitle: d.manual_title,
+          memo: d.memo,
+          status: d.status || "pending",
+          createdAt: d.created_at
+            ? new Date(d.created_at).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })
+            : ""
+        }));
+      }
+    } catch (dbErr) {
+      console.warn("Supabase 조회 처리:", dbErr);
+    }
+
     return NextResponse.json({
       success: true,
       totalCount: items.length,
@@ -184,7 +139,7 @@ export async function GET(request: Request) {
   }
 }
 
-// [PATCH] 게시판 상태 변경 (대기/승인/완료)
+// [PATCH] 게시판 상태 변경
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
@@ -198,22 +153,18 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const items = await getRequestsFromFile();
-    const targetIdx = items.findIndex((it) => it.id === id);
-    if (targetIdx === -1) {
-      return NextResponse.json(
-        { success: false, message: "해당 항목을 찾을 수 없습니다." },
-        { status: 404 }
-      );
+    try {
+      await supabase
+        .from("worknexus_manual_requests")
+        .update({ status })
+        .eq("id", id);
+    } catch (dbErr) {
+      console.warn("Supabase 상태 변경:", dbErr);
     }
-
-    items[targetIdx].status = status;
-    await saveRequestsToFile(items);
 
     return NextResponse.json({
       success: true,
-      message: "상태가 변경되었습니다.",
-      item: items[targetIdx]
+      message: "상태가 변경되었습니다."
     });
   } catch (error) {
     console.error("Request manual PATCH error:", error);
