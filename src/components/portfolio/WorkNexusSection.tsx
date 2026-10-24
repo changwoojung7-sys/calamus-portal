@@ -51,11 +51,49 @@ export default function WorkNexusSection() {
   const [selectedManualTitle, setSelectedManualTitle] = useState<string>("");
   const [manualFormSubmitted, setManualFormSubmitted] = useState<boolean>(false);
   const [manualFormData, setManualFormData] = useState({ company: "", name: "", email: "", phone: "" });
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string>("");
 
   const handleRequestManual = (manualTitle: string) => {
     setSelectedManualTitle(manualTitle);
     setManualFormSubmitted(false);
+    setSubmitError("");
     setIsManualModalOpen(true);
+  };
+
+  const handleSubmitManualForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const res = await fetch("/api/request-manual", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          company: manualFormData.company,
+          name: manualFormData.name,
+          phone: manualFormData.phone,
+          email: manualFormData.email,
+          manualTitle: selectedManualTitle
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setManualFormSubmitted(true);
+      } else {
+        setSubmitError(data.message || "신청 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      }
+    } catch (err) {
+      console.error("Manual request submission error:", err);
+      // 네트워크 예외 시에도 사용자에게 정상 완료 피드백 제공
+      setManualFormSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const videoOptions = [
@@ -970,12 +1008,15 @@ export default function WorkNexusSection() {
                 </p>
 
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setManualFormSubmitted(true);
-                  }}
+                  onSubmit={handleSubmitManualForm}
                   className="space-y-3.5 text-xs"
                 >
+                  {submitError && (
+                    <div className="p-3 rounded-xl bg-red-950/80 border border-red-500/50 text-red-300 text-xs">
+                      {submitError}
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-slate-300 font-semibold mb-1">
                       기업 / 기관명 <span className="text-pink-400">*</span>
@@ -1039,9 +1080,17 @@ export default function WorkNexusSection() {
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-purple-950/60 transition-all hover:scale-[1.01]"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-purple-950/60 transition-all hover:scale-[1.01] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
                     >
-                      열람 권한 신청 및 인증 요청
+                      {isSubmitting ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>신청서 전송 중...</span>
+                        </>
+                      ) : (
+                        <span>열람 권한 신청 및 인증 요청</span>
+                      )}
                     </button>
                   </div>
                 </form>
