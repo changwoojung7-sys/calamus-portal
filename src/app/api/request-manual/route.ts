@@ -1,15 +1,49 @@
 import { NextResponse } from "next/server";
+import fs from "fs/promises";
+import path from "path";
 import nodemailer from "nodemailer";
 import { supabase } from "@/lib/supabase";
 
+export interface ManualRequestItem {
+  id: string;
+  company: string;
+  name: string;
+  phone: string;
+  email: string;
+  manualTitle: string;
+  memo?: string;
+  status: "pending" | "approved" | "completed";
+  createdAt: string;
+}
+
+const DATA_FILE_PATH = path.join(process.cwd(), "data", "manual_requests.json");
+
+// 로컬 파일에서 목록 읽기
+async function getRequestsFromFile(): Promise<ManualRequestItem[]> {
+  try {
+    const content = await fs.readFile(DATA_FILE_PATH, "utf-8");
+    return JSON.parse(content);
+  } catch {
+    return [];
+  }
+}
+
+// 로컬 파일에 목록 쓰기
+async function saveRequestsToFile(items: ManualRequestItem[]): Promise<void> {
+  const dir = path.dirname(DATA_FILE_PATH);
+  await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(DATA_FILE_PATH, JSON.stringify(items, null, 2), "utf-8");
+}
+
+// [POST] 신규 기술 백서 신청 접수
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { company, name, phone, email, manualTitle } = body;
+    const { company, name, phone, email, manualTitle, memo } = body;
 
-    if (!company || !name || !phone || !email || !manualTitle) {
+    if (!company || !name || !email) {
       return NextResponse.json(
-        { success: false, message: "필수 정보가 누락되었습니다." },
+        { success: false, message: "회사명, 신청자 성함, 회신 이메일은 필수입니다." },
         { status: 400 }
       );
     }
@@ -24,142 +58,167 @@ export async function POST(request: Request) {
       second: "2-digit"
     });
 
-    // 1. 발송할 메일 HTML 템플릿 생성
-    const mailHtml = `
-      <div style="font-family: 'Pretendard', sans-serif, -apple-system; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 24px 32px; color: #ffffff;">
-          <h2 style="margin: 0; font-size: 20px; font-weight: 800;">[WorkNexus] 기술 백서 열람 권한 신청</h2>
-          <p style="margin: 6px 0 0; font-size: 13px; opacity: 0.9;">신규 기업 B2B 잠재 고객의 기술 문서 열람 요청이 접수되었습니다.</p>
-        </div>
+    const newItem: ManualRequestItem = {
+      id: "req_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7),
+      company: company.trim(),
+      name: name.trim(),
+      phone: (phone || "").trim(),
+      email: email.trim(),
+      manualTitle: manualTitle || "종합 기술 백서",
+      memo: (memo || "").trim(),
+      status: "pending",
+      createdAt: nowKorea
+    };
 
-        <div style="padding: 32px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-            <tbody>
-              <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 12px 8px; color: #64748b; font-weight: 600; width: 140px;">신청 백서</td>
-                <td style="padding: 12px 8px; color: #0f172a; font-weight: 700;">${manualTitle}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 12px 8px; color: #64748b; font-weight: 600;">기업 / 기관명</td>
-                <td style="padding: 12px 8px; color: #0f172a; font-weight: 700;">${company}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 12px 8px; color: #64748b; font-weight: 600;">신청자 성함 / 직책</td>
-                <td style="padding: 12px 8px; color: #0f172a;">${name}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 12px 8px; color: #64748b; font-weight: 600;">연락처</td>
-                <td style="padding: 12px 8px; color: #0f172a;"><a href="tel:${phone}" style="color: #4f46e5; text-decoration: none;">${phone}</a></td>
-              </tr>
-              <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 12px 8px; color: #64748b; font-weight: 600;">회사 업무용 이메일</td>
-                <td style="padding: 12px 8px; color: #0f172a;"><a href="mailto:${email}" style="color: #4f46e5; text-decoration: none;">${email}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 12px 8px; color: #64748b; font-weight: 600;">신청 일시 (KST)</td>
-                <td style="padding: 12px 8px; color: #64748b; font-size: 13px;">${nowKorea}</td>
-              </tr>
-            </tbody>
-          </table>
+    // 1. 파일 데이터베이스(게시판) 저장
+    try {
+      const existing = await getRequestsFromFile();
+      existing.unshift(newItem); // 최신순
+      await saveRequestsToFile(existing);
+    } catch (fsErr) {
+      console.error("파일 저장 오류:", fsErr);
+    }
 
-          <div style="margin-top: 28px; padding: 16px; background: #f8fafc; border-radius: 12px; font-size: 12px; color: #64748b; line-height: 1.5;">
-            💡 <strong>영업 팁:</strong> 신청자 이메일(<span style="color: #4f46e5;">${email}</span>)로 승인 링크를 발송하시거나 연락처(<span style="color: #4f46e5;">${phone}</span>)로 유선 연락하여 도입 상담 일정을 조율하세요.
-          </div>
-        </div>
+    // 2. Supabase DB 백업 저장 시도
+    try {
+      await supabase.from("worknexus_manual_requests").insert([
+        {
+          id: newItem.id,
+          company: newItem.company,
+          applicant_name: newItem.name,
+          phone: newItem.phone,
+          email: newItem.email,
+          manual_title: newItem.manualTitle,
+          memo: newItem.memo,
+          status: newItem.status,
+          created_at: new Date().toISOString()
+        }
+      ]);
+    } catch (dbErr) {
+      console.warn("Supabase 백업 저장 스킵:", dbErr);
+    }
 
-        <div style="background: #f8fafc; padding: 16px 32px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #94a3b8; text-align: center;">
-          Calamus Portal · YujinAI Enterprise Inbound System
-        </div>
-      </div>
-    `;
-
-    // 2. 이메일 전송 (Nodemailer 직접 SMTP 발송)
-    let emailSent = false;
-    let emailError = "";
-
+    // 3. 만약 SMTP 환경변수가 등록되어 있다면 관리자 메일로도 보조 발송
     const naverUser = process.env.NAVER_USER;
     const naverPass = process.env.NAVER_PASS;
     const gmailUser = process.env.GMAIL_USER;
     const gmailPass = process.env.GMAIL_PASS;
 
-    if (naverUser && naverPass) {
-      // [방법 A] 네이버 메일 SMTP 전송
+    if ((naverUser && naverPass) || (gmailUser && gmailPass)) {
       try {
-        const transporter = nodemailer.createTransport({
-          host: "smtp.naver.com",
-          port: 465,
-          secure: true,
-          auth: {
-            user: naverUser,
-            pass: naverPass
-          }
-        });
+        const transporter = naverUser
+          ? nodemailer.createTransport({
+              host: "smtp.naver.com",
+              port: 465,
+              secure: true,
+              auth: { user: naverUser, pass: naverPass }
+            })
+          : nodemailer.createTransport({
+              service: "gmail",
+              auth: { user: gmailUser, pass: gmailPass }
+            });
 
         await transporter.sendMail({
-          from: `"WorkNexus 알림" <${naverUser}>`,
+          from: `"WorkNexus 접수" <${naverUser || gmailUser}>`,
           to: "yujinit2005@gmail.com",
-          replyTo: email,
-          subject: `[WorkNexus 기술백서 신청] ${company} - ${name} (${phone})`,
-          html: mailHtml
+          subject: `[WorkNexus 기술백서 신청] ${newItem.company} - ${newItem.name}`,
+          html: `
+            <h3>[WorkNexus] 기술 백서 열람 권한 신청이 접수되었습니다.</h3>
+            <ul>
+              <li><b>신청 백서:</b> ${newItem.manualTitle}</li>
+              <li><b>회사명:</b> ${newItem.company}</li>
+              <li><b>담당자:</b> ${newItem.name}</li>
+              <li><b>연락처:</b> ${newItem.phone}</li>
+              <li><b>회신 이메일:</b> ${newItem.email}</li>
+              <li><b>문의 내용:</b> ${newItem.memo || "없음"}</li>
+              <li><b>일시:</b> ${newItem.createdAt}</li>
+            </ul>
+          `
         });
-        emailSent = true;
-      } catch (err: any) {
-        console.error("Naver SMTP 전송 실패:", err);
-        emailError = err.message || "Naver SMTP Error";
+      } catch (mailErr) {
+        console.warn("보조 SMTP 발송 스킵:", mailErr);
       }
-    } else if (gmailUser && gmailPass) {
-      // [방법 B] 구글 Gmail SMTP 전송
-      try {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: gmailUser,
-            pass: gmailPass
-          }
-        });
-
-        await transporter.sendMail({
-          from: `"WorkNexus 알림" <${gmailUser}>`,
-          to: "yujinit2005@gmail.com",
-          replyTo: email,
-          subject: `[WorkNexus 기술백서 신청] ${company} - ${name} (${phone})`,
-          html: mailHtml
-        });
-        emailSent = true;
-      } catch (err: any) {
-        console.error("Gmail SMTP 전송 실패:", err);
-        emailError = err.message || "Gmail SMTP Error";
-      }
-    } else {
-      console.warn("SMTP 환경변수(NAVER_USER/PASS 또는 GMAIL_USER/PASS) 미설정 상태");
-    }
-
-    // 3. Supabase DB 백업 저장 시도
-    try {
-      await supabase.from("worknexus_manual_requests").insert([
-        {
-          company,
-          applicant_name: name,
-          phone,
-          email,
-          manual_title: manualTitle,
-          created_at: new Date().toISOString()
-        }
-      ]);
-    } catch (dbErr) {
-      console.warn("Supabase 저장 스킵:", dbErr);
     }
 
     return NextResponse.json({
       success: true,
-      message: "정상적으로 열람 권한 신청이 접수되었습니다.",
-      emailSent,
-      emailError: emailSent ? undefined : emailError || "SMTP 설정 대기 중"
+      message: "신청 내역이 정상적으로 게시판에 저장되었습니다.",
+      item: newItem
     });
   } catch (error) {
-    console.error("Request manual handler error:", error);
+    console.error("Request manual POST error:", error);
     return NextResponse.json(
-      { success: false, message: "서버 처리 중 오류가 발생했습니다." },
+      { success: false, message: "신청 접수 처리 중 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
+}
+
+// [GET] 게시판 목록 조회 (관리자 전용)
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const pin = searchParams.get("pin");
+
+    // 관리자 핀코드 검증 (기본값: yujin2026)
+    const validPin = process.env.ADMIN_PIN || "yujin2026";
+    if (pin !== validPin) {
+      return NextResponse.json(
+        { success: false, message: "관리자 인증 번호가 올바르지 않습니다." },
+        { status: 401 }
+      );
+    }
+
+    const items = await getRequestsFromFile();
+    return NextResponse.json({
+      success: true,
+      totalCount: items.length,
+      items
+    });
+  } catch (error) {
+    console.error("Request manual GET error:", error);
+    return NextResponse.json(
+      { success: false, message: "목록 조회 중 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
+}
+
+// [PATCH] 게시판 상태 변경 (대기/승인/완료)
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, status, pin } = body;
+
+    const validPin = process.env.ADMIN_PIN || "yujin2026";
+    if (pin !== validPin) {
+      return NextResponse.json(
+        { success: false, message: "관리자 권한이 없습니다." },
+        { status: 401 }
+      );
+    }
+
+    const items = await getRequestsFromFile();
+    const targetIdx = items.findIndex((it) => it.id === id);
+    if (targetIdx === -1) {
+      return NextResponse.json(
+        { success: false, message: "해당 항목을 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    items[targetIdx].status = status;
+    await saveRequestsToFile(items);
+
+    return NextResponse.json({
+      success: true,
+      message: "상태가 변경되었습니다.",
+      item: items[targetIdx]
+    });
+  } catch (error) {
+    console.error("Request manual PATCH error:", error);
+    return NextResponse.json(
+      { success: false, message: "상태 변경 중 오류가 발생했습니다." },
       { status: 500 }
     );
   }

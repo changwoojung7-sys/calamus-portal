@@ -22,7 +22,10 @@ import {
   CalendarCheck,
   BookOpen,
   FileText,
-  Download
+  Download,
+  Mail,
+  Copy,
+  Check
 } from "lucide-react";
 import NetworkDiagnosticsModal from "./NetworkDiagnosticsModal";
 
@@ -49,51 +52,83 @@ export default function WorkNexusSection() {
   const [isDiagOpen, setIsDiagOpen] = useState<boolean>(false);
   const [isManualModalOpen, setIsManualModalOpen] = useState<boolean>(false);
   const [selectedManualTitle, setSelectedManualTitle] = useState<string>("");
-  const [manualFormSubmitted, setManualFormSubmitted] = useState<boolean>(false);
-  const [manualFormData, setManualFormData] = useState({ company: "", name: "", email: "", phone: "" });
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitError, setSubmitError] = useState<string>("");
+  const [manualFormData, setManualFormData] = useState({ company: "", name: "", email: "", phone: "", memo: "" });
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [formValidationMsg, setFormValidationMsg] = useState<string>("");
 
   const handleRequestManual = (manualTitle: string) => {
     setSelectedManualTitle(manualTitle);
-    setManualFormSubmitted(false);
-    setSubmitError("");
+    setFormValidationMsg("");
     setIsManualModalOpen(true);
   };
 
-  const handleSubmitManualForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitError("");
-
+  // 백엔드 게시판(DB/파일)에 자동 저장
+  const saveToBoard = async () => {
     try {
-      const res = await fetch("/api/request-manual", {
+      await fetch("/api/request-manual", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           company: manualFormData.company,
           name: manualFormData.name,
           phone: manualFormData.phone,
           email: manualFormData.email,
-          manualTitle: selectedManualTitle
+          manualTitle: selectedManualTitle,
+          memo: manualFormData.memo
         })
       });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setManualFormSubmitted(true);
-      } else {
-        setSubmitError(data.message || "신청 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
-      }
     } catch (err) {
-      console.error("Manual request submission error:", err);
-      // 네트워크 예외 시에도 사용자에게 정상 완료 피드백 제공
-      setManualFormSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
+      console.warn("게시판 자동 저장 비동기 오류:", err);
     }
+  };
+
+  const buildMailContent = () => {
+    const subject = `[WorkNexus 도입문의/기술백서 신청] ${manualFormData.company} - ${manualFormData.name}`;
+    const body = `[WorkNexus 기술 백서 및 도입 문의]
+
+■ 회사 / 기관명: ${manualFormData.company}
+■ 담당자: ${manualFormData.name}
+■ 연락처: ${manualFormData.phone || "미입력"}
+■ 회신 이메일: ${manualFormData.email}
+■ 신청 백서: ${selectedManualTitle || "엔터프라이즈 종합 백서"}
+${manualFormData.memo ? `\n■ 문의 내용:\n${manualFormData.memo}\n` : ""}
+확인 후 담당자 회신 및 기술 백서 열람 권한 전달 부탁드립니다.`;
+
+    return { subject, body };
+  };
+
+  const validateForm = () => {
+    if (!manualFormData.company.trim() || !manualFormData.name.trim() || !manualFormData.email.trim()) {
+      setFormValidationMsg("회사명, 담당자 성함, 회신 이메일을 모두 입력해 주세요.");
+      return false;
+    }
+    setFormValidationMsg("");
+    return true;
+  };
+
+  // 1. Gmail로 작성
+  const handleOpenGmail = () => {
+    if (!validateForm()) return;
+    saveToBoard();
+    const { subject, body } = buildMailContent();
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=yujinit2005@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, "_blank");
+  };
+
+  // 2. 다른 메일 앱으로 보내기 (mailto)
+  const handleOpenMailto = () => {
+    if (!validateForm()) return;
+    saveToBoard();
+    const { subject, body } = buildMailContent();
+    const mailtoUrl = `mailto:yujinit2005@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+  };
+
+  // 3. 담당자 이메일 주소 복사
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("yujinit2005@gmail.com");
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2500);
   };
 
   const videoOptions = [
@@ -990,9 +1025,7 @@ export default function WorkNexusSection() {
               ✕
             </button>
 
-            {!manualFormSubmitted ? (
-              <>
-                <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2">
                   <span className="px-2.5 py-1 rounded-md bg-purple-950/80 border border-purple-500/40 text-purple-300 text-xs font-bold flex items-center gap-1.5">
                     <Lock className="w-3.5 h-3.5 text-purple-400" />
                     <span>보안 인증 심사</span>
@@ -1000,44 +1033,45 @@ export default function WorkNexusSection() {
                   <span className="text-xs text-slate-400 font-mono">Enterprise Only</span>
                 </div>
 
-                <h3 className="text-xl font-black text-white mb-2">
-                  기술 백서 열람 권한 신청
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-2">
+                  도입 문의 및 기술 백서 신청
                 </h3>
-                <p className="text-xs text-slate-300 mb-6 leading-relaxed">
-                  신청하신 <span className="text-purple-300 font-bold">[{selectedManualTitle}]</span> 문서는 Calamus의 핵심 엔지니어링 지식재산권이 포함되어 있어, 기업 담당자 인증 후 열람 링크를 전달해 드립니다.
+                <p className="text-xs text-slate-300 mb-4 leading-relaxed">
+                  아래 내용을 입력하고 <strong className="text-purple-300">Gmail로 문의 작성</strong>을 누르면 내용이 채워진 메일 작성 창이 열립니다. 확인 후 보내기만 누르면 담당자가 회신드립니다.
                 </p>
 
-                <form
-                  onSubmit={handleSubmitManualForm}
-                  className="space-y-3.5 text-xs"
-                >
-                  {submitError && (
-                    <div className="p-3 rounded-xl bg-red-950/80 border border-red-500/50 text-red-300 text-xs">
-                      {submitError}
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-slate-300 font-semibold mb-1">
-                      기업 / 기관명 <span className="text-pink-400">*</span>
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="예: (주)유진에이아이 / OO대학교 의과대학"
-                      value={manualFormData.company}
-                      onChange={(e) => setManualFormData({ ...manualFormData, company: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
-                    />
+                {selectedManualTitle && (
+                  <div className="mb-4 p-3 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-between text-xs">
+                    <span className="text-slate-400">신청 백서:</span>
+                    <span className="font-bold text-purple-300">{selectedManualTitle}</span>
                   </div>
+                )}
 
+                {formValidationMsg && (
+                  <div className="mb-3 p-3 rounded-xl bg-red-950/80 border border-red-500/50 text-red-300 text-xs">
+                    {formValidationMsg}
+                  </div>
+                )}
+
+                <div className="space-y-3.5 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-slate-300 font-semibold mb-1">
-                        신청자 성함 / 직책 <span className="text-pink-400">*</span>
+                        회사명 <span className="text-pink-400">*</span>
                       </label>
                       <input
-                        required
+                        type="text"
+                        placeholder="예: (주)유진에이아이"
+                        value={manualFormData.company}
+                        onChange={(e) => setManualFormData({ ...manualFormData, company: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-300 font-semibold mb-1">
+                        담당자 <span className="text-pink-400">*</span>
+                      </label>
+                      <input
                         type="text"
                         placeholder="예: 홍길동 팀장"
                         value={manualFormData.name}
@@ -1045,12 +1079,14 @@ export default function WorkNexusSection() {
                         className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
                       />
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-slate-300 font-semibold mb-1">
-                        연락처 <span className="text-pink-400">*</span>
+                        연락처
                       </label>
                       <input
-                        required
                         type="tel"
                         placeholder="010-0000-0000"
                         value={manualFormData.phone}
@@ -1058,72 +1094,72 @@ export default function WorkNexusSection() {
                         className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
                       />
                     </div>
+                    <div>
+                      <label className="block text-slate-300 font-semibold mb-1">
+                        회신 이메일 <span className="text-pink-400">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="name@company.com"
+                        value={manualFormData.email}
+                        onChange={(e) => setManualFormData({ ...manualFormData, email: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                      />
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-slate-300 font-semibold mb-1">
-                      회사 / 업무용 이메일 <span className="text-pink-400">*</span>
+                      문의 내용
                     </label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="name@company.com (기업 도메인 필수)"
-                      value={manualFormData.email}
-                      onChange={(e) => setManualFormData({ ...manualFormData, email: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all"
+                    <textarea
+                      rows={3}
+                      placeholder="도입 목적, 현재 사용 중인 협업 도구, 궁금한 점 등을 자유롭게 적어 주세요."
+                      value={manualFormData.memo}
+                      onChange={(e) => setManualFormData({ ...manualFormData, memo: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all resize-none"
                     />
-                    <p className="text-[10px] text-slate-500 mt-1">
-                      * 기밀 유출 방지를 위해 일반 개인 메일(gmail, naver 등)은 열람 승인이 제한될 수 있습니다.
-                    </p>
                   </div>
 
+                  {/* 워크넥서스 3대 메일 전송 액션 버튼 */}
                   <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-purple-950/60 transition-all hover:scale-[1.01] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>신청서 전송 중...</span>
-                        </>
-                      ) : (
-                        <span>열람 권한 신청 및 인증 요청</span>
-                      )}
-                    </button>
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleOpenGmail}
+                        className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold text-xs sm:text-sm shadow-lg shadow-purple-950/60 transition-all flex items-center justify-center gap-2 hover:scale-[1.01]"
+                      >
+                        <Mail className="w-4 h-4" />
+                        <span>Gmail로 문의 작성 ↗</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleOpenMailto}
+                        className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <span>다른 메일 앱으로 보내기</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleCopyEmail}
+                        className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5"
+                        title="이메일 주소 복사"
+                      >
+                        {isCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                        <span>{isCopied ? "복사됨!" : "주소 복사"}</span>
+                      </button>
+                    </div>
+
+                    <p className="text-[11px] text-slate-400 text-center mt-3">
+                      입력한 내용은 안전하게 접수되며, 여러분의 메일 계정에서 <span className="text-purple-300 font-semibold">yujinit2005@gmail.com</span>(으)로 직접 보내집니다.
+                    </p>
                   </div>
-                </form>
-              </>
-            ) : (
-              <div className="text-center py-6 space-y-4">
-                <div className="w-14 h-14 mx-auto rounded-full bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    열람 권한 신청이 접수되었습니다
-                  </h3>
-                  <p className="text-xs text-slate-300 max-w-sm mx-auto leading-relaxed">
-                    기업 보안 담당자의 인증 심사 후 기재해 주신 업무용 이메일(<span className="text-purple-300 font-bold">{manualFormData.email}</span>)로 1회용 보안 열람 링크를 전달해 드립니다.
-                  </p>
-                </div>
-                <div className="pt-2">
-                  <button
-                    onClick={() => {
-                      setIsManualModalOpen(false);
-                      setManualFormSubmitted(false);
-                    }}
-                    className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors"
-                  >
-                    확인
-                  </button>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-      )}
+            </div>
+          )}
     </section>
   );
 }
