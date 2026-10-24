@@ -13,8 +13,10 @@
   - 내부 포트 번호 노출을 삭제하고 `사내 방화벽 정책 맞춤형 단일/보안 포트 커스텀 지원`으로 대체
 - **일반 클라우드 SaaS vs WorkNexus 비교표(TCO) 정제**:
   - 미디어 엔진 및 접속 방식 항목을 단순 오픈소스 명칭 대신 `사내 내장 초저지연 SFU 미디어 서버 (P2P 차단 및 트래픽 0원)`, `인바운드 포트 개방 없는 제로트러스트 보안 터널링`으로 비즈니스 혜택 중심 재정의
-- **기술 백서 열람 신청 시 yujinit2005@gmail.com 자동 발송 백엔드 API 연동 (`src/app/api/request-manual/route.ts`)**:
-  - 신청자가 모달에서 폼 제출 시 비동기 API(`/api/request-manual`)를 호출하여 관리자 이메일(`yujinit2005@gmail.com`)로 신청 정보(기업명, 성함, 연락처, 이메일, 신청 백서명, 신청일시) 즉시 자동 전송
+- **기술 백서 열람 신청 시 yujinit2005@gmail.com 자동 발송을 위한 Nodemailer 자체 직접 발송 엔진 전면 전환 (`src/app/api/request-manual/route.ts`)**:
+  - 불안정한 외부 중계 서비스(FormSubmit)를 완전히 걷어내고, 보안성과 신뢰성이 보장되는 `nodemailer` 자체 SMTP 직접 발송 엔진 탑재
+  - 네이버 메일(`smtp.naver.com`) 및 구글 Gmail(`smtp.gmail.com`) 공식 SMTP 다이렉트 전송 지원
+  - 신청 접수 시 신청자 정보(기업명, 성함, 연락처, 이메일, 백서명, 일시)를 스타일링된 HTML 표 템플릿으로 `yujinit2005@gmail.com`에 실시간 전송
   - Supabase `worknexus_manual_requests` 백업 저장소 파이프라인 연계
   - 모달 폼에 전송 로딩 인디케이터(Spinner) 및 에러 핸들링 피드백 UI 추가
 - **타입 검증**: `npx tsc --noEmit` 클린 통과 (0 errors)
