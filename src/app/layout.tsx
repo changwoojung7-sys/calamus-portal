@@ -108,14 +108,25 @@ export default function RootLayout({
         "@type": "SoftwareApplication",
         "@id": "https://calamus.ai.kr/#worknexus",
         "name": "Calamus WorkNexus (워크넥서스)",
-        "operatingSystem": "Windows 10/11, Windows Server, Linux (Docker)",
+        "url": "https://worknexus.calamus.ai.kr",
+        "softwareVersion": "1.0.9",
+        "operatingSystem": "Windows 10/11, Windows Server, Linux (Docker) / Client: Web Browser (Chrome, Edge, Safari)",
         "applicationCategory": "BusinessApplication",
-        "description": "우리 회사 사내 서버 한 대로 운영하는 독립형 온프레미스 3D 가상오피스. 인당 월구독료 0원, 내장 독자 SFU 미디어 엔진(P2P 제거), 4m 공간 음향 및 100석 타운홀 세미나 완비.",
+        "description": "고객사 사내 서버에 독립 구축하는 온프레미스 3D·2D 하이브리드 가상오피스 및 화상회의 플랫폼. 전 사원 계정 등록 무제한·동시접속 인원(50·100·200·300명) 기준 라이선스, P2P를 제거한 사내 내장 SFU 미디어 엔진(4K 도면 화면공유·무저장), 2.5m~4m 거리 기반 공간 음성, 8종 실시간 근태(집중 근무 시 마이크·주변음 차단, 미사용 자동 로그아웃 시 회의 중 예외 보장), 회의 전후 30분 시한부 외부 협력업체 참석 링크, 건물 내 100명 대강당 기본 제공 및 210석 가상 강당 최대 200명 타운홀·웨비나(별도 옵션), 내장 사내 HTTPS 게이트웨이·자체 인증기관(CA) 및 원클릭 폐쇄망 전환 완비.",
+        "featureList": [
+          "전 사원 계정 등록 무제한 · 동시접속 인원 기준 합리적 라이선스 (휴가·외근·퇴근자 좌석 차감 없음)",
+          "사원 PC 무설치 웹 브라우저 10초 출근 및 저사양·태블릿용 초경량 2D 업무 모드",
+          "2.5m 선명·4m 밖 자동 감쇠 근거리 공간 음성(Spatial Voice) 및 8종 근무 상태 연동",
+          "P2P 완전 제거 · 사내 서버 내장 SFU 방별 격리 화상회의, 4K 도면 화면공유(플로팅 뷰어) 및 실시간 화이트보드",
+          "사내 계정 없는 외부 협력업체용 회의 전후 30분 시한부 게스트 참석 링크 ('외부' 배지 및 단일 회의실 격리)",
+          "건물 내 100명 규모 대강당(기본 제공) 및 210석 가상 강당 최대 200명 타운홀·웨비나(별도 옵션, 손들기 발언권 승인)",
+          "별도 리버스 프록시 없는 내장 사내 HTTPS 게이트웨이·자체 인증기관(ECDSA P-256) 및 원클릭 폐쇄망(Air-Gap) 전환"
+        ],
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "KRW",
-          "description": "추가 SaaS 인당 구독료 없음 (사내 단일 서버 영구 운영 라이선스)"
+          "description": "인당 과금(Per-Seat) SaaS 추가 구독료 없음 · 등록 사원 무제한 및 동시접속 인원 기준 온프레미스 라이선스"
         }
       },
       {
@@ -160,10 +171,10 @@ export default function RootLayout({
           },
           {
             "@type": "Question",
-            "name": "Calamus WorkNexus 가상오피스의 핵심 차별점은 무엇인가요?",
+            "name": "Calamus WorkNexus 가상오피스의 핵심 차별점과 라이선스 과금 방식은 무엇인가요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "외부 클라우드 SaaS와 달리 인당 월 구독료가 없으며, 모든 미디어와 데이터가 고객사 서버 내장 독자 SFU 미디어 엔진을 통해 암호화 중계되어 외부 유출이 원천 차단됩니다. 100% 에어갭 폐쇄망에서도 구동되며 4m 거리 기반 공간 음향과 100석 타운홀 세미나를 지원합니다."
+              "text": "인당 매월 과금되는 클라우드 SaaS와 달리 전 사원 계정 등록 수 제한이 없으며, 실제 접속한 '동시접속 인원(50·100·200·300명 등)' 기준으로 운영되어 휴가·외근·퇴근자의 좌석 비용이 발생하지 않습니다. 모든 음성·영상·4K 도면 화면공유는 P2P 없이 고객사 서버 내장 SFU 엔진으로만 중계(무저장)되며, 내장 사내 HTTPS 자체 인증기관과 원클릭 폐쇄망 전환, 시한부 외부 협력업체 링크, 초경량 2D 업무 모드, 100명 대강당(기본) 및 200명 타운홀 웨비나(옵션)를 지원합니다."
             }
           },
           {
