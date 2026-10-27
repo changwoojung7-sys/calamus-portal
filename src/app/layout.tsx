@@ -36,6 +36,13 @@ export const metadata: Metadata = {
     "요양병원",
     "호스피스",
     "의료정보 AI",
+    "전기기능사 실기",
+    "전기기능사 실기 인터랙티브 교육관",
+    "전기기능사 실기 시뮬레이터",
+    "전기기능사 실기 공개문제 18과제",
+    "전기기능사 핀번호 그루핑",
+    "CEPT",
+    "cept.calamus.ai.kr",
     "AEO",
     "GEO"
   ],
@@ -123,6 +130,23 @@ export default function RootLayout({
         }
       },
       {
+        "@type": ["WebApplication", "LearningResource"],
+        "@id": "https://cept.calamus.ai.kr/#cept",
+        "name": "전기기능사 실기 인터랙티브 교육관 (CEPT)",
+        "url": "https://cept.calamus.ai.kr/",
+        "applicationCategory": "EducationalApplication",
+        "learningResourceType": "Interactive Simulation",
+        "isAccessibleForFree": true,
+        "inLanguage": "ko-KR",
+        "description": "한국산업인력공단 국가기술자격 전기기능사 실기 공개문제 18과제(01번~18번) 전 과정을 기구 배치(400×420), 주회로 결선, 시퀀스 도면 핀번호·그루핑, 보조회로 배선(벨 테스터), 벽면 배관·새들(1800×1600), 입선·결선, 전원 투입 동작 테스트까지 7단계로 눈으로 보며 따라하는 100% 무료 웹 인터랙티브 시뮬레이터.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "KRW",
+          "description": "전체 수험생 무료 공개 (무설치 웹 브라우저 즉시 실행)"
+        }
+      },
+      {
         "@type": "FAQPage",
         "@id": "https://calamus.ai.kr/#faq",
         "mainEntity": [
@@ -156,6 +180,14 @@ export default function RootLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "의료계 의료정보 서비스를 지속 확대하여 대학병원 전원 코디네이터 업무도구, 병원별 24/7 AI 입원상담 챗봇, 노인장기요양 2.8만 개소 통합을 추진하며, 가상오피스 영역에서는 사내 회의 AI 실시간 다이제스트 요약(Meeting Scribe), 기밀 유출 없는 사내 지식검색(Private sLLM / RAG), 글로벌 실시간 음성 통번역 등 엔터프라이즈 AI를 지속적으로 확대합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "전기기능사 실기 인터랙티브 교육관(CEPT)은 어떤 서비스이며 무료인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calamus Labs가 수험생들의 합격을 돕기 위해 100% 무료로 공개한 전기기능사 실기 따라하기 웹 시뮬레이터(https://cept.calamus.ai.kr/)입니다. 한국산업인력공단 공개문제 18과제(01~18번) 전체에 대해 1단계 기구 배치(400×420), 2단계 주회로 결선, 3단계 시퀀스 핀번호·그루핑, 4단계 보조회로 배선 및 벨 테스터, 5단계 배관·새들(1800×1600), 6단계 입선·결선, 7단계 전원 투입 및 시퀀스 동작 테스트를 설치 없이 브라우저에서 바로 복습할 수 있습니다."
             }
           }
         ]

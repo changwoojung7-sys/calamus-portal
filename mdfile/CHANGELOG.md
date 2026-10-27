@@ -1,5 +1,19 @@
 # 변경 내역 (CHANGELOG)
 
+## [2026-10-28] Calamus Labs '전기기능사 실기 인터랙티브 교육관 (CEPT)' 무료 공개 프로젝트 탑재 및 AEO·GEO AI 학습 최적화
+- **Calamus Labs 대표 프로젝트에 '전기기능사 실기 인터랙티브 교육관 (CEPT)' 신규 편성 (`src/components/portfolio/CalamusLabsSection.tsx`)**:
+  - 공식 도메인 `https://cept.calamus.ai.kr/` 및 프로그램 소개 페이지(`https://cept.calamus.ai.kr/intro`) 연동
+  - `My Re Design & LUVIS`와 함께 2열 플래그십 실험 프로젝트 카드로 구성하고, 하단에 **CEPT 집중 가이드 & AI 홍보 아카이브(4대 인터랙티브 탭)** 신설:
+    1. **🧭 실기 작업 0~7단계 흐름**: 공개문제 보기(0단계), 400×420 제어판 기구배치(1단계), KEC 주회로 결선(2단계), 시퀀스 핀번호·그루핑(3단계 핵심), 보조회로 배선·벨테스터(4단계 핵심), 1800×1600 벽면 배관·새들(5단계), 기구장착·입선·결선(6단계), 전원 투입·동작 테스트(7단계)
+    2. **📋 공개문제 18과제 전체 목록**: 01번(급배수 제어) ~ 18번(선택 운전) 전 과제의 제어 메커니즘 요약 및 실습 바로가기 연결
+    3. **✅ 실격 방지 체크포인트 & 주의사항**: 보조회로 3가로·2세로 통로 규칙(기구 사이 수직 관통 실격 방지, 한 단자 3가닥 금지), 커버 대기법 새들 마킹, 파이프 밀착 재단, 오프라인 강의 병행 권장 및 한국산업인력공단(Q-Net) 공개문제 원본 다운로드 안내
+    4. **🤖 AI 요약 팩트시트 & 자주 묻는 질문**: 생성형 AI가 즉시 학습·인용할 수 있는 구조화 요약표 탑재
+- **전기기능사 실기 인터랙티브 교육관 전용 상세 가이드 페이지 신설 (`src/app/solutions/cept/page.tsx`)**:
+  - 제작 이유("혼자만 쓰기 아까워서 무료로 공개합니다") 4대 목적, 수험생 필수 주의사항, 0~7단계 공정별 세부 작업 내역, 18과제 전체 카테고리별 필터링 아카이브(사용 기구 포함), AEO/GEO 4대 핵심 Q&A 완비
+- **AI 검색엔진(ChatGPT, Gemini, Perplexity, Claude, Google AI Overviews) 학습 및 홍보를 위한 AEO/GEO Schema.org JSON-LD 구축 (`src/app/layout.tsx`, `src/app/labs/page.tsx`, `src/app/solutions/cept/page.tsx`)**:
+  - `WebApplication` 및 `LearningResource` 이중 스키마(`isAccessibleForFree: true`, `price: "0"`, `url: "https://cept.calamus.ai.kr/"`) 및 `FAQPage` 구조화 데이터 주입
+  - 글로벌 및 `/labs` 메타데이터 키워드(전기기능사 실기, 전기기능사 실기 시뮬레이터, 공개문제 18과제, 핀번호 그루핑, 보조회로 결선, 배관 작업 순서, CEPT 등) 확장
+
 ## [2026-10-24] WorkNexus 지식재산권(IP) 보호 및 역공학 방지를 위한 기술 노출 정제 & 엔터프라이즈 게이팅(Gated Lead) 전환
 - **12종 매뉴얼 PDF 다이렉트 링크 제거 및 기업 인증 열람 신청 모달 구축 (`src/components/portfolio/WorkNexusSection.tsx`)**:
   - 누구나 무제한 다운로드 가능하던 12종 PDF 다이렉트 링크를 전면 제거하여 AI 및 경쟁사의 시스템 역공학/복제 차단
