@@ -8,7 +8,7 @@
   - `GET /api/cheer`, `POST /api/cheer` 엔드포인트 구현 (Supabase `worknexus_manual_requests` 테이블 `[💌응원방명록]` 연동으로 `/admin/requests` 관리자 페이지에서도 통합 조회·관리 가능 + `localStorage` 하이브리드 즉시 반영)
 - **홈페이지 내 관리자 페이지(`/admin/requests`) 원클릭 진입 버튼 추가 및 통합 관리 대시보드 업그레이드**:
   - **상단 GNB 메뉴([src/app/page.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/app/page.tsx))**, **전 페이지 하단 푸터([src/components/common/Footer.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/components/common/Footer.tsx))**, **응원 방명록 우측 상단([src/components/common/CheerGuestbookSection.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/components/common/CheerGuestbookSection.tsx))** 3곳에 **`🔒 관리자` / `🔒 관리자 페이지` / `🔒 방명록 관리`** 바로가기 버튼 배치
-  - **통합 관리자 대시보드([src/app/admin/requests/page.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/app/admin/requests/page.tsx))**: `전체 보기` | `🏢 기업 백서·도입 문의` | `💌 응원 방명록` 카테고리 탭 분리 및 `숨김/반려(rejected)` 상태 변경 기능 추가
+  - **통합 관리자 대시보드([src/app/admin/requests/page.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/app/admin/requests/page.tsx))**: `전체 보기` | `🏢 기업 백서·도입 문의` | `💌 응원 방명록` 카테고리 탭 분리, `숨김/반려(rejected)` 상태 변경 기능 추가 및 인증 입력창 placeholder 내 기본 비밀번호 노출 제거(`관리자 인증 핀코드를 입력하세요`로 보안 강화)
 - **3대 핵심 경로 전면 배치 및 CEPT 로컬 소스(`C:\calamusAppBuild\Electric Sequence`) 연동**:
   1. **CEPT 전용 상세 가이드 (`src/app/solutions/cept/page.tsx`)**: 상단 헤더·히어로 `[💌 응원의 메시지 남기기]` 버튼 및 하단 `#cheer` 방명록 섹션 탑재
   2. **Calamus Labs (`src/components/portfolio/CalamusLabsSection.tsx`)**: CEPT 집중 가이드 헤더 버튼 및 하단 응원 방명록 탑재

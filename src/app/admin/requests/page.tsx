@@ -260,9 +260,10 @@ export default function AdminRequestsPage() {
               </label>
               <input
                 type="password"
-                placeholder="인증 번호 입력 (기본값: yujin2026)"
+                placeholder="관리자 인증 핀코드를 입력하세요"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
+                autoComplete="current-password"
                 className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 focus:border-purple-500 text-white placeholder-slate-500 outline-none transition-all text-sm"
               />
             </div>
