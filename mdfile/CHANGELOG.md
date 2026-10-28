@@ -1,5 +1,20 @@
 # 변경 내역 (CHANGELOG)
 
+## [2026-10-28] 수험생 & 방문자 '응원의 메시지 (공개 한줄 응원 방명록 + 제작자 이메일 전송)' 통합 보드 구축 및 CEPT 소개관 연동
+- **공개 한줄 응원 방명록 + 이메일 전송 통합 컴포넌트 신설 (`src/components/common/CheerGuestbookSection.tsx`)**:
+  - **공개 한줄 응원 방명록**: 별도 회원가입/로그인 없이 닉네임(미입력 시 `익명 수험생`), 응원 아이콘(`⚡`, `💌`, `🔥`, `🙏`, `🎉`, `💪`), 응원 카테고리(`⚡ 전기기능사 실기(CEPT) 응원`, `🙏 개발자님 감사합니다`, `🔥 이번 회차 합격 다짐`, `🎓 수업·교육 현장 활용`, `💜 Calamus 서비스 응원`), 원클릭 자동완성 문구 및 응원 메시지를 작성하면 즉시 실시간 보드에 등록되고 공감/합격기원(`👍`) 카운트를 누를 수 있도록 구현
+  - **제작자 직접 이메일 발송 연동**: 입력한 응원 문구를 그대로 담아 `yujinit2005@gmail.com`으로 전송하는 **[Gmail 웹으로 응원 메일 바로 보내기]**, **[기본 메일 앱 실행 (`mailto:`)]**, **[이메일 주소 복사]** 3종 액션 동시 지원
+- **Edge Runtime 기반 응원 방명록 API 신설 (`src/app/api/cheer/route.ts`)**:
+  - `GET /api/cheer`, `POST /api/cheer` 엔드포인트 구현 (Supabase `worknexus_manual_requests` 테이블 `[💌응원방명록]` 연동으로 `/admin/requests` 관리자 페이지에서도 통합 조회·관리 가능 + `localStorage` 하이브리드 즉시 반영)
+- **홈페이지 내 관리자 페이지(`/admin/requests`) 원클릭 진입 버튼 추가 및 통합 관리 대시보드 업그레이드**:
+  - **상단 GNB 메뉴([src/app/page.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/app/page.tsx))**, **전 페이지 하단 푸터([src/components/common/Footer.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/components/common/Footer.tsx))**, **응원 방명록 우측 상단([src/components/common/CheerGuestbookSection.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/components/common/CheerGuestbookSection.tsx))** 3곳에 **`🔒 관리자` / `🔒 관리자 페이지` / `🔒 방명록 관리`** 바로가기 버튼 배치
+  - **통합 관리자 대시보드([src/app/admin/requests/page.tsx](file:///c:/Calamus_B2B/CalamusPortal/src/app/admin/requests/page.tsx))**: `전체 보기` | `🏢 기업 백서·도입 문의` | `💌 응원 방명록` 카테고리 탭 분리 및 `숨김/반려(rejected)` 상태 변경 기능 추가
+- **3대 핵심 경로 전면 배치 및 CEPT 로컬 소스(`C:\calamusAppBuild\Electric Sequence`) 연동**:
+  1. **CEPT 전용 상세 가이드 (`src/app/solutions/cept/page.tsx`)**: 상단 헤더·히어로 `[💌 응원의 메시지 남기기]` 버튼 및 하단 `#cheer` 방명록 섹션 탑재
+  2. **Calamus Labs (`src/components/portfolio/CalamusLabsSection.tsx`)**: CEPT 집중 가이드 헤더 버튼 및 하단 응원 방명록 탑재
+  3. **Calamus Portal 메인 홈 (`src/app/page.tsx`)**: GNB·히어로 퀵 앵커 `[💌 응원 방명록]` 및 메인 페이지 `#cheer` 섹션 탑재
+  4. **CEPT 프로그램 소개 페이지 (`C:\calamusAppBuild\Electric Sequence\intro.html` & `index.html`)**: 7번 섹션("💌 혼자만 쓰기 아까워서 공개합니다")의 **'응원의 메시지'** 텍스트 링크화 및 `[💌 포털 응원 방명록에 한마디 남기기 ↗]`, `[✉️ 제작자에게 응원 메일 보내기 (Gmail) ↗]` 직통 버튼 추가
+
 ## [2026-10-28] WorkNexus 소개 섹션(`#worknexus`) 전면 고도화 (v1.0.9 최신 스펙 · 스마트폰 쇼츠 3편 · 6대 데모 프리뷰 · 5대 업무 여정 23장 · 실무 에피소드 5편 · AEO/GEO 최적화)
 - **Hero 영역 & 우측 스마트폰 프레임 쇼츠 3편 연속/선택 재생기 탑재 (`src/components/portfolio/WorkNexusSection.tsx`)**:
   - `worknexus.calamus.ai.kr` 공식 홍보 사이트와 동일한 스마트폰 베젤(9:16) 쇼츠 플레이어 이식:

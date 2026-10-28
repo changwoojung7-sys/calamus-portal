@@ -11,7 +11,7 @@ export interface ManualRequestItem {
   email: string;
   manualTitle: string;
   memo?: string;
-  status: "pending" | "approved" | "completed";
+  status: "pending" | "approved" | "completed" | "rejected";
   createdAt: string;
 }
 

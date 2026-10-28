@@ -25,6 +25,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import Footer from "@/components/common/Footer";
+import CheerGuestbookSection from "@/components/common/CheerGuestbookSection";
 
 // 0단계 ~ 7단계 실기 작업 파이프라인 데이터
 const pipelineStages = [
@@ -264,10 +265,12 @@ export default function CeptSolutionPage() {
           </div>
 
           <div className="flex items-center gap-2.5">
-            <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-300 text-xs font-bold">
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
-              100% 무료 공개 교육 프로젝트
-            </span>
+            <a
+              href="#cheer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 hover:bg-amber-900/80 border border-amber-500/40 text-amber-300 text-xs font-extrabold transition-all"
+            >
+              <span>💌 응원 방명록</span>
+            </a>
             <a
               href="https://cept.calamus.ai.kr/intro"
               target="_blank"
@@ -337,6 +340,14 @@ export default function CeptSolutionPage() {
               <BookOpen className="w-4 h-4 text-amber-400" />
               <span>제작 배경 & 사용 가이드 (intro)</span>
               <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+            </a>
+
+            <a
+              href="#cheer"
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 font-extrabold text-sm transition-all"
+            >
+              <span>💌 응원의 메시지 남기기</span>
+              <ArrowRight className="w-4 h-4 text-amber-400" />
             </a>
           </div>
 
@@ -694,6 +705,12 @@ export default function CeptSolutionPage() {
             </div>
           </div>
         </section>
+        {/* 7. 응원의 메시지 한줄 방명록 & 제작자 이메일 발송 섹션 */}
+        <CheerGuestbookSection
+          defaultTag="⚡ 전기기능사 실기(CEPT) 응원"
+          title="💌 혼자만 쓰기 아까워 공개한 CEPT, 응원의 메시지를 남겨주세요!"
+          subtitle="공부하며 정리한 전기기능사 실기 18과제 시뮬레이터가 도움이 되셨다면 따뜻한 응원 한마디나 합격 다짐을 남겨주세요. 공개 방명록 등록과 제작자 이메일 전송을 모두 지원합니다!"
+        />
       </main>
 
       <Footer />

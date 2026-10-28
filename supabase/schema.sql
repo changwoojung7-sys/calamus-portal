@@ -168,3 +168,25 @@ FOR EACH ROW EXECUTE FUNCTION update_geom_point();
 CREATE OR REPLACE TRIGGER trg_update_pharmacy_geom
 BEFORE INSERT OR UPDATE ON hosapi_pharmacy
 FOR EACH ROW EXECUTE FUNCTION update_geom_point();
+
+
+-- ------------------------------------------------------------------------------
+-- 5) worknexus_manual_requests : 통합 접수 및 공개 응원 방명록 테이블
+--    (1) WorkNexus 기술 백서/도입 상담 신청 (/api/request-manual)
+--    (2) 수험생 & 방문자 공개 한줄 응원 방명록 (/api/cheer -> company = '[💌응원방명록]')
+--    (3) 관리자 통합 대시보드 (/admin/requests) 조회·승인·반려(숨김) 연동
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS worknexus_manual_requests (
+    id VARCHAR(100) PRIMARY KEY,
+    company VARCHAR(200) NOT NULL,            -- 기업명 또는 '[💌응원방명록]' 구분자
+    applicant_name VARCHAR(100) NOT NULL,     -- 신청자명 또는 응원 방명록 닉네임
+    phone VARCHAR(50),                        -- 연락처 또는 응원 아이콘(⚡, 💌 등)
+    email VARCHAR(200),                       -- 이메일 주소
+    manual_title VARCHAR(255),                -- 신청 백서명 또는 응원 카테고리 태그
+    memo TEXT,                                -- 도입 문의 메모 또는 응원 한마디 본문
+    status VARCHAR(30) DEFAULT 'pending',     -- 'pending' | 'approved' | 'rejected'
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_wn_requests_company_created
+ON worknexus_manual_requests (company, created_at DESC);

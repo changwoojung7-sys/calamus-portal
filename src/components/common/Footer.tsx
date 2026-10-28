@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 import LegalModal from "./LegalModal";
 
 export default function Footer() {
@@ -20,7 +22,7 @@ export default function Footer() {
     const TermsContent = (
         <div className="space-y-4">
             <h4 className="font-bold text-slate-900 text-base">제 1 조 (목적)</h4>
-            <p>이 약관은 칼라무스 포털(Calamus Portal / 유진AI(YujinAI), 이하 "회사")이 제공하는 메디컬 & 케어 인포메이션 포털 및 관련 제반 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+            <p>이 약관은 칼라무스 포털(Calamus Portal / 유진AI(YujinAI), 이하 &quot;회사&quot;)이 제공하는 메디컬 &amp; 케어 인포메이션 포털 및 관련 제반 서비스(이하 &quot;서비스&quot;)의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
 
             <h4 className="font-bold text-slate-900 text-base">제 2 조 (서비스의 내용 및 면책)</h4>
             <p>회사는 다음과 같은 서비스를 제공합니다.</p>
@@ -75,20 +77,27 @@ export default function Footer() {
                         <p className="mt-2 text-slate-500">Copyright © 2026 Calamus Portal (유진AI). All rights reserved.</p>
                     </div>
 
-                    {/* Legal Links */}
-                    <div className="flex gap-6 text-xs font-semibold text-slate-600">
+                    {/* Legal & Admin Links */}
+                    <div className="flex flex-wrap items-center gap-5 text-xs font-semibold text-slate-600">
                         <button
                             onClick={() => openModal("terms")}
-                            className="hover:text-emerald-600 transition-colors"
+                            className="hover:text-emerald-600 transition-colors cursor-pointer"
                         >
                             이용약관
                         </button>
                         <button
                             onClick={() => openModal("privacy")}
-                            className="hover:text-emerald-600 transition-colors"
+                            className="hover:text-emerald-600 transition-colors cursor-pointer"
                         >
                             개인정보처리방침
                         </button>
+                        <Link
+                            href="/admin/requests"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200/80 hover:bg-slate-800 text-slate-700 hover:text-white transition-all font-bold"
+                        >
+                            <Lock className="w-3.5 h-3.5" />
+                            <span>관리자 페이지</span>
+                        </Link>
                     </div>
                 </div>
             </footer>

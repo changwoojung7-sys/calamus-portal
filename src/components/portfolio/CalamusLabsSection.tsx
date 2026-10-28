@@ -17,6 +17,7 @@ import {
   Award,
   Check
 } from "lucide-react";
+import CheerGuestbookSection from "@/components/common/CheerGuestbookSection";
 
 const ceptPipelineSummary = [
   { step: "0단계", icon: "📄", title: "공개문제 보기", desc: "한국산업인력공단 공개문제 18과제 전체 문제지(1~11P) 넘김 뷰어 및 공식 도면 확대 대조", key: false },
@@ -221,6 +222,12 @@ export default function CalamusLabsSection() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <a
+                href="#cheer"
+                className="px-4 py-3 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 font-extrabold text-xs flex items-center gap-1.5 transition-all"
+              >
+                <span>💌 응원 한마디 남기기</span>
+              </a>
               <a
                 href="https://cept.calamus.ai.kr/intro"
                 target="_blank"
@@ -461,6 +468,15 @@ export default function CalamusLabsSection() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* 응원의 메시지 방명록 & 제작자 이메일 전송 섹션 */}
+        <div className="mt-12">
+          <CheerGuestbookSection
+            defaultTag="⚡ 전기기능사 실기(CEPT) 응원"
+            title="💌 Calamus Labs & 전기기능사 실기 교육관 응원 방명록"
+            subtitle="혼자만 쓰기 아까워 무료로 공개한 전기기능사 실기 시뮬레이터(CEPT)와 실험실 프로젝트에 따뜻한 응원 한마디를 남겨주세요!"
+          />
         </div>
       </div>
     </section>

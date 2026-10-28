@@ -16,6 +16,7 @@ import WorkNexusSection from "@/components/portfolio/WorkNexusSection";
 import OnAnBuHospitalSection from "@/components/portfolio/OnAnBuHospitalSection";
 import CompanyIntro from "@/components/portfolio/CompanyIntro";
 import { HealingLoungeBanner } from "@/components/care/HealingLoungeBanner";
+import CheerGuestbookSection from "@/components/common/CheerGuestbookSection";
 
 export default function Home() {
   return (
@@ -62,6 +63,12 @@ export default function Home() {
               Calamus Labs
             </Link>
             <a
+              href="#cheer"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/70 border border-amber-500/40 text-amber-300 hover:bg-amber-900/70 transition-all text-xs font-bold"
+            >
+              <span>💌 응원 방명록</span>
+            </a>
+            <a
               href="#lounge"
               className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all text-xs"
             >
@@ -75,6 +82,14 @@ export default function Home() {
               <Feather className="w-4 h-4 text-slate-400" />
               회사소개 & 비전 (About)
             </a>
+            <Link
+              href="/admin/requests"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-purple-300 transition-all text-xs"
+              title="기업 문의 및 응원 방명록 통합 관리자 페이지"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
+              <span>관리자</span>
+            </Link>
           </nav>
 
           {/* 모바일 퀵 버튼 */}
@@ -90,6 +105,12 @@ export default function Home() {
               className="px-2 py-1 text-xs rounded-lg bg-slate-800 text-emerald-300 font-medium"
             >
               병원검색
+            </a>
+            <a
+              href="#cheer"
+              className="px-2 py-1 text-xs rounded-lg bg-amber-950/80 border border-amber-600/50 text-amber-300 font-bold"
+            >
+              💌응원
             </a>
             <a
               href="#about"
@@ -164,8 +185,12 @@ export default function Home() {
             </a>
             <span className="text-slate-600">•</span>
             <Link href="/labs" className="hover:text-slate-200 transition-colors">
-              # 3. Calamus Labs
+              # 3. Calamus Labs (전기기능사 실기 교육관)
             </Link>
+            <span className="text-slate-600">•</span>
+            <a href="#cheer" className="hover:text-amber-300 transition-colors font-bold text-amber-400">
+              # 💌 응원 메시지 방명록
+            </a>
             <span className="text-slate-600">•</span>
             <a href="#about" className="hover:text-slate-200 transition-colors">
               # 4. 회사소개 & 30년 비전
@@ -183,7 +208,10 @@ export default function Home() {
       {/* 5. 라이프 엔터테인먼트: 힐링 라운지 */}
       <HealingLoungeBanner />
 
-      {/* 6. [마지막 배치] 회사소개 & 30년 헤리티지 & 미래 개발 로드맵 & AEO/GEO Fact Sheet */}
+      {/* 6. 공개 한줄 응원 방명록 & 제작자 이메일 전송 (CEPT 수험생 및 방문자 응원 보드) */}
+      <CheerGuestbookSection compact />
+
+      {/* 7. [마지막 배치] 회사소개 & 30년 헤리티지 & 미래 개발 로드맵 & AEO/GEO Fact Sheet */}
       <CompanyIntro />
 
       {/* 7. 푸터 */}
