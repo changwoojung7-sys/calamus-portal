@@ -49,10 +49,32 @@ export const HealingLoungeBanner: React.FC = () => {
     },
   ];
 
+  // WorkNexus 가상 오피스 휴게실 미니게임 (src/components/minigames 원본 이식)
+  const loungeGames = [
+    {
+      id: 'billiard',
+      emoji: '🎱',
+      title: '휴게실 나인볼 당구',
+      desc: 'AI 세라와 대전하거나 최대 4명이 한 화면에서 번갈아 치기 · 1판/3판 2선승',
+      href: '/billiard',
+      thumb: '/images/solutions/worknexus/lounge-billiard-table.png',
+    },
+    {
+      id: 'pingpong',
+      emoji: '🏓',
+      title: '휴게실 레트로 탁구',
+      desc: '21점 선취제 · 난이도 3단계 AI 팀장님 · 코스 선택과 스매시',
+      href: '/pingpong',
+      thumb: '/images/solutions/worknexus/lounge-pingpong-table.png',
+    },
+  ];
+
   useEffect(() => {
     router.prefetch('/saju');
     router.prefetch('/tarot-room');
     router.prefetch('/dream');
+    router.prefetch('/billiard');
+    router.prefetch('/pingpong');
   }, [router]);
 
   const handleServiceClick = (href: string, title: string) => {
@@ -87,7 +109,7 @@ export const HealingLoungeBanner: React.FC = () => {
                 마음의 휴식을 위한 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">힐링 라운지</span>
               </h2>
               <p className="mt-3 text-sm text-slate-600 max-w-2xl leading-relaxed">
-                간병과 일상 속 지친 마음을 잠시 내려놓으세요. 현대적인 오행 분석 사주와 AI 타로챗, 꿈해몽으로 가벼운 위로와 쉼을 선물합니다.
+                간병과 일상 속 지친 마음을 잠시 내려놓으세요. 현대적인 오행 분석 사주와 AI 타로챗, 꿈해몽, 그리고 한 판 가볍게 즐기는 당구·탁구로 위로와 쉼을 선물합니다.
               </p>
             </div>
 
@@ -131,6 +153,51 @@ export const HealingLoungeBanner: React.FC = () => {
                 </button>
               );
             })}
+          </div>
+
+          {/* 휴게실 미니게임 — WorkNexus 가상 오피스 휴게실에서 옮겨 온 게임 */}
+          <div className="mt-8">
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              <h3 className="text-sm font-extrabold text-slate-900">🎮 잠깐 쉬어 가는 휴게실 미니게임</h3>
+              <span className="text-[11px] font-bold text-violet-700 bg-violet-50 border border-violet-200 px-2 py-0.5 rounded-full">
+                NEW · WorkNexus 휴게실에서 그대로 옮겨 왔어요
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {loungeGames.map((game) => (
+                <button
+                  type="button"
+                  key={game.id}
+                  onClick={() => handleServiceClick(game.href, game.title)}
+                  disabled={pendingService !== null}
+                  aria-label={`${game.title} 시작하기`}
+                  className="w-full p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 border border-indigo-900 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-violet-400 group flex items-center justify-between shadow-xs text-left disabled:cursor-wait disabled:opacity-70"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <img
+                      src={game.thumb}
+                      alt={`${game.title} 3D 휴게실 테이블`}
+                      loading="lazy"
+                      className="w-20 h-12 object-cover rounded-lg border border-white/15 bg-emerald-600 shrink-0 group-hover:scale-105 transition-transform"
+                    />
+                    <div>
+                      <h4 className="text-sm font-bold text-white">{game.emoji} {game.title}</h4>
+                      <p className="text-xs text-slate-300 mt-1">{game.desc}</p>
+                    </div>
+                  </div>
+                  {pendingService === game.title ? (
+                    <LoaderCircle className="w-4 h-4 animate-spin text-violet-300 shrink-0" />
+                  ) : (
+                    <span className="shrink-0 text-xs font-extrabold text-violet-200 group-hover:text-white flex items-center gap-1">
+                      플레이 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-[11px] text-slate-500">
+              PC 마우스·키보드에 맞춰진 게임입니다. 친구와의 온라인 대전·사내 랭킹은 WorkNexus 가상 오피스에서 즐길 수 있습니다.
+            </p>
           </div>
         </div>
       </div>

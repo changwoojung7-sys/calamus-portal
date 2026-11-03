@@ -91,6 +91,70 @@ const everydaySituations = [
   }
 ];
 
+// 2-1. 2026.11 신규 기능 4종 — 방 전체 말하기 · 사내방송 · 휴게실 당구 · 휴게실 탁구 (WorkNexusUpdates)
+const newFeatureUpdates = [
+  {
+    emoji: "📢",
+    badge: "음성 · 방 전체 말하기",
+    title: "방 안 모두에게, 거리와 상관없이 또렷하게",
+    text: "교탁 마이크처럼 같은 방에 있는 모든 사람에게 거리 감쇠 없이 말합니다. 회의 창을 열 필요가 없고, 소리는 그 방 안에서만 들려 다른 방으로 새지 않습니다.",
+    points: [
+      "B 키를 누르는 동안만 말하기 또는 버튼으로 켜 두기 (5분 뒤 자동 종료)",
+      "방마다 한 명만 말할 수 있어 소리가 겹치지 않음",
+      "방별 권한: 모두 허용 / 관리자만 / 끔"
+    ],
+    accent: "border-sky-500/40 hover:border-sky-400/70",
+    chip: "text-sky-300 bg-sky-500/10 border-sky-500/30",
+    playHref: null as string | null,
+    shots: null as { table: string; screen: string } | null
+  },
+  {
+    emoji: "📻",
+    badge: "음성 · 건물 전체 사내방송",
+    title: "모든 층·모든 방에 한 번에 알리는 사내방송",
+    text: "관리자나 방송 담당자가 방송 부스에서 건물 전체에 방송합니다. 3D 사옥의 모든 층·모든 방은 물론 2D 업무 화면으로 일하는 사람에게도 전달됩니다.",
+    points: [
+      "\"딩동댕동\" 시작·종료 차임과 점심시간 안내·긴급 공지 등 방송 제목",
+      "방송 중에는 근처 대화 소리를 자동으로 낮춤",
+      "회의·1:1 통화 중인 사람은 안내 띠로만 표시 (관리자 설정 시 함께 듣기)"
+    ],
+    accent: "border-amber-500/40 hover:border-amber-400/70",
+    chip: "text-amber-300 bg-amber-500/10 border-amber-500/30",
+    playHref: null as string | null,
+    shots: null as { table: string; screen: string } | null
+  },
+  {
+    emoji: "🎱",
+    badge: "휴게실 · 나인볼 당구",
+    title: "휴게실 당구대에서 동료와 한 게임",
+    text: "실제 물리 계산으로 굴러가는 나인볼 당구입니다. 쉬는 시간에 AI 세라와 치거나, 같은 건물 동료를 초대해 각자 자리에서 실시간 1:1로 대전합니다.",
+    points: [
+      "AI 대전(난이도 3단계) · 같은 PC 최대 4명 · 온라인 1:1 대전",
+      "1판 승부 / 3판 2선승, 파울 후 프리볼 규칙",
+      "사내 경기 기록과 랭킹 자동 저장"
+    ],
+    accent: "border-emerald-500/40 hover:border-emerald-400/70",
+    chip: "text-emerald-300 bg-emerald-500/10 border-emerald-500/30",
+    playHref: "/billiard",
+    shots: { table: `${IMG_BASE}/lounge-billiard-table.png`, screen: `${IMG_BASE}/lounge-billiard-game.png` }
+  },
+  {
+    emoji: "🏓",
+    badge: "휴게실 · 레트로 탁구",
+    title: "21점 선취제 레트로 탁구 한 판",
+    text: "마우스로 라켓을 움직이고 공격 코스를 골라 스매시하는 레트로 탁구입니다. AI 팀장님과 랠리하거나 동료와 온라인으로 맞붙어 휴게실을 달굽니다.",
+    points: [
+      "AI 난이도 3단계 · 온라인 1:1 대전",
+      "공격 코스 선택과 스매시, 5점마다 서브 교대",
+      "1게임 / 3판 2선승, 우승 축하 연출"
+    ],
+    accent: "border-pink-500/40 hover:border-pink-400/70",
+    chip: "text-pink-300 bg-pink-500/10 border-pink-500/30",
+    playHref: "/pingpong",
+    shots: { table: `${IMG_BASE}/lounge-pingpong-table.png`, screen: `${IMG_BASE}/lounge-pingpong-game.png` }
+  }
+];
+
 // 3. LIVE DEMO GLIMPSE (#preview) — 입장 전 확인하는 6대 공간 미리보기 & 직통 데모 링크
 const liveDemoPreviews = [
   {
@@ -783,6 +847,104 @@ export default function WorkNexusSection() {
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-800/80 text-xs text-indigo-200 font-semibold leading-relaxed">
                   ✨ 달라지는 점: {sit.result}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        {/* ===================================================================== */}
+        {/* 2-1. NEW UPDATE 2026.11: 방 전체 말하기 · 사내방송 · 휴게실 당구 · 탁구 */}
+        {/* ===================================================================== */}
+        <div id="worknexus-updates" className="scroll-mt-24 rounded-3xl p-6 sm:p-10 border border-violet-500/30 bg-gradient-to-br from-violet-950/40 via-slate-900/90 to-slate-950 shadow-xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div className="max-w-3xl">
+              <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-violet-300 uppercase tracking-wider">
+                <span className="px-1.5 py-0.5 rounded bg-violet-500 text-white text-[10px] font-black">NEW</span>
+                2026.11 Update · 새로 추가된 기능 4종
+              </span>
+              <h3 className="text-2xl sm:text-4xl font-black text-white mt-2 leading-tight">
+                한 방에 또렷하게, 건물 전체에 한 번에. <br className="hidden sm:inline" />
+                그리고 쉬는 시간엔 휴게실에서 한 게임
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+                방 안 모두에게 말하는 <b className="text-white">방 전체 말하기</b>, 모든 층에 알리는 <b className="text-white">사내방송</b>이 음성 기능에 더해졌고,
+                휴게실에는 동료와 실시간으로 겨루는 <b className="text-white">당구·탁구</b>가 생겼습니다. 음성은 기존과 같이 사내 서버로만 오갑니다.
+              </p>
+            </div>
+            <a
+              href="/#lounge"
+              className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-extrabold text-xs shadow-lg"
+            >
+              <span>🎮 당구·탁구 지금 바로 해보기</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {newFeatureUpdates.map((feat) => (
+              <article
+                key={feat.badge}
+                className={`rounded-2xl overflow-hidden bg-slate-950/80 border transition-all flex flex-col justify-between group ${feat.accent}`}
+              >
+                {feat.shots ? (
+                  <div
+                    className="relative h-40 bg-[#080d18] overflow-hidden cursor-zoom-in"
+                    onClick={() => setLightboxImg({ src: feat.shots!.screen, title: feat.title, caption: `${feat.badge} 실제 게임 화면` })}
+                  >
+                    <img
+                      src={feat.shots.screen}
+                      alt={`${feat.badge} 게임 화면`}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <img
+                      src={feat.shots.table}
+                      alt={`3D 사옥 휴게실의 ${feat.badge}`}
+                      loading="lazy"
+                      className="absolute left-2 bottom-2 w-28 rounded-lg border border-white/20 shadow-lg bg-emerald-600"
+                    />
+                    <span className="absolute right-2 bottom-2 px-2 py-1 rounded-lg bg-black/80 text-[10px] font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      <Maximize2 className="w-3 h-3" /> 크게 보기
+                    </span>
+                  </div>
+                ) : (
+                  <div className="relative h-40 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-slate-900 to-slate-950 border-b border-slate-800/80">
+                    <span className="text-5xl" aria-hidden="true">{feat.emoji}</span>
+                    <span className="text-[10.5px] font-bold text-slate-400 flex items-center gap-1">
+                      <Lock className="w-3 h-3" /> 사내 LiveKit 서버 음성 기능
+                    </span>
+                  </div>
+                )}
+                <div className="px-5 pt-5">
+                  <span className={`inline-block text-[10.5px] font-extrabold px-2 py-0.5 rounded-full border ${feat.chip}`}>
+                    {feat.emoji} {feat.badge}
+                  </span>
+                  <h4 className="text-base font-bold text-white mt-3 mb-2 leading-snug">{feat.title}</h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">{feat.text}</p>
+                  <ul className="mt-3 space-y-1.5">
+                    {feat.points.map((pt) => (
+                      <li key={pt} className="flex items-start gap-1.5 text-[11.5px] text-slate-400 leading-relaxed">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-violet-400 shrink-0 mt-0.5" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {/* 공개 체험 데모(try.)에는 사내 음성 서버가 없어 음성 기능은 설치본에서만 동작한다 */}
+                <div className="mx-5 mb-5 mt-4 pt-3 border-t border-slate-800/80">
+                  {feat.playHref ? (
+                    <a
+                      href={feat.playHref}
+                      className="text-xs font-extrabold text-violet-300 hover:text-white flex items-center gap-1.5"
+                    >
+                      <Play className="w-3.5 h-3.5" /> 포털에서 바로 체험하기 (AI 대전)
+                    </a>
+                  ) : (
+                    <p className="text-[11px] font-semibold text-slate-500 leading-relaxed">
+                      사내 서버 설치본에서 제공됩니다. 공개 체험 데모에서는 음성 기능이 동작하지 않습니다.
+                    </p>
+                  )}
                 </div>
               </article>
             ))}
